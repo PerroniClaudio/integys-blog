@@ -33,5 +33,16 @@ export default {
       title: 'Contenuto',
       of: [{type: 'block'}],
     },
+    {
+      title: 'Categorie',
+      name: 'categories',
+      type: 'array',
+      of: [
+        {
+          type: 'reference',
+          to: [{type: 'categorie'}],
+        },
+      ],
+    },
   ],
 }

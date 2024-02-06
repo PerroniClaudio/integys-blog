@@ -1,14 +1,43 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import ModeToggle from "./ModeToggle";
 
 function Navbar() {
-  return (
-    <nav className="w-full relative flex items-center justify-between max-w-3xl mx-auto px-4 py-5">
-      <Link href="/" className="font-bold text-3xl text-primary">
-        INTEGYS
-      </Link>
+  const [scrolled, setScrolled] = useState(false);
 
-      <ModeToggle />
+  useEffect(() => {
+    const handleScroll = () => {
+      const isScrolled = window.scrollY > 500;
+      setScrolled(isScrolled);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  return (
+    <nav
+      className={`fixed top-0 left-0 w-full border-b-2  z-50 ${
+        scrolled
+          ? "bg-background border-primary"
+          : "bg-primary border-primary-foreground dark:bg-secondary dark:border-primary-foreground"
+      }`}>
+      <div className="mx-auto w-full max-w-7xl flex items-center justify-between px-4 py-5">
+        <Link
+          href="/"
+          className={`font-bold text-3xl ${
+            scrolled ? "text-primary" : "text-primary-foreground"
+          }`}>
+          INTEGYS
+        </Link>
+
+        <ModeToggle />
+      </div>
     </nav>
   );
 }

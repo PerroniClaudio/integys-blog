@@ -11,6 +11,7 @@ async function getData(slug: string) {
             titleImage,
             body,
             "currentSlug": slug.current,
+            categories
         }[0]
     `;
 
@@ -22,7 +23,7 @@ export const revalidate = 30;
 async function BlogArticle({ params }: { params: { slug: string } }) {
   const data: fullBlog = await getData(params.slug);
   return (
-    <div className="mt-8">
+    <div className="mt-8 w-full flex flex-col items-center">
       <h1 className="mt-2 block text-3xl text-center leading-8 font-bold tracking-tight sm:text-4xl">
         {data.title}
       </h1>
@@ -36,7 +37,7 @@ async function BlogArticle({ params }: { params: { slug: string } }) {
         className="rounded-lg mt-8 border shadow-sm"
       />
 
-      <div className="mt-16 prose prose-red prose-lg dark:prose-invert prose-li:marker:text-primary prose-a:text-primary">
+      <div className="mt-16 prose prose-red prose-lg dark:prose-invert prose-li:marker:text-primary prose-a:text-primary w-full">
         <PortableText value={data.body} />
       </div>
     </div>
