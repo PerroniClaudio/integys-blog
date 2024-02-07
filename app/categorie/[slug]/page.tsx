@@ -7,7 +7,6 @@ import Hero from "@/app/components/Hero";
 async function getData(slug: string) {
   const query = `
       *[_type == 'blog' && '${slug}' in categories[]->slug.current] | order(_createdAt desc) {
-        
         title,
         smallDescription,
         titleImage,
@@ -39,8 +38,6 @@ export const revalidate = 30;
 async function Categorie({ params }: { params: { slug: string } }) {
   const data: simpleBlogCard[] = await getData(params.slug);
   const categories: Categories[] = await getCategories();
-
-  console.log(categories);
 
   return (
     <>
