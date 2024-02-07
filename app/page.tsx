@@ -1,7 +1,8 @@
-import { Card, CardContent } from "@/components/ui/card";
 import { simpleBlogCard } from "./lib/interface";
 import { client } from "./lib/sanity";
 import ArticleList from "./components/ArticleList";
+import Navbar from "@/app/components/Navbar";
+import Hero from "@/app/components/Hero";
 
 async function getData() {
   const query = `
@@ -25,7 +26,11 @@ export default async function Home() {
   const data: simpleBlogCard[] = await getData();
   return (
     <>
-      <ArticleList data={data} />
+      <Navbar shouldChangeColor={true} />
+      <Hero />
+      <main className="max-w-7xl mx-auto px-4 mb-16">
+        <ArticleList data={data} />
+      </main>
     </>
   );
 }

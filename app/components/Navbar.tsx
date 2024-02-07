@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import ModeToggle from "./ModeToggle";
 
-function Navbar() {
+function Navbar({ shouldChangeColor }: { shouldChangeColor: boolean }) {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -13,7 +13,11 @@ function Navbar() {
       setScrolled(isScrolled);
     };
 
-    window.addEventListener("scroll", handleScroll);
+    if (shouldChangeColor) {
+      window.addEventListener("scroll", handleScroll);
+    } else {
+      setScrolled(true);
+    }
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
