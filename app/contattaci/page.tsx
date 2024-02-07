@@ -138,7 +138,7 @@ function Contattaci() {
                         <Input placeholder="Richiesta di contatto" {...field} />
                       </FormControl>
                       <FormDescription>
-                        Tipo di richiesta, es. "Richiesta di contatto"
+                        Tipo di richiesta, es. &quot;Richiesta di contatto&quot;
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
