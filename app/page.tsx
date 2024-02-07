@@ -24,12 +24,20 @@ export const revalidate = 30;
 
 export default async function Home() {
   const data: simpleBlogCard[] = await getData();
+
+  let categories = data
+    .map((post) => post.categories)
+    .flat()
+    .filter((category, idx, self) => {
+      return idx === self.findIndex((c) => c.slug === category.slug);
+    });
+
   return (
     <>
       <Navbar shouldChangeColor={true} />
       <Hero />
       <main className="max-w-7xl mx-auto px-4 mb-16">
-        <ArticleList data={data} />
+        <ArticleList data={data} categories={categories} />
       </main>
     </>
   );

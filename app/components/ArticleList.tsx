@@ -1,14 +1,15 @@
 import { Button } from "@/components/ui/button";
-import { simpleBlogCard } from "../lib/interface";
+import { simpleBlogCard, Categories } from "../lib/interface";
 import ArticleCard from "./ArticleCard";
+import Link from "next/link";
 
-function ArticleList({ data }: { data: simpleBlogCard[] }) {
-  let categories = Array.from(
-    new Set(
-      data.flatMap((post) => post.categories.map((category) => category.name))
-    )
-  );
-
+function ArticleList({
+  data,
+  categories,
+}: {
+  data: simpleBlogCard[];
+  categories: Categories[];
+}) {
   return (
     <div className="py-8">
       <div className="grid grid-cols-1 lg:grid-cols-8 gap-5">
@@ -27,11 +28,11 @@ function ArticleList({ data }: { data: simpleBlogCard[] }) {
               <h2 className="text-lg font-bold mb-4">Voglio leggere di</h2>
               <div className="flex flex-wrap gap-1">
                 {categories.map((category, idx) => (
-                  <Button
-                    key={idx}
-                    className="rounded-full text-primary-foreground text-sm py-1 px-2 min-w-16 text-center">
-                    <a href="#">{category}</a>
-                  </Button>
+                  <Link href={`/categorie/${category.slug}`} key={idx}>
+                    <Button className="rounded-full text-primary-foreground text-sm py-1 px-2 min-w-16 text-center">
+                      {category.name}
+                    </Button>
+                  </Link>
                 ))}
               </div>
 
