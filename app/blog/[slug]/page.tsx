@@ -1,8 +1,10 @@
 import Navbar from "@/app/components/Navbar";
 import { fullBlog } from "@/app/lib/interface";
 import { client, urlFor } from "@/app/lib/sanity";
+import { Button } from "@/components/ui/button";
 import { PortableText } from "@portabletext/react";
 import Image from "next/image";
+import Link from "next/link";
 
 async function getData(slug: string) {
   const query = `
@@ -43,6 +45,18 @@ async function BlogArticle({ params }: { params: { slug: string } }) {
 
           <div className="mt-16 prose prose-red prose-lg dark:prose-invert prose-li:marker:text-primary prose-a:text-primary w-full">
             <PortableText value={data.body} />
+
+            <hr className="border border-secondary my-4" />
+
+            <p>Vuoi saperne di più?</p>
+
+            <Link href="/contattaci">
+              <Button
+                variant={"secondary"}
+                className="text-secondary-foreground text-sm py-1 px-2 min-w-16 text-center">
+                Contattaci
+              </Button>
+            </Link>
           </div>
         </div>
       </main>

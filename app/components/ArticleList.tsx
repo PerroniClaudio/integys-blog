@@ -36,7 +36,15 @@ function ArticleList({
                 ))}
               </div>
 
-              <hr className="border border-secondary my-8" />
+              <hr className="border border-secondary my-4" />
+
+              <Link href="/contattaci">
+                <Button
+                  variant={"secondary"}
+                  className="text-secondary-foreground text-sm py-1 px-2 min-w-16 text-center">
+                  Contattaci
+                </Button>
+              </Link>
             </div>
           </div>
         </aside>
