@@ -34,6 +34,11 @@ export default {
       of: [{type: 'block'}],
     },
     {
+      name: 'date',
+      type: 'datetime',
+      title: 'Data di pubblicazione',
+    },
+    {
       title: 'Categorie',
       name: 'categories',
       type: 'array',

@@ -1,8 +1,9 @@
 import Navbar from "@/app/components/Navbar";
-import { fullBlog } from "@/app/lib/interface";
+import { fullBlog, simpleBlogCard } from "@/app/lib/interface";
 import { client, urlFor } from "@/app/lib/sanity";
 import { Button } from "@/components/ui/button";
 import { PortableText } from "@portabletext/react";
+import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -13,6 +14,7 @@ async function getData(slug: string) {
             smallDescription,
             titleImage,
             body,
+            date,
             "currentSlug": slug.current,
             categories
         }[0]
@@ -22,6 +24,44 @@ async function getData(slug: string) {
 
   return data;
 }
+
+export async function generateStaticParams() {
+  const query = `
+    *[_type == 'blog'] | order(_createdAt desc) {
+      title,
+      smallDescription,
+      titleImage,
+      "currentSlug": slug.current,
+      categories[]->{name, "slug" : slug.current}
+    }
+  `;
+
+  const data: simpleBlogCard[] = await client.fetch(query);
+
+  return data.map(({ currentSlug }) => currentSlug);
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
+  const data: fullBlog = await getData(params.slug);
+
+  return {
+    title: data.title,
+    description: data.smallDescription,
+    openGraph: {
+      images: [
+        {
+          url: urlFor(data.titleImage).url(),
+          alt: data.title,
+        },
+      ],
+    },
+  };
+}
+
 export const revalidate = 30;
 async function BlogArticle({ params }: { params: { slug: string } }) {
   const data: fullBlog = await getData(params.slug);
@@ -42,6 +82,12 @@ async function BlogArticle({ params }: { params: { slug: string } }) {
             priority
             className="rounded-lg mt-8 border shadow-sm"
           />
+
+          <p className="mt-4">
+            <span className="italic text-gray-500 text-sm">
+              Pubblicato il {new Date(data.date).toLocaleDateString("it-IT")}
+            </span>
+          </p>
 
           <div className="mt-16 prose prose-red prose-lg dark:prose-invert prose-li:marker:text-primary prose-a:text-primary w-full">
             <PortableText value={data.body} />

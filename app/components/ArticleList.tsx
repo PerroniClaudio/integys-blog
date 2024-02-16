@@ -26,10 +26,10 @@ function ArticleList({
           <div className="sticky top-[117px] w-full">
             <div className="min-h-32 rounded p-8">
               <h2 className="text-lg font-bold mb-4">Voglio leggere di</h2>
-              <div className="flex flex-wrap gap-1">
+              <div className="grid grid-cols-2 gap-1">
                 {categories.map((category, idx) => (
                   <Link href={`/categorie/${category.slug}`} key={idx}>
-                    <Button className="rounded-full text-primary-foreground text-sm py-1 px-2 min-w-16 text-center">
+                    <Button className="rounded-full text-primary-foreground text-sm py-1 px-2 w-full text-center">
                       {category.name}
                     </Button>
                   </Link>

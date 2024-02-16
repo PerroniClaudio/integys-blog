@@ -33,6 +33,19 @@ async function getCategories() {
   return data;
 }
 
+export async function generateStaticParams() {
+  const query = `
+  *[_type == 'categorie'] {
+  name,
+  "slug" : slug.current
+  }
+`;
+
+  const data: Categories[] = await client.fetch(query);
+
+  return data.map(({ slug }) => slug);
+}
+
 export const revalidate = 30;
 
 async function Categorie({ params }: { params: { slug: string } }) {

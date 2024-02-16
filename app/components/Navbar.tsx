@@ -22,7 +22,7 @@ function Navbar({ shouldChangeColor }: { shouldChangeColor: boolean }) {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [shouldChangeColor]);
 
   return (
     <nav

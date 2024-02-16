@@ -17,4 +17,5 @@ export interface fullBlog {
   currentSlug: string;
   titleImage: any;
   body: any;
+  date: string;
 }

@@ -21,7 +21,7 @@ function ArticleCard({ article }: { article: simpleBlogCard }) {
           {article.smallDescription}asd
         </p>
         <Button asChild className="w-full mt-7">
-          <Link href={`/blog/${article.currentSlug}`}>Continua a leggere</Link>
+          <Link href={`/news/${article.currentSlug}`}>Continua a leggere</Link>
         </Button>
       </CardContent>
     </Card>

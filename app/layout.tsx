@@ -1,15 +1,16 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/react";
-import { Inter } from "next/font/google";
+import { GeistSans } from "geist/font/sans";
 import "./globals.css";
 import { ThemeProvider } from "./components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 import Footer from "./components/Footer";
 
-const inter = Inter({ subsets: ["latin"] });
-
 export const metadata: Metadata = {
-  title: "Integys",
+  title: {
+    default: "Integys",
+    template: "%s - Integys",
+  },
   description:
     "Integys - Dedicato alle ultime tendenze e approfondimenti nel mondo della tecnologia",
 };
@@ -21,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${GeistSans.variable}`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
