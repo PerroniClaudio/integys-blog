@@ -37,7 +37,16 @@ function Navbar({ shouldChangeColor }: { shouldChangeColor: boolean }) {
           className={`font-bold text-3xl ${
             scrolled ? "text-primary" : "text-primary-foreground"
           }`}>
-          INTEGYS
+          <div className="flex items-center gap-1 ">
+            <div
+              className={`p-1 rounded  ${
+                scrolled ? "dark:bg-primary" : "bg-white"
+              }`}>
+              <img src="/integy.png" alt="Integys" className="h-8 w-auto" />
+            </div>
+
+            <span>INTEGYS</span>
+          </div>
         </Link>
 
         <ModeToggle />

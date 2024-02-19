@@ -8,7 +8,13 @@ function Footer() {
       <div className="container flex items-center justify-between gap-4 px-4 text-sm md:gap-6 min-h-32">
         <div className="flex flex-col gap-2">
           <Link href="/" className={`font-bold text-3xl text-primary`}>
-            INTEGYS
+            <div className="flex items-center gap-1 ">
+              <div className={`p-1 rounded dark:bg-primary`}>
+                <img src="/integy.png" alt="Integys" className="h-8 w-auto" />
+              </div>
+
+              <span>INTEGYS</span>
+            </div>
           </Link>
         </div>
         <nav className="flex flex-col items-center gap-2">
