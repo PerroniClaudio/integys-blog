@@ -1,55 +1,37 @@
-import { Button } from "@/components/ui/button";
-import { simpleBlogCard, Categories } from "../lib/interface";
+"use client";
+
 import ArticleCard from "./ArticleCard";
-import Link from "next/link";
+import { getDataWithPagination } from "../actions";
+import { useInView } from "react-intersection-observer";
+import { useState, useEffect } from "react";
 
-function ArticleList({
-  data,
-  categories,
-}: {
-  data: simpleBlogCard[];
-  categories: Categories[];
-}) {
+export type ArticleCard = JSX.Element;
+
+let page = 2;
+
+function ArticleList() {
+  const { ref, inView } = useInView();
+  const [data, setData] = useState<ArticleCard[]>([]);
+
+  useEffect(() => {
+    if (inView) {
+      getDataWithPagination(page, 4).then((data) => {
+        setData((prev) => [...prev, ...data]);
+        page++;
+      });
+    }
+  }, [inView, data]);
+
   return (
-    <div className="py-8">
-      <div className="grid grid-cols-1 lg:grid-cols-8 gap-5">
-        <div className="col-span-5">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {data.map((post, idx) => (
-              <div key={idx}>
-                <ArticleCard article={post} />
-              </div>
-            ))}
-          </div>
+    <>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">{data}</div>
+
+      <section className="flex justify-center items-center w-full col-span-2">
+        <div ref={ref}>
+          <div className="loading loading-spinner loading-lg text-primary" />
         </div>
-        <aside className="col-span-3 hidden lg:block">
-          <div className="sticky top-[117px] w-full">
-            <div className="min-h-32 rounded p-8">
-              <h2 className="text-lg font-bold mb-4">Voglio leggere di</h2>
-              <div className="grid grid-cols-2 gap-1">
-                {categories.map((category, idx) => (
-                  <Link href={`/categorie/${category.slug}`} key={idx}>
-                    <Button className="rounded-full text-primary-foreground text-sm py-1 px-2 w-full text-center">
-                      {category.name}
-                    </Button>
-                  </Link>
-                ))}
-              </div>
-
-              <hr className="border border-secondary my-4" />
-
-              <Link href="/contattaci">
-                <Button
-                  variant={"secondary"}
-                  className="text-secondary-foreground text-sm py-1 px-2 min-w-16 text-center">
-                  Contattaci
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </aside>
-      </div>
-    </div>
+      </section>
+    </>
   );
 }
 export default ArticleList;
