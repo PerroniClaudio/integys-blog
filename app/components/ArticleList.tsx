@@ -19,22 +19,22 @@ function ArticleList({ category }: { category?: string }) {
   useEffect(() => {
     if (inView) {
       if (category) {
-        getDataWithPaginationCategories(category, page, 4).then((data) => {
+        getDataWithPaginationCategories(category, page, 6).then((data) => {
           setData((prev) => [...prev, ...data]);
           page++;
         });
       } else {
-        getDataWithPagination(page, 4).then((data) => {
+        getDataWithPagination(page, 6).then((data) => {
           setData((prev) => [...prev, ...data]);
           page++;
         });
       }
     }
-  }, [inView, data]);
+  }, [inView, data, category]);
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">{data}</div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">{data}</div>
 
       <section className="flex justify-center items-center w-full col-span-2">
         <div ref={ref}>

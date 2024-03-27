@@ -9,7 +9,7 @@ import Link from "next/link";
 
 async function getData(slug: string) {
   const query = `
-        *[_type == 'blog' && slug.current == '${slug}'] {
+        *[_type == 'blog' && slug.current == '${slug}' && date < now()] {
             title,
             smallDescription,
             titleImage,
@@ -27,7 +27,7 @@ async function getData(slug: string) {
 
 export async function generateStaticParams() {
   const query = `
-    *[_type == 'blog'] | order(_createdAt desc) {
+    *[_type == 'blog' && date < now()] | order(_createdAt desc) {
       title,
       smallDescription,
       titleImage,
@@ -99,7 +99,7 @@ async function BlogArticle({ params }: { params: { slug: string } }) {
             <Link href="/contattaci">
               <Button
                 variant={"secondary"}
-                className="text-secondary-foreground text-sm py-1 px-2 min-w-16 text-center">
+                className="text-secondary-foreground text-lg py-8 px-12 min-w-16 text-center bg-primary w-full">
                 Contattaci
               </Button>
             </Link>

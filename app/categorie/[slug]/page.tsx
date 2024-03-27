@@ -7,10 +7,11 @@ import { getDataWithPaginationCategories } from "@/app/actions";
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import CategorySelector from "@/app/components/CategorySelector";
 
 async function getData(slug: string) {
   const query = `
-      *[_type == 'blog' && '${slug}' in categories[]->slug.current] | order(_createdAt desc) {
+      *[_type == 'blog' && '${slug}' in categories[]->slug.current  && date < now()] | order(_createdAt desc) {
         title,
         smallDescription,
         titleImage,
@@ -53,7 +54,7 @@ export async function generateStaticParams() {
 export const revalidate = 30;
 
 async function Categorie({ params }: { params: { slug: string } }) {
-  const posts = await getDataWithPaginationCategories(params.slug, 1, 4);
+  const posts = await getDataWithPaginationCategories(params.slug, 1, 6);
   const categories: Categories[] = await getCategories();
 
   return (
@@ -61,41 +62,35 @@ async function Categorie({ params }: { params: { slug: string } }) {
       <Navbar shouldChangeColor={true} />
       <Hero />
       <main className="max-w-7xl mx-auto px-4 mb-16">
-        <div className="py-8">
+        <div className="pt-4 pb-8">
           <div className="grid grid-cols-1 lg:grid-cols-8 gap-5">
-            <div className="col-span-5 flex flex-col gap-5">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+            <section className="col-span-8">
+              <hr className="border border-secondary" />
+              <div className="flex flex-col items-center justify-between gap-4 my-2 lg:flex-row">
+                <Link href="/contattaci" className="justify-self-start">
+                  <Button
+                    variant={"secondary"}
+                    // className="text-secondary-foreground text-sm py-1 px-2 min-w-16 text-center">
+                    className="text-secondary-foreground text-lg py-4 px-12 min-w-16 text-center bg-primary w-full">
+                    Contattaci
+                  </Button>
+                </Link>
+                <div className="flex items-center justify-end gap-4">
+                  <h2 className="text-lg font-bold md:whitespace-nowrap">Scorri gli articoli in basso o seleziona una categoria</h2>
+                  <CategorySelector categories={categories} selected={params.slug} />
+                </div>
+              </div>
+              <hr className="border border-secondary" />
+            </section>
+
+            <div className="col-span-8 flex flex-col gap-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                 {posts}
               </div>
               <ArticleList category={params.slug} />
             </div>
 
-            <aside className="col-span-3 hidden lg:block">
-              <div className="sticky top-[117px] w-full">
-                <div className="min-h-32 rounded p-8">
-                  <h2 className="text-lg font-bold mb-4">Voglio leggere di</h2>
-                  <div className="grid grid-cols-2 gap-1">
-                    {categories.map((category, idx) => (
-                      <Link href={`/categorie/${category.slug}`} key={idx}>
-                        <Button className="rounded-full text-primary-foreground text-sm py-1 px-2 w-full text-center">
-                          {category.name}
-                        </Button>
-                      </Link>
-                    ))}
-                  </div>
-
-                  <hr className="border border-secondary my-4" />
-
-                  <Link href="/contattaci">
-                    <Button
-                      variant={"secondary"}
-                      className="text-secondary-foreground text-sm py-1 px-2 min-w-16 text-center">
-                      Contattaci
-                    </Button>
-                  </Link>
-                </div>
-              </div>
-            </aside>
           </div>
         </div>
       </main>

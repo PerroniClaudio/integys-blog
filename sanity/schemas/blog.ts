@@ -31,7 +31,10 @@ export default {
       name: 'body',
       type: 'array',
       title: 'Contenuto',
-      of: [{type: 'block'}],
+      of: [
+        {type: 'block'},
+        {type: 'image'}
+      ],
     },
     {
       name: 'date',
