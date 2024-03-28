@@ -10,23 +10,22 @@ import { useState, useEffect } from "react";
 
 export type ArticleCard = JSX.Element;
 
-let page = 2;
-
 function ArticleList({ category }: { category?: string }) {
   const { ref, inView } = useInView();
   const [data, setData] = useState<ArticleCard[]>([]);
+  const [page, setPage] = useState<number>(2);
 
   useEffect(() => {
     if (inView) {
       if (category) {
         getDataWithPaginationCategories(category, page, 6).then((data) => {
           setData((prev) => [...prev, ...data]);
-          page++;
+          setPage(prev => prev + 1);
         });
       } else {
         getDataWithPagination(page, 6).then((data) => {
           setData((prev) => [...prev, ...data]);
-          page++;
+          setPage(prev => prev + 1);
         });
       }
     }
