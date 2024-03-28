@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Dialog from "./dialog";
 import { toast } from "react-toastify";
+import { Button } from "./button";
 
 type Props = {};
 
@@ -59,20 +60,27 @@ function Newsletter({}: Props) {
   };
 
   return (
-    <section className="bg-gradient-to-br from-primary-300 to-neutral-400 p-4 py-16">
-      <div className="container mx-auto flex flex-col gap-4 justify-between items-center text-neutral-800">
-        <h1 className="text-neutral-900 font-bold text-3xl text-center">
+    <section className="py-8 border-t border-primary">
+      <div className="container mx-auto flex flex-col gap-4 justify-between items-center">
+        <h1 className="font-bold text-3xl text-center">
             Sei alla ricerca di contenuti esclusivi, aggiornamenti regolari e risorse utili?
         </h1>
         <h3 className="text-center font-semibold text-xl">
-            Non perdere l&lsquo;opportunità di ampliare la tua conoscenza nel settore privacy!
+            Non perdere l&lsquo;opportunità di ampliare la tua conoscenza!
         </h3>
 
-        <button
-          className="min-w-1/3 bg-neutral-900 hover:bg-neutral-700 p-4 rounded text-2xl text-neutral-200"
+        {/* <button
+          // className="min-w-1/3 bg-primary hover:bg-neutral-700 p-4 rounded text-2xl text-neutral-200"
+          className="text-secondary-foreground text-lg py-4 px-16 min-w-16 text-center bg-primary rounded font-semibold "
           onClick={() => setIsOpen(true)}>
           Iscriviti alla newsletter
-        </button>
+        </button> */}
+        <Button
+          variant={"secondary"}
+          onClick={() => setIsOpen(true)}
+          className="text-secondary-foreground text-lg py-8 px-20 min-w-16 text-center bg-primary">
+          Iscriviti alla newsletter
+        </Button>
       </div>
 
       <Dialog
@@ -81,7 +89,7 @@ function Newsletter({}: Props) {
         onClose={() => setIsOpen(false)}>
         <form className="flex flex-col gap-4" onSubmit={(e) => handleSubmit(e)}>
           <div className="flex flex-col gap-2">
-            <label htmlFor="name">Nome</label>
+            <label htmlFor="name" className="font-semibold text-primary">Nome</label>
             <input
               type="text"
               name="name"
@@ -94,7 +102,7 @@ function Newsletter({}: Props) {
             />
           </div>
           <div className="flex flex-col gap-2">
-            <label htmlFor="last_name">Cognome</label>
+            <label htmlFor="last_name" className="font-semibold text-primary">Cognome</label>
             <input
               type="text"
               name="last_name"
@@ -107,7 +115,7 @@ function Newsletter({}: Props) {
             />
           </div>
           <div className="flex flex-col gap-2">
-            <label htmlFor="business">Email</label>
+            <label htmlFor="business" className="font-semibold text-primary">Email</label>
             <input
               type="email"
               name="email"
@@ -122,7 +130,8 @@ function Newsletter({}: Props) {
  
           <button
             type="submit"
-            className="bg-neutral-900 hover:bg-neutral-700 w-full p-4 text-primary-400 rounded font-bold">
+            // className="bg-neutral-900 hover:bg-neutral-700 w-full p-4 text-primary-400 rounded font-bold">
+            className="bg-primary hover:bg-neutral-700 w-full p-4 text-secondary-foreground rounded font-bold text-lg">
             Iscriviti
           </button>
         </form>

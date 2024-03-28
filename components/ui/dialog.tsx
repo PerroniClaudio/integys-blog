@@ -35,7 +35,7 @@ function Dialog({ isOpen, onClose, title, children }: Props) {
           open={isOpen}
           className="bg-black bg-opacity-40 w-screen h-screen fixed top-0 right-0 z-10 flex flex-col items-center">
           <article
-            className={`border rounded shadow-lg w-full lg:w-1/2 mt-16 bg-white p-2 relative`}>
+            className={`border rounded shadow-lg w-full lg:w-1/2 mt-40 bg-white p-2 relative text-black`}>
             {/* Close button */}
             <div
               className="absolute top-0 right-0 p-2 text-gray-300 cursor-pointer"
@@ -44,7 +44,7 @@ function Dialog({ isOpen, onClose, title, children }: Props) {
             </div>
 
             <nav className="border-b border-gray-100 p-2">
-              <h3 className="text-lg font-semibold">{title}</h3>
+              <h3 className="text-xl font-semibold">{title}</h3>
             </nav>
 
             <div className="p-4">{children}</div>

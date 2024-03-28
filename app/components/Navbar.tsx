@@ -26,7 +26,7 @@ function Navbar({ shouldChangeColor }: { shouldChangeColor: boolean }) {
 
   return (
     <nav
-      className={`fixed top-0 left-0 w-full border-b-2  z-50 ${
+      className={`fixed top-0 left-0 w-full border-b-2 z-30 ${
         scrolled
           ? "bg-background border-primary"
           : "bg-primary border-primary-foreground dark:bg-secondary dark:border-primary-foreground"

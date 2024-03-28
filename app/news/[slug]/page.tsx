@@ -2,14 +2,16 @@ import Navbar from "@/app/components/Navbar";
 import { fullBlog, simpleBlogCard } from "@/app/lib/interface";
 import { client, urlFor } from "@/app/lib/sanity";
 import { Button } from "@/components/ui/button";
+import Newsletter from "@/components/ui/newsletter";
 import { PortableText } from "@portabletext/react";
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
 async function getData(slug: string) {
+  // && date < now()
   const query = `
-        *[_type == 'blog' && slug.current == '${slug}' && date < now()] {
+        *[_type == 'blog' && slug.current == '${slug}'] {
             title,
             smallDescription,
             titleImage,
@@ -106,6 +108,7 @@ async function BlogArticle({ params }: { params: { slug: string } }) {
           </div>
         </div>
       </main>
+      <Newsletter />
     </>
   );
 }

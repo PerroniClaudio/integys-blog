@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 
 import { getData, getDataWithPagination } from "./actions";
 import CategorySelector from "./components/CategorySelector";
+import Newsletter from "@/components/ui/newsletter";
 
 export async function generateStaticParams() {
   const query = `
@@ -77,6 +78,7 @@ export default async function Home() {
           </div>
         </div>
       </main>
+      <Newsletter />
     </>
   );
 }

@@ -8,6 +8,7 @@ import { getDataWithPaginationCategories } from "@/app/actions";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import CategorySelector from "@/app/components/CategorySelector";
+import Newsletter from "@/components/ui/newsletter";
 
 async function getData(slug: string) {
   const query = `
@@ -94,6 +95,7 @@ async function Categorie({ params }: { params: { slug: string } }) {
           </div>
         </div>
       </main>
+      <Newsletter />
     </>
   );
 }
