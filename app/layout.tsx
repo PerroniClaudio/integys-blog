@@ -5,6 +5,8 @@ import "./globals.css";
 import { ThemeProvider } from "./components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 import Footer from "./components/Footer";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const metadata: Metadata = {
   title: {
@@ -29,8 +31,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange>
           {children}
-          <Footer />
           <Toaster />
+          <ToastContainer className="z-50" />
+          <Footer />
           <Analytics />
         </ThemeProvider>
       </body>

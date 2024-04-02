@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Dialog from "./dialog";
 import { toast } from "react-toastify";
 import { Button } from "./button";
+// import { useToast } from "./use-toast";
 
 type Props = {};
 
@@ -14,6 +15,9 @@ interface FormData {
 }
 
 function Newsletter({}: Props) {
+
+  // const {toast} = useToast();
+
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [formData, setFormData] = useState<FormData>({
     name: "",
@@ -34,29 +38,35 @@ function Newsletter({}: Props) {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const isValidEmail = (email: string): boolean => {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
-    };
-
-    if (!isValidEmail(formData.email)) {
-        toast.error("Inserisci una mail valida!");
-        return;
+    try{
+      const isValidEmail = (email: string): boolean => {
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          return emailRegex.test(email);
+      };
+  
+      if (!isValidEmail(formData.email)) {
+          toast.error("Inserisci un indirizzo email valido")
+          return;
+      }
+  
+      const request = fetch("/api/newsletter", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+  
+      const response = await request;
+      const data = await response.json();
+  
+      setIsOpen(false);
+      toast.success("Iscrizione alla newsletter avvenuta con successo");
+      
+    }catch(err){
+      console.error(err);
+      toast.error("Errore durante l'iscrizione alla newsletter") 
     }
-
-    const request = fetch("/api/newsletter", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
-
-    const response = await request;
-    const data = await response.json();
-
-    setIsOpen(false);
-    toast.success("Iscrizione avvenuta con successo!");
   };
 
   return (
