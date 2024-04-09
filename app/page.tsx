@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { getData, getDataWithPagination } from "./actions";
 import CategorySelector from "./components/CategorySelector";
 import Newsletter from "@/components/ui/newsletter";
+import NewsletterButton from "@/components/ui/newsletter-button";
 
 export async function generateStaticParams() {
   const query = `
@@ -33,6 +34,7 @@ export default async function Home() {
   const data: simpleBlogCard[] = await getData();
   const posts = await getDataWithPagination(1, 6);
 
+
   let categories = data
     .map((post) => post.categories)
     .flat()
@@ -51,14 +53,17 @@ export default async function Home() {
 
             <section className="col-span-8">
               <hr className="border border-secondary" />
-              <div className="flex items-center justify-between gap-4 my-2">
-                <Link href="/contattaci" className="justify-self-start">
-                  <Button
-                    variant={"secondary"}
-                    className="text-secondary-foreground text-lg py-4 px-12 min-w-16 text-center bg-primary w-full">
-                    Contattaci
-                  </Button>
-                </Link>
+              <div className="flex flex-col items-center justify-between gap-4 my-2 xl:flex-row">
+                <div className="flex gap-4">
+                  <Link href="/contattaci" className="justify-self-start">
+                    <Button
+                      variant={"secondary"}
+                      className="text-secondary-foreground text-lg py-4 px-12 min-w-16 text-center bg-primary w-full">
+                      Contattaci
+                    </Button>
+                  </Link>
+                  <NewsletterButton/>
+                </div>
                 <div className="flex items-center justify-end gap-4">
                   <h2 className="text-lg font-bold md:whitespace-nowrap">Scorri gli articoli in basso o seleziona una categoria</h2>
                   <CategorySelector categories={categories} selected={""} />
