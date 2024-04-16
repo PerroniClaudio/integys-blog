@@ -126,8 +126,8 @@ function NewsletterDialog({isOpen, setIsOpen}: Props) {
           </button>
 
           <p className="italic text-sm">
-            I dati personali degli utenti sono raccolti, elaborati e conservati all'interno del servizio Mailjet, una piattaforma di gestione delle email che adotta misure di sicurezza conformi alle normative del Regolamento Generale sulla Protezione dei Dati (GDPR). <br />
-            Mailjet garantisce la conformità alle disposizioni del GDPR in merito alla raccolta, all'elaborazione e alla conservazione dei dati personali degli utenti, implementando adeguate misure di sicurezza per proteggere tali dati da accessi non autorizzati, perdite, alterazioni o divulgazioni involontarie.
+            I dati personali degli utenti sono raccolti, elaborati e conservati all&apos;interno del servizio Mailjet, una piattaforma di gestione delle email che adotta misure di sicurezza conformi alle normative del Regolamento Generale sulla Protezione dei Dati (GDPR). <br />
+            Mailjet garantisce la conformità alle disposizioni del GDPR in merito alla raccolta, all&apos;elaborazione e alla conservazione dei dati personali degli utenti, implementando adeguate misure di sicurezza per proteggere tali dati da accessi non autorizzati, perdite, alterazioni o divulgazioni involontarie.
           </p>
  
         </form>
