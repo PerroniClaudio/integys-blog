@@ -19,6 +19,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useToast } from "@/components/ui/use-toast";
+import { useRef, useState } from "react";
+
+// reCAPTCHA
+import ReCAPTCHA from "react-google-recaptcha";
 
 const formSchema = z.object({
   name: z
@@ -53,6 +57,30 @@ function Contattaci() {
       message: "",
     },
   });
+
+  // reCAPTCHA
+  const recaptchaRef = useRef<ReCAPTCHA>(null)
+  const [isVerified, setIsverified] = useState<boolean>(false)
+
+  async function handleCaptchaSubmission(token: string | null) {
+    // Server function to verify captcha
+    const request = fetch("/api/captcha", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        token: token
+      }),
+    });
+
+    const response = await request;
+    if(response.ok) {
+      setIsverified(true)
+    } else {
+      setIsverified(false)
+    }
+  }
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     fetch("/api/contact", {
@@ -161,7 +189,17 @@ function Contattaci() {
                     </FormItem>
                   )}
                 />
-                <Button type="submit">Invia</Button>
+                <ReCAPTCHA
+                  sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+                  ref={recaptchaRef}
+                  onChange={handleCaptchaSubmission}
+                />
+                <Button type="submit" 
+                  disabled={!isVerified}
+                  className="bg-primary hover:bg-neutral-700 disabled:bg-neutral-400 py-4 px-16 text-secondary-foreground rounded font-bold text-lg"
+                >
+                  Invia
+                </Button>
               </form>
             </Form>
           </CardContent>

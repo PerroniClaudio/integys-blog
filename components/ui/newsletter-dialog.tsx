@@ -1,10 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useRef } from "react";
 import Dialog from "./dialog";
 import { toast } from "react-toastify";
 import { Button } from "./button";
 // import { useToast } from "./use-toast";
+
+// reCAPTCHA
+import ReCAPTCHA from "react-google-recaptcha";
 
 type Props = {
   isOpen: boolean;
@@ -25,6 +28,31 @@ function NewsletterDialog({isOpen, setIsOpen}: Props) {
     last_name: "",
     email: "",
   });
+
+  // reCAPTCHA
+  const recaptchaRef = useRef<ReCAPTCHA>(null)
+  const [isVerified, setIsverified] = useState<boolean>(false)
+
+  async function handleCaptchaSubmission(token: string | null) {
+    // Server function to verify captcha
+    const request = fetch("/api/captcha", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        token: token
+      }),
+    });
+
+    const response = await request;
+    if(response.ok) {
+      setIsverified(true)
+    } else {
+      setIsverified(false)
+    }
+  }
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -75,7 +103,7 @@ function NewsletterDialog({isOpen, setIsOpen}: Props) {
       <Dialog
         title="Iscriviti alla newsletter!"
         isOpen={isOpen}
-        onClose={() => setIsOpen(false)}>
+        onClose={() => {setIsOpen(false); setIsverified(false)}}>
         <form className="flex flex-col gap-4" onSubmit={(e) => handleSubmit(e)}>
           <div className="flex flex-col gap-2">
             <label htmlFor="name" className="font-semibold text-primary">Nome</label>
@@ -116,11 +144,19 @@ function NewsletterDialog({isOpen, setIsOpen}: Props) {
               required
             />
           </div>
+
+          <ReCAPTCHA
+            sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+            ref={recaptchaRef}
+            onChange={handleCaptchaSubmission}
+          />
  
           <button
             type="submit"
             // className="bg-neutral-900 hover:bg-neutral-700 w-full p-4 text-primary-400 rounded font-bold">
-            className="bg-primary hover:bg-neutral-700 w-full p-4 text-secondary-foreground rounded font-bold text-lg">
+            className="bg-primary hover:bg-neutral-700 disabled:bg-neutral-400 w-full p-4 text-secondary-foreground rounded font-bold text-lg"
+            disabled={!isVerified}    
+          >
             Iscriviti
           </button>
         </form>
