@@ -19,10 +19,11 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useToast } from "@/components/ui/use-toast";
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 
 // reCAPTCHA
 import ReCAPTCHA from "react-google-recaptcha";
+import { CookiesContext } from "@/components/cookiesContextProvider";
 
 const formSchema = z.object({
   name: z
@@ -61,6 +62,9 @@ function Contattaci() {
   // reCAPTCHA
   const recaptchaRef = useRef<ReCAPTCHA>(null)
   const [isVerified, setIsverified] = useState<boolean>(false)
+  
+  //cookies
+  const {cookiesSettings} = useContext(CookiesContext);
 
   async function handleCaptchaSubmission(token: string | null) {
     // Server function to verify captcha
@@ -104,106 +108,120 @@ function Contattaci() {
     <>
       <Navbar shouldChangeColor={false} />
       <main className="max-w-7xl mx-auto px-4 py-32">
-        <Card>
-          <CardContent className="p-4 lg:p-16">
-            <Form {...form}>
-              <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-8">
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Nome e Cognome</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Mario Rossi" {...field} />
-                      </FormControl>
-                      <FormDescription>
-                        Nome e cognome del referente
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Email</FormLabel>
-                      <FormControl>
-                        <Input placeholder="email@esempio.com" {...field} />
-                      </FormControl>
-                      <FormDescription>Email del referente</FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="businessName"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Ragione Sociale</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Azienda SRL" {...field} />
-                      </FormControl>
-                      <FormDescription>
-                        Ragione Sociale del referente
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="requestType"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Tipo di richiesta</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Richiesta di contatto" {...field} />
-                      </FormControl>
-                      <FormDescription>
-                        Tipo di richiesta, es. &quot;Richiesta di contatto&quot;
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="message"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Messaggio</FormLabel>
-                      <FormControl>
-                        <Textarea
-                          placeholder="Scrivi un messaggio..."
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormDescription>Messaggio da inviare</FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <ReCAPTCHA
-                  sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
-                  ref={recaptchaRef}
-                  onChange={handleCaptchaSubmission}
-                />
-                <Button type="submit" 
-                  disabled={!isVerified}
-                  className="bg-primary hover:bg-neutral-700 disabled:bg-neutral-400 py-4 px-16 text-secondary-foreground rounded font-bold text-lg"
-                >
-                  Invia
-                </Button>
-              </form>
-            </Form>
-          </CardContent>
-        </Card>
+        {/* {cookieConsentAll  */}
+        {cookiesSettings && cookiesSettings.all 
+          ? <Card>
+              <CardContent className="p-4 lg:p-16">
+                <Form {...form}>
+                  <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="space-y-8">
+                    <FormField
+                      control={form.control}
+                      name="name"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Nome e Cognome</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Mario Rossi" {...field} />
+                          </FormControl>
+                          <FormDescription>
+                            Nome e cognome del referente
+                          </FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Email</FormLabel>
+                          <FormControl>
+                            <Input placeholder="email@esempio.com" {...field} />
+                          </FormControl>
+                          <FormDescription>Email del referente</FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="businessName"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Ragione Sociale</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Azienda SRL" {...field} />
+                          </FormControl>
+                          <FormDescription>
+                            Ragione Sociale del referente
+                          </FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="requestType"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Tipo di richiesta</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Richiesta di contatto" {...field} />
+                          </FormControl>
+                          <FormDescription>
+                            Tipo di richiesta, es. &quot;Richiesta di contatto&quot;
+                          </FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="message"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Messaggio</FormLabel>
+                          <FormControl>
+                            <Textarea
+                              placeholder="Scrivi un messaggio..."
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormDescription>Messaggio da inviare</FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <ReCAPTCHA
+                      sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+                      ref={recaptchaRef}
+                      onChange={handleCaptchaSubmission}
+                    />
+                    <Button type="submit" 
+                      disabled={!isVerified}
+                      className="bg-primary hover:bg-neutral-700 disabled:bg-neutral-400 py-4 px-16 text-secondary-foreground rounded font-bold text-lg"
+                    >
+                      Invia
+                    </Button>
+                  </form>
+                </Form>
+              </CardContent>
+            </Card>
+          : <Card>
+              <CardContent className="p-4 lg:p-16 lg:py-4">
+                <p className="mb-4">
+                  Per Contattarci invia una mail all&apos;indirizzo <a href="mailto:marketing@integys.com"><b>marketing@integys.com</b></a> con oggetto &quot;Contatto Integys&quot;. <br />
+                </p>
+                <p>
+                  In alternativa, accettare tutti i cookies e compilare il form in questa pagina.<br />
+                  É possibile modificare le preferenze cookie utilizzando il bottone &quot;<span className="font-semibold">Preferenze cookies</span>&quot; in fondo alla pagina.
+                </p>
+              </CardContent>
+            </Card>
+        }
       </main>
     </>
   );

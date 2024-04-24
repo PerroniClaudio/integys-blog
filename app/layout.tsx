@@ -7,6 +7,7 @@ import { Toaster } from "@/components/ui/toaster";
 import Footer from "./components/Footer";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { CookiesContextProvider } from "@/components/cookiesContextProvider";
 
 export const metadata: Metadata = {
   title: {
@@ -25,17 +26,22 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${GeistSans.variable}`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange>
-          {children}
-          <Toaster />
-          <ToastContainer className="z-50" />
-          <Footer />
-          <Analytics />
-        </ThemeProvider>
+        <div className="relative min-h-screen pb-44"> {/* Per gestire il footer */}
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange>
+          <CookiesContextProvider>
+            {children}
+            <Toaster />
+            <ToastContainer className="z-50" />
+            <Footer />
+            {/* Cookies */}
+            <Analytics />
+          </CookiesContextProvider>
+          </ThemeProvider>
+        </div>
       </body>
     </html>
   );

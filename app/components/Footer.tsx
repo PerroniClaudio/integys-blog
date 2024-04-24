@@ -1,10 +1,11 @@
+import CookiesBanner from "@/components/cookies/CookiesBanner";
 import Link from "next/link";
 
 function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="w-full py-6 border-t border-primary ">
+    <footer className="w-full py-6 border-t border-primary absolute bottom-0 ">
       <div className="container flex items-center justify-between gap-4 px-4 text-sm md:gap-6 min-h-32">
         <div className="flex flex-col gap-2">
           <Link href="/" className={`font-bold text-3xl text-primary`}>
@@ -36,6 +37,7 @@ function Footer() {
           <Link className="text-right" href="https://integys.com/note-legali/">
             Note Legali
           </Link>
+          <CookiesBanner />
         </div>
       </div>
     </footer>
