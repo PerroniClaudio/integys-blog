@@ -113,15 +113,15 @@ function CookiesBanner() {
         id="cookies-popup"
         className={`
           fixed bottom-6 left-1/2 -translate-x-1/2 z-50 select-none bg-background px-6 
-          rounded-md border-[1px] border-white outline outline-2 outline-background
+          rounded-md border-[1px] border-foreground outline outline-2 outline-background
           w-fit
           ${!isVisible && "hidden"}
         `}
       >
-        <Cookie size={52} strokeWidth={2} absoluteStrokeWidth className='text-5xl text-background absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 p-1 bg-foreground rounded-full border-[1px] border-primary-500 outline outline-4 outline-white' />
+        <Cookie size={52} strokeWidth={2} absoluteStrokeWidth className='text-5xl text-foreground absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 p-1 bg-background rounded-full border-[1px] border-foreground outline outline-4 outline-background' />
         {/* <FaCookieBite className='text-5xl text-primary-500 absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 p-1 bg-white rounded-full border-[1px] border-primary-500 outline outline-4 outline-white' /> */}
         <div className="w-fit m-auto  flex flex-col justify-center items-center py-3 px-3 gap-8 lg:flex-row">
-          <div className="flex flex-col gap-1 text-white">
+          <div className="flex flex-col gap-1 text-foreground">
             <div className="flex justify-start gap-8">
               <span className="font-semibold">
                 INFORMATIVA BREVE COOKIE
@@ -209,19 +209,19 @@ function CookiesBanner() {
             <div className={`flex flex-col text-sm ${!showDetails && "hidden"}`}>
               <div className='flex w-fit text-neutral-600'>
                 <button 
-                  className={`font-semibold  px-4 rounded-t-md ${detailsId === 1 ? "bg-foreground" : "bg-transparent text-white"}`}
+                  className={`font-semibold  px-4 rounded-t-md ${detailsId === 1 ? "bg-foreground text-background" : "bg-transparent text-foreground"}`}
                   onClick={()=>setDetailsId(1)}
                 >Necessari</button>
                 <button 
-                  className={`font-semibold px-4 rounded-t-md ${detailsId === 2 ? "bg-foreground" : "bg-transparent text-white"}`}
+                  className={`font-semibold px-4 rounded-t-md ${detailsId === 2 ? "bg-foreground text-background" : "bg-transparent text-foreground"}`}
                   onClick={()=>setDetailsId(2)}
                 >Preferenze</button>
                 <button 
-                  className={`font-semibold px-4 rounded-t-md ${detailsId === 3 ? "bg-foreground" : "bg-transparent text-white"}`}
+                  className={`font-semibold px-4 rounded-t-md ${detailsId === 3 ? "bg-foreground text-background" : "bg-transparent text-foreground"}`}
                   onClick={()=>setDetailsId(3)}
                 >Statistiche</button>
                 <button 
-                  className={`font-semibold px-4 rounded-t-md ${detailsId === 4 ? "bg-foreground" : "bg-transparent text-white"}`}
+                  className={`font-semibold px-4 rounded-t-md ${detailsId === 4 ? "bg-foreground text-background" : "bg-transparent text-foreground"}`}
                   onClick={()=>setDetailsId(4)}
                 >Marketing</button>
               </div>
@@ -285,7 +285,7 @@ function CookiesBanner() {
               handleSubmit(e, "none");
             }}
             id="cookies-close"
-            className="absolute top-0 right-0 p-1 w-fit text-white font-medium rounded-md text-xl"
+            className="absolute top-0 right-0 p-1 w-fit text-foreground font-medium rounded-md text-xl"
           >
             <X />
           </button>
