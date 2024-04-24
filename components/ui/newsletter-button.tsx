@@ -5,7 +5,7 @@ import { Button } from "./button";
 import NewsletterDialog from "./newsletter-dialog";
 import { twMerge } from "tailwind-merge";
 import Dialog from "./dialog";
-import { CookiesContext } from "../cookiesContextProvider";
+import { CookiesContext } from "../cookies/cookiesContextProvider";
 
 type Props = {
   className?: string;

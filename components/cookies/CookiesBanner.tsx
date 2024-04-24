@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 // import { FaCookieBite, FaWindowClose } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { Cookie, X } from "lucide-react";
-import { CookiesContext } from "../cookiesContextProvider";
+import { CookiesContext } from "../cookies/cookiesContextProvider";
 
 type CookieConsent = {
   all: boolean;

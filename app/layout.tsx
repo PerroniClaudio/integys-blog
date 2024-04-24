@@ -7,7 +7,7 @@ import { Toaster } from "@/components/ui/toaster";
 import Footer from "./components/Footer";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { CookiesContextProvider } from "@/components/cookiesContextProvider";
+import { CookiesContextProvider } from "@/components/cookies/cookiesContextProvider";
 
 export const metadata: Metadata = {
   title: {

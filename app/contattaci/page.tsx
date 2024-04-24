@@ -23,7 +23,7 @@ import { useContext, useRef, useState } from "react";
 
 // reCAPTCHA
 import ReCAPTCHA from "react-google-recaptcha";
-import { CookiesContext } from "@/components/cookiesContextProvider";
+import { CookiesContext } from "@/components/cookies/cookiesContextProvider";
 
 const formSchema = z.object({
   name: z
