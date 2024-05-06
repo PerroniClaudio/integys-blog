@@ -112,23 +112,21 @@ function CookiesBanner() {
       <div
         id="cookies-popup"
         className={`
-          fixed bottom-6 left-1/2 -translate-x-1/2 z-50 select-none bg-background px-6 
+          fixed bottom-6 left-1/2 -translate-x-1/2 z-50 select-none bg-background px-1 sm:px-6 
           rounded-md border-[1px] border-foreground outline outline-2 outline-background
           w-fit
           ${!isVisible && "hidden"}
         `}
       >
-        <Cookie size={52} strokeWidth={2} absoluteStrokeWidth className='text-5xl text-foreground absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 p-1 bg-background rounded-full border-[1px] border-foreground outline outline-4 outline-background' />
+        <Cookie size={52} strokeWidth={2} absoluteStrokeWidth className='text-foreground absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3/4 sm:-translate-x-1/2 p-1 bg-background rounded-full border-[1px] border-foreground outline outline-4 outline-background' />
         {/* <FaCookieBite className='text-5xl text-primary-500 absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 p-1 bg-white rounded-full border-[1px] border-primary-500 outline outline-4 outline-white' /> */}
-        <div className="w-fit m-auto  flex flex-col justify-center items-center py-3 px-3 gap-8 lg:flex-row">
-          <div className="flex flex-col gap-1 text-foreground">
-            <div className="flex justify-start gap-8">
-              <span className="font-semibold">
-                INFORMATIVA BREVE COOKIE
-              </span>
+        <div className="w-fit sm:max-w-full m-auto flex flex-col justify-center items-center py-3 px-3 gap-8 lg:flex-row max-h-[80vh] overflow-y-auto">
+          <div className="flex flex-col gap-1 text-foreground text-xs sm:text-sm">
+            <div className={`flex justify-start gap-8 font-semibold ${showDetails && "px-4"} sm:p-0`}>
+              INFORMATIVA BREVE COOKIE
               {/* <i className="fas fa-cookie-bite text-3xl text-evolution-800"></i> */}
             </div>
-            <p>
+            <p className={`${showDetails && "px-4"} sm:p-0`}>
               Questo sito utilizza cookie tecnici e di profilazione di terze parti, per inviarti messaggi pubblicitari mirati e 
               servizi in linea con le tue preferenze, per personalizzare contenuti ed annunci, per fornire funzionalità dei social 
               media e per analizzare il nostro traffico. Condividiamo inoltre informazioni sul modo in cui utilizza il nostro sito 
@@ -142,7 +140,7 @@ function CookiesBanner() {
               Vedi la nostra <a href='https://integys.com/cookie-policy/' target="_blank" className='font-semibold text-neutral-600'>Cookie Policy</a>. <br />
             </p>
             <form
-              className="flex gap-4 text-sm"
+              className={`flex flex-col gap-2 text-xs sm:flex-row sm:gap-4 sm:text-sm sm:p-0 ${showDetails && "px-4"}`}
               onSubmit={(e) => {
                 e.preventDefault();
               }}
@@ -207,27 +205,27 @@ function CookiesBanner() {
                 Dettagli
               </button>
             <div className={`flex flex-col text-sm ${!showDetails && "hidden"}`}>
-              <div className='flex w-fit text-neutral-600'>
+              <div className='flex w-fit text-xs text-neutral-600 pr-2 sm:text-sm'>
                 <button 
-                  className={`font-semibold  px-4 rounded-t-md ${detailsId === 1 ? "bg-foreground text-background" : "bg-transparent text-foreground"}`}
+                  className={`font-semibold px-1 rounded-t-md sm:px-4 ${detailsId === 1 ? "bg-foreground text-background" : "bg-transparent text-foreground"}`}
                   onClick={()=>setDetailsId(1)}
                 >Necessari</button>
                 <button 
-                  className={`font-semibold px-4 rounded-t-md ${detailsId === 2 ? "bg-foreground text-background" : "bg-transparent text-foreground"}`}
+                  className={`font-semibold px-1 rounded-t-md sm:px-4 ${detailsId === 2 ? "bg-foreground text-background" : "bg-transparent text-foreground"}`}
                   onClick={()=>setDetailsId(2)}
                 >Preferenze</button>
                 <button 
-                  className={`font-semibold px-4 rounded-t-md ${detailsId === 3 ? "bg-foreground text-background" : "bg-transparent text-foreground"}`}
+                  className={`font-semibold px-1 rounded-t-md sm:px-4 ${detailsId === 3 ? "bg-foreground text-background" : "bg-transparent text-foreground"}`}
                   onClick={()=>setDetailsId(3)}
                 >Statistiche</button>
                 <button 
-                  className={`font-semibold px-4 rounded-t-md ${detailsId === 4 ? "bg-foreground text-background" : "bg-transparent text-foreground"}`}
+                  className={`font-semibold px-1 rounded-t-md sm:px-4 ${detailsId === 4 ? "bg-foreground text-background" : "bg-transparent text-foreground"}`}
                   onClick={()=>setDetailsId(4)}
                 >Marketing</button>
               </div>
               <div 
                 // className='bg-primary-300 p-4  rounded-md text-neutral-600'
-                className='bg-foreground p-4  rounded-md text-background'
+                className='bg-foreground p-4 rounded-md text-xs text-background sm:text-sm'
                 style={{
                   borderTopLeftRadius: detailsId === 1 ? "0px" : "0.375rem",
                 }}
@@ -280,17 +278,18 @@ function CookiesBanner() {
             >
               Chiudi senza accettare
             </button>
-          <button
-            onClick={(e) => {
-              handleSubmit(e, "none");
-            }}
-            id="cookies-close"
-            className="absolute top-0 right-0 p-1 w-fit text-foreground font-medium rounded-md text-xl"
-          >
-            <X />
-          </button>
+          
           </div>
         </div>
+        <button
+          onClick={(e) => {
+            handleSubmit(e, "none");
+          }}
+          id="cookies-close"
+          className="absolute top-0 right-0 p-1 w-fit text-foreground font-medium rounded-md text-xl"
+        >
+          <X />
+        </button>
       </div>
     </div>
   );
