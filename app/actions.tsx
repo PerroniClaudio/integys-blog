@@ -5,7 +5,7 @@ import { simpleBlogCard } from "./lib/interface";
 
 export async function getDataWithPagination(page: number, pageSize: number) {
   const query = `
-      *[_type == 'blog' && date < now()] | order(_createdAt desc) {
+      *[_type == 'blog' && date < now()] | order(date desc) {
         "id": _id,
         title,
         smallDescription,
@@ -28,7 +28,7 @@ export async function getDataWithPaginationCategories(
   pageSize: number
 ) {
   const query = `
-      *[_type == 'blog' && date < now() && '${slug}' in categories[]->slug.current] | order(_createdAt desc) {
+      *[_type == 'blog' && date < now() && '${slug}' in categories[]->slug.current] | order(date desc) {
         "id": _id,
         title,
         smallDescription,
@@ -47,7 +47,7 @@ export async function getDataWithPaginationCategories(
 
 export async function getData() {
   const query = `
-    *[_type == 'blog' && date < now()] | order(_createdAt desc) {
+    *[_type == 'blog' && date < now()] | order(date desc) {
       title,
       smallDescription,
       titleImage,

@@ -29,7 +29,7 @@ async function getData(slug: string) {
 
 export async function generateStaticParams() {
   const query = `
-    *[_type == 'blog' && date < now()] | order(_createdAt desc) {
+    *[_type == 'blog' && date < now()] | order(date desc) {
       title,
       smallDescription,
       titleImage,
