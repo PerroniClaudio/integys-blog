@@ -12,7 +12,7 @@ import Newsletter from "@/components/ui/newsletter";
 
 async function getData(slug: string) {
   const query = `
-      *[_type == 'blog' && '${slug}' in categories[]->slug.current  && date < now()] | order(_createdAt desc) {
+      *[_type == 'blog' && '${slug}' in categories[]->slug.current  && date < now()] | order(date desc) {
         title,
         smallDescription,
         titleImage,
