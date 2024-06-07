@@ -27,7 +27,7 @@ export async function POST(request: Request) {
 
   const mailData = {
     from: mailSenderAccount.user,
-    to: "info@ifortech.com",
+    to: "commerciale@integys.com",
     subject: `Richiesta di contatto da INTEGYS`,
     text: message,
     html: `<div> Nome: ${name} <br/> Email aziendale: ${email} <br/> Azienda: ${businessName} <br/> Richiesta: ${requestType} <br/> Messaggio: <br/> ${message} </div>`,
