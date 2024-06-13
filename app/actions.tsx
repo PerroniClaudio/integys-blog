@@ -3,9 +3,9 @@ import { client } from "./lib/sanity";
 import ArticleCard from "./components/ArticleCard";
 import { simpleBlogCard } from "./lib/interface";
 
-export async function getDataWithPagination(page: number, pageSize: number) {
+export async function getDataWithPagination(page: number, pageSize: number, limited:boolean = false) {
   const query = `
-      *[_type == 'blog' && date < now()] | order(date desc) {
+      *[_type == 'blog' && limited == ${limited} && date < now()] | order(date desc) {
         "id": _id,
         title,
         smallDescription,
@@ -18,17 +18,18 @@ export async function getDataWithPagination(page: number, pageSize: number) {
   const data = await client.fetch(query);
 
   return data.map((post: simpleBlogCard, index: number) => (
-    <ArticleCard key={post.id} article={post} index={index} />
+    <ArticleCard key={post.id} article={post} index={index} limited={limited} />
   ));
 }
 
 export async function getDataWithPaginationCategories(
   slug: string,
   page: number,
-  pageSize: number
+  pageSize: number,
+  limited:boolean = false
 ) {
   const query = `
-      *[_type == 'blog' && date < now() && '${slug}' in categories[]->slug.current] | order(date desc) {
+      *[_type == 'blog' && limited == ${limited} && date < now() && '${slug}' in categories[]->slug.current] | order(date desc) {
         "id": _id,
         title,
         smallDescription,
@@ -41,13 +42,13 @@ export async function getDataWithPaginationCategories(
   const data = await client.fetch(query);
 
   return data.map((post: simpleBlogCard, index: number) => (
-    <ArticleCard key={post.id} article={post} index={index} />
+    <ArticleCard key={post.id} article={post} index={index} limited={limited} />
   ));
 }
 
-export async function getData() {
+export async function getData(limited:boolean = false) {
   const query = `
-    *[_type == 'blog' && date < now()] | order(date desc) {
+    *[_type == 'blog' && limited == ${limited} && date < now()] | order(date desc) {
       title,
       smallDescription,
       titleImage,

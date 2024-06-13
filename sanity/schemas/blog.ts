@@ -23,6 +23,12 @@ export default {
       title: 'Immagine di copertina',
     },
     {
+      name: 'limited',
+      title: 'Limited',
+      type: 'boolean',
+      initialValue: false, // imposta il valore di default su false
+    },
+    {
       name: 'smallDescription',
       type: 'text',
       title: 'Descrizione breve',

@@ -11,7 +11,7 @@ import Link from "next/link";
 async function getData(slug: string) {
   // && date < now()
   const query = `
-        *[_type == 'blog' && limited == false && slug.current == '${slug}'] {
+        *[_type == 'blog' && limited == true && slug.current == '${slug}'] {
             title,
             smallDescription,
             titleImage,
@@ -29,7 +29,7 @@ async function getData(slug: string) {
 
 export async function generateStaticParams() {
   const query = `
-    *[_type == 'blog' && limited == false && date < now()] | order(date desc) {
+    *[_type == 'blog' && limited == true && date < now()] | order(date desc) {
       title,
       smallDescription,
       titleImage,
@@ -65,7 +65,7 @@ export async function generateMetadata({
 }
 
 export const revalidate = 30;
-async function BlogArticle({ params }: { params: { slug: string } }) {
+async function BlogLimitedArticle({ params }: { params: { slug: string } }) {
   const data: fullBlog = await getData(params.slug);
   return (
     <>
@@ -112,4 +112,4 @@ async function BlogArticle({ params }: { params: { slug: string } }) {
     </>
   );
 }
-export default BlogArticle;
+export default BlogLimitedArticle;

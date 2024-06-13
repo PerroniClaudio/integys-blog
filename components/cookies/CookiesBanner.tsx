@@ -36,7 +36,7 @@ function CookiesBanner() {
   
   useEffect(() => {
     if (cookiesSettings) {
-      console.log("Banner: ", {cookiesSettings});
+      // console.log("Banner: ", {cookiesSettings});
       setValues(cookiesSettings.values);
       setIsVisible(cookiesSettings.isChoiceDone ? false : true);
     } else {

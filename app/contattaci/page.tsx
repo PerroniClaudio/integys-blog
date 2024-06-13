@@ -1,6 +1,6 @@
 "use client";
 
-import Navbar from "@/app/components/Navbar";
+// import Navbar from "@/app/components/Navbar";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -106,8 +106,8 @@ function Contattaci() {
 
   return (
     <>
-      <Navbar shouldChangeColor={false} />
-      <main className="max-w-7xl mx-auto px-4 py-32">
+      {/* <Navbar shouldChangeColor={false} /> */}
+      {/* <main className="max-w-7xl mx-auto px-4 py-32"> */}
         {/* {cookieConsentAll  */}
         {cookiesSettings && cookiesSettings.all 
           ? <Card>
@@ -222,7 +222,7 @@ function Contattaci() {
               </CardContent>
             </Card>
         }
-      </main>
+      {/* </main> */}
     </>
   );
 }

@@ -8,9 +8,14 @@ import {
 import { useInView } from "react-intersection-observer";
 import { useState, useEffect } from "react";
 
+type Props = {
+  category?: string;
+  limited?: boolean;
+};
+
 export type ArticleCard = JSX.Element;
 
-function ArticleList({ category }: { category?: string }) {
+function ArticleList({ category, limited = false }: Props) {
   const { ref, inView } = useInView();
   const [data, setData] = useState<ArticleCard[]>([]);
   const [page, setPage] = useState<number>(2);
@@ -18,18 +23,18 @@ function ArticleList({ category }: { category?: string }) {
   useEffect(() => {
     if (inView) {
       if (category) {
-        getDataWithPaginationCategories(category, page, 6).then((data) => {
+        getDataWithPaginationCategories(category, page, 6, limited).then((data) => {
           setData((prev) => [...prev, ...data]);
           setPage(prev => prev + 1);
         });
       } else {
-        getDataWithPagination(page, 6).then((data) => {
+        getDataWithPagination(page, 6, limited).then((data) => {
           setData((prev) => [...prev, ...data]);
           setPage(prev => prev + 1);
         });
       }
     }
-  }, [inView, data, category]);
+  }, [inView, data, category, limited]);
 
   return (
     <>

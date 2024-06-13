@@ -12,7 +12,7 @@ import Newsletter from "@/components/ui/newsletter";
 
 async function getData(slug: string) {
   const query = `
-      *[_type == 'blog' && limited == false && '${slug}' in categories[]->slug.current  && date < now()] | order(date desc) {
+      *[_type == 'blog' && limited == true && '${slug}' in categories[]->slug.current  && date < now()] | order(date desc) {
         title,
         smallDescription,
         titleImage,
@@ -26,7 +26,7 @@ async function getData(slug: string) {
   return data;
 }
 
-// In questo caso seleziona solo le categorie presenti tra i post con limited false
+// In questo caso seleziona solo le categorie presenti tra i post con limited true
 async function getCategories() {
   // const query = `
   //       *[_type == 'categorie'] {
@@ -35,11 +35,11 @@ async function getCategories() {
   //       }
   //   `;
   const query = `
-      *[_type == "categorie" && count(*[_type == "blog" && limited == false && references(^._id)]) > 0] {
-      name,
-      "slug": slug.current
-      }
-    `;
+    *[_type == "categorie" && count(*[_type == "blog" && limited == true && references(^._id)]) > 0] {
+    name,
+    "slug": slug.current
+    }
+  `;
 
   const data = await client.fetch(query);
 
@@ -62,7 +62,7 @@ export async function generateStaticParams() {
 export const revalidate = 30;
 
 async function Categorie({ params }: { params: { slug: string } }) {
-  const posts = await getDataWithPaginationCategories(params.slug, 1, 6);
+  const posts = await getDataWithPaginationCategories(params.slug, 1, 6, true);
   const categories: Categories[] = await getCategories();
 
   return (
@@ -86,7 +86,7 @@ async function Categorie({ params }: { params: { slug: string } }) {
                 </Link>
                 <div className="flex items-center justify-end gap-4">
                   <h2 className="text-lg font-bold md:whitespace-nowrap">Scorri gli articoli in basso o seleziona una categoria</h2>
-                  <CategorySelector categories={categories} selected={params.slug} />
+                  <CategorySelector categories={categories} selected={params.slug} limited={true} />
                 </div>
               </div>
               <hr className="border border-secondary" />
@@ -96,7 +96,7 @@ async function Categorie({ params }: { params: { slug: string } }) {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                 {posts}
               </div>
-              <ArticleList category={params.slug} />
+              <ArticleList category={params.slug} limited={true} />
             </div>
 
           </div>

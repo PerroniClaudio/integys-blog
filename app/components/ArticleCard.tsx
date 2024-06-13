@@ -14,9 +14,11 @@ const variants = {
 function ArticleCard({
   article,
   index,
+  limited = false
 }: {
   article: simpleBlogCard;
   index: number;
+  limited?: boolean;
 }) {
   return (
     <MotionDiv
@@ -39,7 +41,7 @@ function ArticleCard({
             {article.smallDescription}asd
           </p>
           <Button asChild className="w-full mt-7">
-            <Link href={`/news/${article.currentSlug}`}>
+            <Link href={limited ? `/riservata/post/${article.currentSlug}` : `/news/${article.currentSlug}`}>
               Continua a leggere
             </Link>
           </Button>

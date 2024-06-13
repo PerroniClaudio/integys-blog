@@ -1,20 +1,19 @@
-import { simpleBlogCard } from "./lib/interface";
-import { client } from "./lib/sanity";
-import ArticleList from "./components/ArticleList";
-import Navbar from "@/app/components/Navbar";
-import Hero from "@/app/components/Hero";
-
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
-import { getData, getDataWithPagination } from "./actions";
-import CategorySelector from "./components/CategorySelector";
 import Newsletter from "@/components/ui/newsletter";
 import NewsletterButton from "@/components/ui/newsletter-button";
+import Navbar from "../components/Navbar";
+import { simpleBlogCard } from "../lib/interface";
+import Hero from "../components/Hero";
+import Link from "next/link";
+import ArticleList from "../components/ArticleList";
+import { client } from "../lib/sanity";
+import { getData, getDataWithPagination } from "../actions";
+import CategorySelector from "../components/CategorySelector";
 
 export async function generateStaticParams() {
   const query = `
-    *[_type == 'blog' && limited == false && date < now()] | order(date desc) {
+    *[_type == 'blog' && limited == true && date < now()] | order(date desc) {
       title,
       smallDescription,
       titleImage,
@@ -31,8 +30,8 @@ export async function generateStaticParams() {
 export const revalidate = 30;
 
 export default async function Home() {
-  const data: simpleBlogCard[] = await getData();
-  const posts = await getDataWithPagination(1, 6);
+  const data: simpleBlogCard[] = await getData(true);
+  const posts = await getDataWithPagination(1, 6, true);
 
 
   let categories = data
@@ -44,7 +43,7 @@ export default async function Home() {
 
   return (
     <>
-      <Navbar shouldChangeColor={true} />
+      {/* <Navbar shouldChangeColor={true} /> */}
       <Hero />
       <main className="max-w-7xl mx-auto px-4 mb-16">
         <div className="pt-4 pb-8">
@@ -66,7 +65,7 @@ export default async function Home() {
                 </div>
                 <div className="flex items-center justify-end gap-4">
                   <h2 className="text-lg font-bold md:whitespace-nowrap">Scorri gli articoli in basso o seleziona una categoria</h2>
-                  <CategorySelector categories={categories} selected={""} />
+                  <CategorySelector categories={categories} selected={""} limited={true} />
                 </div>
               </div>
               <hr className="border border-secondary" />
@@ -77,7 +76,7 @@ export default async function Home() {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                 {posts}
               </div>
-              <ArticleList />
+              <ArticleList limited={true} />
             </div>
 
           </div>
