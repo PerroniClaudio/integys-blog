@@ -92,7 +92,13 @@ async function BlogArticle({ params }: { params: { slug: string } }) {
           </p>
 
           <div className="mt-16 prose prose-red prose-lg dark:prose-invert prose-li:marker:text-primary prose-a:text-primary w-full">
-            <PortableText value={data.body} />
+            <PortableText value={data.body}
+              components={{
+                types: {
+                  image: ImageBlock, // Per il tipo image utilizza il componente ImageBlock
+                },
+              }}
+            />
 
             <hr className="border border-secondary my-4" />
 
@@ -112,4 +118,20 @@ async function BlogArticle({ params }: { params: { slug: string } }) {
     </>
   );
 }
+
+
+const ImageBlock = ({ value }: any) => {
+  const { asset } = value;
+  if (!asset) {
+    // Gestisci il caso in cui l'asset non è disponibile
+    return null;
+  }
+
+  const imageUrl = urlFor(asset).url();
+
+  return (
+    <Image src={imageUrl} alt={value.alt || 'Immagine'} width={800} height={1000} />
+  );
+};
+
 export default BlogArticle;
