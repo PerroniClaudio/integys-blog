@@ -213,7 +213,7 @@ function Contattaci() {
           : <Card>
               <CardContent className="p-4 lg:p-16 lg:py-4">
                 <p className="mb-4">
-                  Per Contattarci invia una mail all&apos;indirizzo <a href="mailto:marketing@integys.com"><b>marketing@integys.com</b></a> con oggetto &quot;Contatto Integys&quot;. <br />
+                  Per Contattarci invia una mail all&apos;indirizzo <a href="mailto:commerciale@integys.com"><b>commerciale@integys.com</b></a> con oggetto &quot;Contatto Integys&quot;. <br />
                 </p>
                 <p>
                   In alternativa, accettare tutti i cookies e compilare il form in questa pagina.<br />

@@ -34,7 +34,7 @@ function NewsletterButton({className}: Props) {
             onClose={() => {setIsOpen(false);}}
           >
             <p className="mb-4">
-              Per iscriverti alla newsletter invia una mail all&apos;indirizzo <a href="mailto:marketing@integys.com"><b>marketing@integys.com</b></a> con oggetto &quot;Iscrizione newsletter Integys&quot;. <br />
+              Per iscriverti alla newsletter invia una mail all&apos;indirizzo <a href="mailto:commerciale@integys.com"><b>commerciale@integys.com</b></a> con oggetto &quot;Iscrizione newsletter Integys&quot;. <br />
             </p>
             <p>
               In alternativa, accettare tutti i cookies e cliccare nuovamente sul bottone &quot;<span className="font-semibold">Iscriviti alla newsletter</span>&quot;<br />
