@@ -34,8 +34,8 @@ function Hero() {
             <div className="space-x-4">
               <Link
                 className="inline-flex h-9 items-center justify-center rounded-md bg-gray-900 px-10 py-6 text-lg font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-primary dark:text-secondary-foreground dark:hover:bg-primary/90 dark:focus-visible:ring-gray-300"
-                href="https://integys.com/">
-                Scopri di più
+                href="/contattaci">
+                Contattaci
               </Link>
             </div>
           </div>
