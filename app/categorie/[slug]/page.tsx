@@ -9,6 +9,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import CategorySelector from "@/app/components/CategorySelector";
 import Newsletter from "@/components/ui/newsletter";
+import NewsletterButton from "@/components/ui/newsletter-button";
 
 async function getData(slug: string) {
   const query = `
@@ -76,14 +77,7 @@ async function Categorie({ params }: { params: { slug: string } }) {
             <section className="col-span-8">
               <hr className="border border-secondary" />
               <div className="flex flex-col items-center justify-between gap-4 my-2 lg:flex-row">
-                <Link href="/contattaci" className="justify-self-start">
-                  <Button
-                    variant={"secondary"}
-                    // className="text-secondary-foreground text-sm py-1 px-2 min-w-16 text-center">
-                    className="text-secondary-foreground text-lg py-4 px-12 min-w-16 text-center bg-primary w-full">
-                    Contattaci
-                  </Button>
-                </Link>
+                <NewsletterButton/>
                 <div className="flex items-center justify-end gap-4">
                   <h2 className="text-lg font-bold md:whitespace-nowrap">Scorri gli articoli in basso o seleziona una categoria</h2>
                   <CategorySelector categories={categories} selected={params.slug} />
