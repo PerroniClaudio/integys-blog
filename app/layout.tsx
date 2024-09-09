@@ -16,6 +16,14 @@ export const metadata: Metadata = {
   },
   description:
     "Integys - Dedicato alle ultime tendenze e approfondimenti nel mondo della tecnologia",
+  openGraph: {
+    images: [
+      {
+        url: "opengraph-integys.png",
+        alt: "Integys",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
