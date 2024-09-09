@@ -6,6 +6,10 @@ import Navbar from "../components/Navbar";
 export default async function RegisterPage() {
 
   const session = await getServerSession();
+
+  // Area reiservata disabilitata. Redirect all'homepage
+  redirect("/");
+
   if(session) {
     redirect("/riservata");
   }

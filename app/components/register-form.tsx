@@ -43,7 +43,7 @@ export default function RegisterForm() {
       router.push("/riservata");
       router.refresh();
     } else {
-      toast.error("Errore dueante la registrazione.");
+      toast.error("Errore durante la registrazione.");
     }
     setIsLoading(false);
   }

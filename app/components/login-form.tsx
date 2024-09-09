@@ -43,8 +43,11 @@ export default function LoginForm() {
         </div>
         <button className="bg-primary text-white px-4 py-2 rounded w-fit self-center mt-4" type="submit">Accedi</button>
 
+        {/* Aggiungere reset password */}
+        
         <p className="mt-4 w-full text-center">Non sei ancora registrato? <Link href='/register' className="font-semibold text-primary">Registrati</Link></p>
         {/* <Link href='/register' className="bg-primary text-white px-2 py-1 rounded w-fit self-center">Registrati</Link> */}
+
       </form>
     </div>
   );

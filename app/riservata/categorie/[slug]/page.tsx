@@ -35,7 +35,7 @@ async function getCategories() {
   //       }
   //   `;
   const query = `
-    *[_type == "categorie" && count(*[_type == "blog" && limited == true && references(^._id)]) > 0] {
+    *[_type == "categorie" && count(*[_type == "blog" && limited == true && date < now() && references(^._id)]) > 0] {
     name,
     "slug": slug.current
     }
@@ -48,7 +48,7 @@ async function getCategories() {
 
 export async function generateStaticParams() {
   const query = `
-  *[_type == 'categorie'] {
+  *[_type == "categorie" && count(*[_type == "blog" && limited == true && date < now() && references(^._id)]) > 0] {
   name,
   "slug" : slug.current
   }

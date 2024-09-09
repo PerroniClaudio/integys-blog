@@ -8,10 +8,19 @@ function Footer() {
     <footer className="w-full py-6 border-t border-primary absolute bottom-0 ">
       <div className="container flex items-center justify-between gap-4 px-4 text-sm md:gap-6 min-h-32">
         <div className="flex flex-col gap-2">
-          <Link href="/" className={`font-bold text-3xl text-primary`}>
+          <Link href="/" className={`font-bold text-3xl text-primary dark:hidden`}>
             <div className="flex items-center gap-1 ">
-              <div className={`p-1 rounded dark:bg-primary`}>
-                <img src="/integy.png" alt="Integys" className="h-8 w-auto" />
+              <div className="p-1">
+                <img src="/integys.png" alt="Integys" className="h-8 w-auto" />
+              </div>
+
+              <span>INTEGYS</span>
+            </div>
+          </Link>
+          <Link href="/" className={`font-bold text-3xl text-primary hidden dark:block`}>
+            <div className="flex items-center gap-1 ">
+              <div className="p-1">
+                <img src="/integys-white-sphere.png" alt="Integys" className="h-8 w-auto" />
               </div>
 
               <span>INTEGYS</span>

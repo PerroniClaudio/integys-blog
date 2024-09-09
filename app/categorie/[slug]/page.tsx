@@ -26,7 +26,7 @@ async function getData(slug: string) {
   return data;
 }
 
-// In questo caso seleziona solo le categorie presenti tra i post con limited false
+// In questo caso seleziona solo le categorie presenti tra i post già pubblicati,  e con limited false
 async function getCategories() {
   // const query = `
   //       *[_type == 'categorie'] {
@@ -35,7 +35,7 @@ async function getCategories() {
   //       }
   //   `;
   const query = `
-      *[_type == "categorie" && count(*[_type == "blog" && limited == false && references(^._id)]) > 0] {
+      *[_type == 'categorie' && count(*[_type == 'blog' && limited == false && date < now() &&  references(^._id)]) > 0] {
       name,
       "slug": slug.current
       }
@@ -48,11 +48,11 @@ async function getCategories() {
 
 export async function generateStaticParams() {
   const query = `
-  *[_type == 'categorie'] {
-  name,
-  "slug" : slug.current
-  }
-`;
+    *[_type == 'categorie' && count(*[_type == 'blog' && limited == false && date < now() &&  references(^._id)]) > 0] {
+    name,
+    "slug" : slug.current
+    }
+  `;
 
   const data: Categories[] = await client.fetch(query);
 
