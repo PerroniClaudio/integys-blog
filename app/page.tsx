@@ -55,13 +55,6 @@ export default async function Home() {
               <hr className="border border-secondary" />
               <div className="flex flex-col items-center justify-between gap-4 my-2 xl:flex-row">
                 <div className="flex gap-4">
-                  <Link href="/contattaci" className="justify-self-start">
-                    <Button
-                      variant={"secondary"}
-                      className="text-secondary-foreground text-lg py-4 px-12 min-w-16 text-center bg-primary w-full">
-                      Contattaci
-                    </Button>
-                  </Link>
                   <NewsletterButton/>
                 </div>
                 <div className="flex items-center justify-end gap-4">
