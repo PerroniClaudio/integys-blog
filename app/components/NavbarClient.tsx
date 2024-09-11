@@ -4,11 +4,8 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import ModeToggle from "./ModeToggle";
 import { Session } from "next-auth";
-import { signOut } from "next-auth/react";
-import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import LimitedDropdown from "./LimitedDropdown";
-import { Linkedin } from "lucide-react";
 
 type Props = {
   shouldChangeColor: boolean;
@@ -18,10 +15,6 @@ type Props = {
 function NavbarClient({ shouldChangeColor, session }: Props) {
   const [scrolled, setScrolled] = useState(false);
   const router = useRouter();
-
-  const handleLogout = async () => {
-    signOut();
-  }
 
   useEffect(() => {
     const handleScroll = () => {

@@ -1,11 +1,10 @@
+export const dynamic = "force-dynamic";
+
 import { simpleBlogCard } from "./lib/interface";
 import { client } from "./lib/sanity";
 import ArticleList from "./components/ArticleList";
 import Navbar from "@/app/components/Navbar";
 import Hero from "@/app/components/Hero";
-
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
 
 import { getData, getDataWithPagination } from "./actions";
 import CategorySelector from "./components/CategorySelector";

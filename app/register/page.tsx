@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { getServerSession } from "next-auth";
 import RegisterForm from "../components/register-form";
 import { redirect } from "next/navigation";

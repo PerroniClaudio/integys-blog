@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import Navbar from "@/app/components/Navbar";
 import { fullBlog, simpleBlogCard } from "@/app/lib/interface";
 import { client, urlFor } from "@/app/lib/sanity";

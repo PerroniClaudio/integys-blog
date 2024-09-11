@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { Categories, simpleBlogCard } from "@/app/lib/interface";
 import { client } from "@/app/lib/sanity";
 import ArticleList from "@/app/components/ArticleList";

@@ -1,12 +1,12 @@
-import { Categories, simpleBlogCard } from "@/app/lib/interface";
+export const dynamic = "force-dynamic";
+
+import { Categories } from "@/app/lib/interface";
 import { client } from "@/app/lib/sanity";
 import ArticleList from "@/app/components/ArticleList";
 import Navbar from "@/app/components/Navbar";
 import Hero from "@/app/components/Hero";
 import { getDataWithPaginationCategories } from "@/app/actions";
 
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import CategorySelector from "@/app/components/CategorySelector";
 import Newsletter from "@/components/ui/newsletter";
 import NewsletterButton from "@/components/ui/newsletter-button";
@@ -29,12 +29,6 @@ async function getData(slug: string) {
 
 // In questo caso seleziona solo le categorie presenti tra i post già pubblicati,  e con limited false
 async function getCategories() {
-  // const query = `
-  //       *[_type == 'categorie'] {
-  //       name,
-  //       "slug" : slug.current
-  //       }
-  //   `;
   const query = `
       *[_type == 'categorie' && count(*[_type == 'blog' && limited == false && date < now() &&  references(^._id)]) > 0] {
       name,
