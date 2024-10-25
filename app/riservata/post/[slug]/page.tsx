@@ -96,7 +96,7 @@ async function BlogLimitedArticle({ params }: { params: { slug: string } }) {
 
             <hr className="border border-secondary my-4" />
 
-            <p>Vuoi saperne di più?</p>
+            <p>Prenota una sessione di presentazione dei nostri servizi per sviluppare un piano d&rsquo;azione Cybersecurity personalizzato.</p>
 
             <Link href="/contattaci">
               <Button
