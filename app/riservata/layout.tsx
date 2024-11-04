@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth";
 import LoginForm from "../components/login-form";
 import Navbar from "../components/Navbar";
 import { redirect } from "next/navigation";
+import Footer from "../components/Footer";
 
 // export const metadata: Metadata = {
 //   title: {
@@ -22,13 +23,14 @@ export default async function Layout({ children }: Readonly<{ children: React.Re
   }
 
   return (
-    <main>
+    <div className="pb-44">
       <Navbar shouldChangeColor={!!session} />
       {children}
       {/* {session 
         ? children
         : <LoginForm />
       } */}
-    </main>
+      <Footer />
+    </div>
   )
 }

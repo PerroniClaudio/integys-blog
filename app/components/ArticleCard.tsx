@@ -38,7 +38,7 @@ function ArticleCard({
         <CardContent className="mt-5">
           <h3 className="text-lg line-clamp-2 font-bold">{article.title}</h3>
           <p className="text-sm mt-2 text-gray-600 dark:text-gray-300 line-clamp-3">
-            {article.smallDescription}asd
+            {article.smallDescription}
           </p>
           <Button asChild className="w-full mt-7">
             <Link href={limited ? `/riservata/post/${article.currentSlug}` : `/news/${article.currentSlug}`}>

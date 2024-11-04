@@ -34,7 +34,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${GeistSans.variable}`}>
-        <div className="relative min-h-screen pb-44"> {/* Per gestire il footer */}
+        {/* <div className="relative min-h-screen pb-44"> Per gestire il footer */}
+        <div className="relative min-h-screen"> {/* senza il footer. Lo si aggiunge nei singoli layout/pagine */}
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"
@@ -44,7 +45,7 @@ export default function RootLayout({
             {children}
             <Toaster />
             <ToastContainer className="z-50" />
-            <Footer />
+            {/* <Footer /> */}
             {/* Cookies */}
             <Analytics />
           </CookiesContextProvider>

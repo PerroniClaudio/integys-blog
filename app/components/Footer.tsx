@@ -1,11 +1,15 @@
 import CookiesBanner from "@/components/cookies/CookiesBanner";
 import Link from "next/link";
 
-function Footer() {
+type FooterProps = {
+  isAbsolute?: boolean;
+};
+
+function Footer({ isAbsolute = true }: FooterProps) {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="w-full py-6 border-t border-primary absolute bottom-0 ">
+    <footer className={"w-full py-6 border-t border-primary " + (isAbsolute ? " absolute bottom-0 " : "")}>
       <div className="container flex items-center justify-between gap-4 px-4 text-sm md:gap-6 min-h-32">
         <div className="flex flex-col gap-2">
           <Link href="/" className={`font-bold text-3xl text-primary dark:hidden`}>

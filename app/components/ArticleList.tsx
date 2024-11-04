@@ -22,16 +22,28 @@ function ArticleList({ category, limited = false }: Props) {
 
   useEffect(() => {
     if (inView) {
-      if (category) {
-        getDataWithPaginationCategories(category, page, 6, limited).then((data) => {
-          setData((prev) => [...prev, ...data]);
-          setPage(prev => prev + 1);
-        });
-      } else {
-        getDataWithPagination(page, 6, limited).then((data) => {
-          setData((prev) => [...prev, ...data]);
-          setPage(prev => prev + 1);
-        });
+      if(page > 0) {
+        if (category) {
+          getDataWithPaginationCategories(category, page, 6, limited).then((data) => {
+            if(data.length > 0) {
+              setData((prev) => [...prev, ...data]);
+              setPage(prev => prev + 1);
+            } else {
+              setPage(0);
+              console.log("no more data");
+            }
+          });
+        } else {
+          getDataWithPagination(page, 6, limited).then((data) => {
+            if(data.length > 0) {
+              setData((prev) => [...prev, ...data]);
+              setPage(prev => prev + 1);
+            } else {
+              setPage(0);
+              console.log("no more data");
+            }
+          });
+        }
       }
     }
   }, [inView, data, category, limited]);

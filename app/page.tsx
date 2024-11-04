@@ -10,6 +10,7 @@ import { getData, getDataWithPagination } from "./actions";
 import CategorySelector from "./components/CategorySelector";
 import Newsletter from "@/components/ui/newsletter";
 import NewsletterButton from "@/components/ui/newsletter-button";
+import Footer from "./components/Footer";
 
 export async function generateStaticParams() {
   const query = `
@@ -42,7 +43,7 @@ export default async function Home() {
     });
 
   return (
-    <>
+    <div className="pb-44"> {/* pb-44 is the padding-bottom of the footer */}
       <Navbar shouldChangeColor={true} />
       <Hero />
       <main className="max-w-7xl mx-auto px-4 mb-16">
@@ -76,6 +77,7 @@ export default async function Home() {
         </div>
       </main>
       <Newsletter />
-    </>
+      <Footer />
+    </div>
   );
 }

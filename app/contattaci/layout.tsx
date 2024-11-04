@@ -1,4 +1,5 @@
 // import type { Metadata } from "next";
+import Footer from "../components/Footer";
 import LoginForm from "../components/login-form";
 import Navbar from "../components/Navbar";
 
@@ -14,9 +15,12 @@ import Navbar from "../components/Navbar";
 export default async function Layout({ children }: Readonly<{ children: React.ReactNode }>) {
 
   return (
-    <main className="max-w-7xl mx-auto px-4 py-32">
-      <Navbar shouldChangeColor={false} />
-      {children}
-    </main>
+    <div className="pb-44">
+      <main className="max-w-7xl mx-auto px-4 py-32">
+        <Navbar shouldChangeColor={false} />
+        {children}
+      </main>
+      <Footer />
+    </div>
   )
 }

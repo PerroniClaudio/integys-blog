@@ -5,7 +5,6 @@ import Link from "next/link";
 import ModeToggle from "./ModeToggle";
 import { Session } from "next-auth";
 import { useRouter } from "next/navigation";
-import LimitedDropdown from "./LimitedDropdown";
 
 type Props = {
   shouldChangeColor: boolean;
@@ -40,7 +39,7 @@ function NavbarClient({ shouldChangeColor, session }: Props) {
           ? "bg-background border-primary"
           : "bg-primary border-primary-foreground dark:bg-secondary dark:border-primary-foreground"
       }`}>
-      <div className="mx-auto w-full max-w-7xl flex items-center justify-between px-4 py-5">
+      <div className="mx-auto w-full max-w-7xl flex items-center justify-between px-4 py-3">
         <div className="flex gap-8">
           <Link
             href="/"
