@@ -10,7 +10,7 @@ export default async function RegisterPage() {
   const session = await getServerSession();
 
   // Area reiservata disabilitata. Redirect all'homepage
-  redirect("/");
+  // redirect("/");
 
   if(session) {
     redirect("/riservata");
