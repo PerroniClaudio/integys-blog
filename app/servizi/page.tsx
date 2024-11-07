@@ -19,7 +19,7 @@ export default async function Home() {
               Servizi Integys
             </h1>
             <p className="text-xl text-gray-100 dark:text-gray-300 mb-8">
-              Proteggi la tua azienda con soluzioni di sicurezza all'avanguardia
+              Proteggi la tua azienda con soluzioni di sicurezza all&apos;avanguardia
             </p>
 
             <div className="space-x-4">
