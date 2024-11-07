@@ -20,3 +20,14 @@ export interface fullBlog {
   body: any;
   date: string;
 }
+
+export interface fullService {
+  id: string;
+  title: string;
+  currentSlug: string;
+  short: string;
+  smallDescription: any;
+  titleImage: any;
+  body: any;
+  order: number;
+}

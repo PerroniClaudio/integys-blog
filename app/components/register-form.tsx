@@ -15,11 +15,17 @@ export default function RegisterForm() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
+
     const formData = new FormData(e.currentTarget);
 
     const registrationForm = {
-      email: formData.get("email"),
-    } 
+      name: formData.get("name") as string,
+      surname: formData.get("surname") as string,
+      email: formData.get("email") as string,
+      phone: formData.get("phone") as string,
+      company: formData.get("company") as string,
+    }
+    
     const checkResult = RegistrationSchemaClient.safeParse(registrationForm);
     if(!checkResult.success){
       toast.error(checkResult.error.issues[0].message)
@@ -30,9 +36,7 @@ export default function RegisterForm() {
     
     const res = await fetch("/api/auth/register", {
       method: "POST",
-      body: JSON.stringify({
-        email: registrationForm.email,
-      }),
+      body: JSON.stringify(registrationForm),
       headers: {
         "Content-Type": "application/json"
       }
@@ -53,8 +57,24 @@ export default function RegisterForm() {
       <h1 className="w-fit font-semibold text-xl">Registrati</h1>
       <form className="flex flex-col gap-2 w-full md:w-1/3 lg:w-1/4 bg-input rounded-lg p-4" onSubmit={handleSubmit}>
         <div className="flex flex-col gap-2">
+          <label htmlFor="name" className="text-primary font-semibold">Nome</label>
+          <input name="name" id="name" type="text" className="rounded pl-2" required />
+        </div>
+        <div className="flex flex-col gap-2">
+          <label htmlFor="surname" className="text-primary font-semibold">Cognome</label>
+          <input name="surname" id="surname" type="text" className="rounded pl-2" required />
+        </div>
+        <div className="flex flex-col gap-2">
           <label htmlFor="email" className="text-primary font-semibold">Email</label>
           <input name="email" id="email" type="email" className="rounded pl-2" required />
+        </div>
+        <div className="flex flex-col gap-2">
+          <label htmlFor="phone" className="text-primary font-semibold">Numero di telefono</label>
+          <input name="phone" id="phone" type="tel" className="rounded pl-2" required />
+        </div>
+        <div className="flex flex-col gap-2">
+          <label htmlFor="company" className="text-primary font-semibold">Ragione Sociale</label>
+          <input name="company" id="company" type="text" className="rounded pl-2" required />
         </div>
         {/* <div className="flex flex-col gap-2">
           <label htmlFor="password" className="text-primary font-semibold">Password</label>

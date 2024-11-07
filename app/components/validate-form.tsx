@@ -5,7 +5,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { ValidationSchemaClient, passwordErrorString } from "../lib/zod/types";
 
-export default function ValidateForm({ email, token }: { email: string, token: string }) {
+export default function ValidateForm({ email, token, type = "email" }: { email: string, token: string, type: string }) {
 
   const router = useRouter();
 
@@ -29,19 +29,40 @@ export default function ValidateForm({ email, token }: { email: string, token: s
       return;
     }
     
-    const res = await fetch("/api/auth/verify-email", {
-      method: "POST",
-      body: JSON.stringify({
-        email: validationForm.email,
-        password: validationForm.password,
-        token: token
-      }),
-      headers: {
-        "Content-Type": "application/json"
-      }
-    });
+    if(validationForm.password !== validationForm.rePassword){
+      toast.error("Le password non corrispondono");
+      setIsLoading(false);
+      return;
+    }
 
-    if(res.ok){
+    let res = null;
+    if (type === "password"){
+      res = await fetch("/api/auth/reset-password", {
+        method: "POST",
+        body: JSON.stringify({
+          email: validationForm.email,
+          password: validationForm.password,
+          token: token
+        }),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+    } else {
+      res = await fetch("/api/auth/verify-email", {
+        method: "POST",
+        body: JSON.stringify({
+          email: validationForm.email,
+          password: validationForm.password,
+          token: token
+        }),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+    }
+
+    if( res && res.ok){
       if(res.status === 200){
         toast.success("Email verificata con successo.");
         router.push("/riservata");
@@ -58,7 +79,10 @@ export default function ValidateForm({ email, token }: { email: string, token: s
 
   return (
     <div className="flex flex-col justify-center items-center p-8 pt-24 gap-4">
-      <h1 className="w-fit font-semibold text-xl">Validazione email</h1>
+      {/* <h1 className="w-fit font-semibold text-xl">Validazione email</h1> */}
+      <h1 className="w-fit font-semibold text-xl">
+        {type === "email" ? "Validazione email" : "Reset password"}
+      </h1>
       <form className="flex flex-col gap-2 w-full md:w-1/3 lg:w-1/4 bg-input rounded-lg p-4" onSubmit={handleSubmit}>
         <div className="flex flex-col gap-2">
           <label htmlFor="email" className="text-primary font-semibold">Email</label>

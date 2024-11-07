@@ -91,12 +91,14 @@ async function BlogLimitedArticle({ params }: { params: { slug: string } }) {
             </span>
           </p>
 
-          <div className="mt-16 prose prose-red prose-lg dark:prose-invert prose-li:marker:text-primary prose-a:text-primary w-full">
+          <div className="mt-16 prose prose-red prose-lg dark:prose-invert prose-li:marker:text-primary prose-a:text-primary w-full xl:max-w-screen-md">
             <PortableText value={data.body} />
 
             <hr className="border border-secondary my-4" />
 
-            <p>Prenota una sessione di presentazione dei nostri servizi per sviluppare un piano d&rsquo;azione Cybersecurity personalizzato.</p>
+            <p className="font-bold text-2xl">
+              Prenota una sessione di presentazione dei nostri servizi per sviluppare un piano d&rsquo;azione Cybersecurity personalizzato.
+            </p>
 
             <Link href="/contattaci">
               <Button

@@ -16,14 +16,14 @@ const VerificationSchema = z.object({
 });
 
 export default async function RegisterPage({ params }: { params: { token: string, email: string } }) {
-
+  
   const token = params.token;
   const email= decodeURIComponent(params.email);
-  
+
   return (
     <main className="pt-16">
       <Navbar shouldChangeColor={false} />
-      <ValidateForm token={token} email={email} type={"email"} />
+      <ValidateForm token={token} email={email} type={"passsword"} />
     </main>
   );
 }

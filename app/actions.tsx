@@ -61,3 +61,22 @@ export async function getData(limited:boolean = false) {
 
   return data;
 }
+
+export async function getServicesData() {
+  const query = `
+      *[_type == 'servizi'] | order(order asc) {
+        "id": _id,
+        title,
+        "currentSlug": slug.current,
+        short,
+        smallDescription,
+        titleImage,
+        body, 
+        order
+      }
+    `;
+
+  const data = await client.fetch(query);
+
+  return data;
+}

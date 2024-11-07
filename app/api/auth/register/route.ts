@@ -16,8 +16,12 @@ const generateToken = () => {
 }
 
 export async function POST(request: Request) {
-  try{
-    const { email } = await request.json();
+  try {
+    const { name, surname, email, phone, company } = await request.json();
+
+    if (!name || !surname || !email || !phone || !company) {
+      return new NextResponse(JSON.stringify({ error: 'All fields are required' }), { status: 400 });
+    }
 
     const transporter = nodemailer.createTransport({
       host: "smtp.office365.com",
@@ -82,7 +86,11 @@ export async function POST(request: Request) {
 
       const newUser = await prisma.user.create({
         data: {
+          name,
+          surname,
           email,
+          phone,
+          company,
           password: hashedPassword
         }
       });
@@ -133,6 +141,29 @@ export async function POST(request: Request) {
     };
 
     const info = await transporter.sendMail(mailData);
+
+    // Qui si invia la mail informativa all'amministrazione
+    
+    const adminMailData = {
+      from: mailSenderAccount.user,
+      // to: process.env.MAIL_SENDER_ACCOUNT_USERNAME,
+      to: "e.salsano@ifortech.com",
+      subject: `INTEGYS - Nuova registrazione utente`,
+      text: `E' stata effettuata una nuova registrazione all'area riservata di Integys. Nome: ${user?.name ?? ""}, Email: ${user.email}, Telefono:  ${user?.phone ?? ""}, Ragione Sociale: ${user?.company ?? ""}.`,
+      html: `<div> 
+        <p>
+          E' stata effettuata una nuova registrazione all'area riservata di Integys. <br />
+          Nome: ${user?.name ?? ""} ${user?.surname ?? ""} <br /> 
+          Cognome: ${user?.surname ?? ""} <br /> 
+          Email: ${user.email} <br /> 
+          Telefono:  ${user?.phone ?? ""} <br /> 
+          Ragione Sociale: ${user?.company ?? ""}
+        </p> 
+      </div>`,
+    };
+
+    const adminInfo = await transporter.sendMail(adminMailData);
+
     // risponde con success e messaggio informativo
     return new NextResponse(JSON.stringify({message: 'success'}), { status: 200 });
   } catch (error) {

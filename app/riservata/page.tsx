@@ -12,6 +12,7 @@ import ArticleList from "../components/ArticleList";
 import { client } from "../lib/sanity";
 import { getData, getDataWithPagination } from "../actions";
 import CategorySelector from "../components/CategorySelector";
+import ContactUs from "@/components/ui/contact-us";
 
 export async function generateStaticParams() {
   const query = `
@@ -84,7 +85,8 @@ export default async function Home() {
           </div>
         </div>
       </main>
-      <Newsletter />
+      <ContactUs />
+      {/* <Newsletter /> */}
     </>
   );
 }

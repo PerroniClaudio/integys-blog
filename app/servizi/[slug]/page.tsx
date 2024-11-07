@@ -1,9 +1,10 @@
 export const dynamic = "force-dynamic";
 
 import Navbar from "@/app/components/Navbar";
-import { fullBlog, simpleBlogCard } from "@/app/lib/interface";
+import { fullService } from "@/app/lib/interface";
 import { client, urlFor } from "@/app/lib/sanity";
 import { Button } from "@/components/ui/button";
+import ContactUs from "@/components/ui/contact-us";
 import Newsletter from "@/components/ui/newsletter";
 import { PortableText } from "@portabletext/react";
 import { Metadata } from "next";
@@ -13,14 +14,13 @@ import Link from "next/link";
 async function getData(slug: string) {
   // && date < now()
   const query = `
-        *[_type == 'blog' && limited == false && slug.current == '${slug}'] {
+        *[_type == 'servizi' && slug.current == '${slug}'] {
             title,
+            short,
             smallDescription,
             titleImage,
             body,
-            date,
             "currentSlug": slug.current,
-            categories
         }[0]
     `;
 
@@ -31,16 +31,17 @@ async function getData(slug: string) {
 
 export async function generateStaticParams() {
   const query = `
-    *[_type == 'blog' && limited == false && date < now()] | order(date desc) {
+    *[_type == 'servizi'] {
       title,
+      short,
       smallDescription,
       titleImage,
+      body,
       "currentSlug": slug.current,
-      categories[]->{name, "slug" : slug.current}
     }
   `;
 
-  const data: simpleBlogCard[] = await client.fetch(query);
+  const data: fullService[] = await client.fetch(query);
 
   return data.map(({ currentSlug }) => currentSlug);
 }
@@ -50,7 +51,7 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  const data: fullBlog = await getData(params.slug);
+  const data: fullService = await getData(params.slug);
 
   return {
     title: data.title,
@@ -67,8 +68,8 @@ export async function generateMetadata({
 }
 
 export const revalidate = 30;
-async function BlogArticle({ params }: { params: { slug: string } }) {
-  const data: fullBlog = await getData(params.slug);
+async function ServicePage({ params }: { params: { slug: string } }) {
+  const data: fullService = await getData(params.slug);
   return (
     <>
       <Navbar shouldChangeColor={false} />
@@ -86,25 +87,13 @@ async function BlogArticle({ params }: { params: { slug: string } }) {
             priority
             className="rounded-lg mt-8 border shadow-sm"
           />
-
-          <p className="mt-4">
-            <span className="italic text-gray-500 text-sm">
-              Pubblicato il {new Date(data.date).toLocaleDateString("it-IT")}
-            </span>
-          </p>
           
           <div className="mt-16 prose prose-red prose-lg dark:prose-invert prose-li:marker:text-primary prose-a:text-primary w-full xl:max-w-screen-md">
-            <PortableText value={data.body}
-              components={{
-                types: {
-                  image: ImageBlock, // Per il tipo image utilizza il componente ImageBlock
-                },
-              }}
-            />
+            <PortableText value={data.body} />
 
-            <hr className="border border-secondary my-4" />
+            {/* <hr className="border border-secondary my-4" /> */}
 
-            <p className="font-bold text-2xl">
+            {/* <p className="font-bold text-2xl">
               Prenota una sessione di presentazione dei nostri servizi per sviluppare un piano d&rsquo;azione Cybersecurity personalizzato.
             </p>
 
@@ -114,11 +103,27 @@ async function BlogArticle({ params }: { params: { slug: string } }) {
                 className="text-secondary-foreground text-lg py-8 px-12 min-w-16 text-center bg-primary w-full">
                 Contattaci
               </Button>
-            </Link>
+            </Link> */}
           </div>
         </div>
       </main>
-      <Newsletter />
+      {/* <section className="py-8 border-t border-primary">
+        <div className="container mx-auto flex flex-col gap-4 justify-between items-center">
+          <h2 className="font-bold text-3xl text-center">
+            Prenota una sessione di presentazione dei nostri servizi per sviluppare un piano d&rsquo;azione Cybersecurity personalizzato.
+          </h2>
+
+          <Link href="/contattaci">
+            <Button
+              variant={"secondary"}
+              className="text-secondary-foreground text-lg py-8 px-12 min-w-16 text-center bg-primary w-full">
+              Contattaci
+            </Button>
+          </Link>
+        </div>
+      </section> */}
+      <ContactUs />
+      {/* <Newsletter /> */}
     </>
   );
 }
@@ -138,4 +143,4 @@ const ImageBlock = ({ value }: any) => {
   );
 };
 
-export default BlogArticle;
+export default ServicePage;

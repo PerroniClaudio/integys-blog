@@ -20,6 +20,7 @@ model User {
   emailVerified DateTime?
   name          String?
   surname       String?
+  phone       String?
   occupation    String?
   company       String?
   company_address String?

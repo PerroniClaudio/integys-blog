@@ -11,7 +11,8 @@ function Hero() {
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
       }}>
-      <section className="w-full py-12 md:py-24 lg:py-32 xl:py-36 dark:bg-secondary/80 mt-16 bg-primary/70 inset-0 ">
+      <div className="absolute inset-0 bg-primary/70 brightness-50 dark:bg-secondary/80 dark:brightness-100 z-10" />
+      <section className="w-full py-12 md:py-24 lg:py-32 xl:py-36 mt-16 relative z-20">
         <div className="container px-4 md:px-6 grid grid-cols-1 md:grid-cols-2 gap-8 max-w-7xl">
           <div className="flex flex-col space-y-4 text-left">
             <div className="space-y-2">

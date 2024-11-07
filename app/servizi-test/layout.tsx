@@ -1,4 +1,3 @@
-import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 
 export default function Layout({
@@ -7,10 +6,9 @@ export default function Layout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="pb-44">
+    <div>
         <Navbar shouldChangeColor={false} />
         {children}
-        <Footer />
     </div>
   );
 }
