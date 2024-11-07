@@ -146,8 +146,7 @@ export async function POST(request: Request) {
     
     const adminMailData = {
       from: mailSenderAccount.user,
-      // to: process.env.MAIL_SENDER_ACCOUNT_USERNAME,
-      to: "e.salsano@ifortech.com",
+      to: process.env.SEND_MAIL_TO,
       subject: `INTEGYS - Nuova registrazione utente`,
       text: `E' stata effettuata una nuova registrazione all'area riservata di Integys. Nome: ${user?.name ?? ""}, Email: ${user.email}, Telefono:  ${user?.phone ?? ""}, Ragione Sociale: ${user?.company ?? ""}.`,
       html: `<div> 
