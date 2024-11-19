@@ -23,7 +23,7 @@ export default async function RegisterPage({ params }: { params: { token: string
   return (
     <main className="pt-16">
       <Navbar shouldChangeColor={false} />
-      <ValidateForm token={token} email={email} type={"passsword"} />
+      <ValidateForm token={token} email={email} type={"password"} />
     </main>
   );
 }

@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import { hash } from "bcryptjs";
 import prisma from "@/app/lib/prisma/client";
 import { RegistrationSchemaServer } from "@/app/lib/zod/types";
 import { randomBytes } from "crypto";
@@ -42,100 +41,90 @@ export async function POST(request: Request) {
       // throw new Error(checkResult.error.issues[0].path + ": " + checkResult.error.issues[0].message + ".") ;
       return new NextResponse(JSON.stringify({ error: checkResult.error.issues[0].path + ": " + checkResult.error.issues[0].message + "." }), { status: 400 });
     }
-// CONTINUARE DA QUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
-    // Controlla se la mail esiste già tra gli utenti registrati
 
-    const existingUser = await prisma.user.findUnique({
+    // Controlla se l'utente esiste
+    const user = await prisma.user.findUnique({
       where: {
         email: email
       }
     });
 
-    let user = existingUser;
-
-    if (existingUser) {
-      if (existingUser.emailVerified !== null) {
-        // User account is already activated
-        // Respond with appropriate code and message
-        return new NextResponse(JSON.stringify({ error: 'Account già attivato' }), { status: 400 });
-      } else {
-        // Check if the token is still valid
-        const verificationToken = await prisma.verificationToken.findFirst({
-          where: {
-            user_id: existingUser.id,
-            expires: {
-              gte: new Date()
-            }
+    // Se l'utente non esiste
+    if (!user) {
+      return new NextResponse(JSON.stringify({ error: 'Si è verificato un errore.' }), { status: 400 });
+    }
+            
+    // Se l'utente ha la mail verificata
+    if (user.emailVerified !== null) {
+      
+      let existingToken = await prisma.verificationToken.findFirst({
+        where: {
+          user_id: user.id,
+          type: 'password',
+          expires: {
+            gte: new Date()
           }
-        });
-
-        if (verificationToken) {
-          // Token is still valid
-          // Respond with a message to check email
-          return new NextResponse(JSON.stringify({ error: 'Token già inviato, controlla la tua email' }), { status: 400 });
-        } else {
-          // Queste sono le stesse operazioni che si fanno per un nuovo utente, quindi non serve duplicarle qui
-          // Token is not valid or doesn't exist
-          // Generate a new token and proceed as a new account
-          // Create token and add it to the table
-        }
-      }
-    } else {
-      const randomString = Math.random().toString(36).substring(2, 12);
-      const hashedPassword = await hash( randomString, 10);
-
-      const newUser = await prisma.user.create({
-        data: {
-          name,
-          surname,
-          email,
-          phone,
-          company,
-          password: hashedPassword
         }
       });
 
-      user = newUser;
-    }
+      if(existingToken){
+        // Se ha già un token per il reset password attivo si restituisce il messaggio di errore (si può chiedere il reinvio o si rischia di inviare troppe mail?).
+        return new NextResponse(JSON.stringify({ error: 'Reset password già richiesto. Controlla la tua email.' }), { status: 400 });
+      } 
 
-    if(!user){
-      return new NextResponse(JSON.stringify({ error: 'Errore durante la creazione dell\'utente' }), { status: 500 });
-    }
+    } else {
+      // Se non ha la mail verificata si controlla se ha un token per l'attivazione email attivo.
+      let verificationToken = await prisma.verificationToken.findFirst({
+        where: {
+          user_id: user.id,
+          type: 'email',
+          expires: {
+            gte: new Date()
+          }
+        }
+      });
 
-    // Crea token e aggiungilo alla tabella 
+      if (verificationToken) {
+        // Se ha un token attivo si restituisce il messaggio di errore.
+        return new NextResponse(JSON.stringify({ error: 'Devi ancora effettuare la verifica della mail. Controlla la tua email' }), { status: 400 });
+      }
+
+    }
+    
+    // Non ha nessun tipo di token attivo. Si genera e si manda il reset password. nel reset password aggiungiamo anche il controllo della verifica
     const newToken = generateToken();
     const expires = new Date();
     expires.setDate(expires.getDate() + 7);
 
-    await prisma.verificationToken.create({
+    const passwordResetToken = await prisma.verificationToken.create({
       data: {
         user_id: user.id,
+        type: 'password',
         token: newToken,
         expires
       }
     });
 
-    // Invia mail per validazione email col link comprendente il token
-    const activationLink = `${process.env.NEXTAUTH_URL}/validate-email/${newToken}/${user.email}`;
-    // Send email with activationLink to the user's email address
+    // Invia mail per reset password col link comprendente il token
+    const activationLink = `${process.env.NEXTAUTH_URL}/reset-password/${newToken}/${user.email}`;
 
-    const message = "Ti sei registrato all'area riservata di Integys. Di seguito trovi il link di verifica email per attivare la tua utenza ed impostare la password di accesso: " + activationLink;
+    const message = "Di seguito trovi il link di reset password: " + activationLink;
 
     const mailData = {
       from: mailSenderAccount.user,
       to: user.email,
-      subject: `INTEGYS - Verifica email registrazione`,
+      subject: `INTEGYS - Richiesta di reset password`,
       text: message,
       html: `<div> 
         <p>
-          Ti sei registrato all'area riservata di Integys.<br/> Clicca <a href="${activationLink}">qui</a> per effettuare la verifica email, attivare la tua utenza ed impostare la password di accesso. <br/> 
+          Hai richiesto il reset della password per l'area riservata di Integys.<br/> Clicca <a href="${activationLink}">qui</a> per impostare la nuova password di accesso. <br/> 
         </p> <br/>
         <p>
           Se il link non funziona, copia e incolla il seguente URL nel tuo browser: <br/> 
           ${activationLink}
         </p> <br/>
         <p>
-          Se non ti sei registrato, ignora questa email.
+          Se non hai richiesto tu il link di reset della password, ignora questa email.
         </p>
       </div>`,
     };
@@ -143,20 +132,16 @@ export async function POST(request: Request) {
     const info = await transporter.sendMail(mailData);
 
     // Qui si invia la mail informativa all'amministrazione
-    
     const adminMailData = {
       from: mailSenderAccount.user,
-      // to: process.env.MAIL_SENDER_ACCOUNT_USERNAME,
-      to: "e.salsano@ifortech.com",
-      subject: `INTEGYS - Nuova registrazione utente`,
-      text: `E' stata effettuata una nuova registrazione all'area riservata di Integys. Nome: ${user?.name ?? ""}, Email: ${user.email}, Telefono:  ${user?.phone ?? ""}, Ragione Sociale: ${user?.company ?? ""}.`,
+      to: process.env.SEND_MAIL_TO,
+      subject: `INTEGYS - Nuova richiesta di resert password`,
+      text: `E' stata effettuata una nuova richiesta di resert password per l'area riservata di Integys. Nome: ${user?.name ?? ""}, Email: ${user.email}, Ragione Sociale: ${user?.company ?? ""}.`,
       html: `<div> 
         <p>
-          E' stata effettuata una nuova registrazione all'area riservata di Integys. <br />
+          E' stata effettuata una nuova richiesta di resert password per l'area riservata di Integys. <br />
           Nome: ${user?.name ?? ""} ${user?.surname ?? ""} <br /> 
-          Cognome: ${user?.surname ?? ""} <br /> 
           Email: ${user.email} <br /> 
-          Telefono:  ${user?.phone ?? ""} <br /> 
           Ragione Sociale: ${user?.company ?? ""}
         </p> 
       </div>`,

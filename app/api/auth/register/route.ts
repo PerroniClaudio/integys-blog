@@ -63,6 +63,7 @@ export async function POST(request: Request) {
         const verificationToken = await prisma.verificationToken.findFirst({
           where: {
             user_id: existingUser.id,
+            type: 'email',
             expires: {
               gte: new Date()
             }
@@ -110,6 +111,7 @@ export async function POST(request: Request) {
     await prisma.verificationToken.create({
       data: {
         user_id: user.id,
+        type: 'email',
         token: newToken,
         expires
       }
@@ -146,8 +148,7 @@ export async function POST(request: Request) {
     
     const adminMailData = {
       from: mailSenderAccount.user,
-      // to: process.env.MAIL_SENDER_ACCOUNT_USERNAME,
-      to: "e.salsano@ifortech.com",
+      to: process.env.SEND_MAIL_TO,
       subject: `INTEGYS - Nuova registrazione utente`,
       text: `E' stata effettuata una nuova registrazione all'area riservata di Integys. Nome: ${user?.name ?? ""}, Email: ${user.email}, Telefono:  ${user?.phone ?? ""}, Ragione Sociale: ${user?.company ?? ""}.`,
       html: `<div> 

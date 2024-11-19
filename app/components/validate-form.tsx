@@ -37,7 +37,7 @@ export default function ValidateForm({ email, token, type = "email" }: { email: 
 
     let res = null;
     if (type === "password"){
-      res = await fetch("/api/auth/reset-password", {
+      res = await fetch("/api/auth/change-password", {
         method: "POST",
         body: JSON.stringify({
           email: validationForm.email,
@@ -64,15 +64,15 @@ export default function ValidateForm({ email, token, type = "email" }: { email: 
 
     if( res && res.ok){
       if(res.status === 200){
-        toast.success("Email verificata con successo.");
+        toast.success(type == "email" ? "Email verificata con successo." : "Password cambiata con successo.");
         router.push("/riservata");
         router.refresh();
       } else if (res.status === 201){
-        toast.warning("Il link è scaduto. Ti è stata inviata una nuova email di verifica.");
+        toast.warning("Il link è scaduto. Ti è stata inviata una nuova email.");
       }
     } else {
       console.log({res})
-      toast.error("Errore durante la verifica. Se il tempo per la verifica è scaduto ti è stata inviata una nuova email di verifica.");
+      toast.error("Errore. Se il tempo è scaduto ti è stata inviata una nuova email.");
     }
     setIsLoading(false);
   }

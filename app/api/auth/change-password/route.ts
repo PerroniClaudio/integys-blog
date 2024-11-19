@@ -81,11 +81,15 @@ export async function POST(request: Request) {
     const tokenData = await prisma.verificationToken.findFirst({
       where: {
         user_id: user.id,
+        type: 'password',
+        expires: {
+          gte: new Date()
+        },
         token: token
       }
     });
     // Se il token è valido, aggiorna la password dell'utente
-    if(!!tokenData && tokenData.expires >= new Date()){
+    if(!!tokenData){
       const hashedPassword = await hash(password, 10);
       const updatedUser = await prisma.user.update({
         where: {
@@ -93,14 +97,25 @@ export async function POST(request: Request) {
         },
         data: {
           password: hashedPassword,
-          // emailVerified: new Date()
+          emailVerified: user.emailVerified ?? new Date()
         }
       });
 
       if (!updatedUser){
         return new NextResponse(JSON.stringify({ error: 'Errore durante il reset della password' }), { status: 500 });
       }
-      
+
+      //  Fai scadere il token
+      await prisma.verificationToken.update({
+        where: {
+          user_id: tokenData.user_id,
+          token: token
+        },
+        data: {
+          expires: new Date()
+        }
+      });
+
       return new NextResponse(JSON.stringify({message: 'success'}), { status: 200 });
     }
 
@@ -113,12 +128,13 @@ export async function POST(request: Request) {
       data: {
         user_id: user.id,
         token: newToken,
+        type: 'password',
         expires
       }
     });
 
     // Invia mail per validazione email col link comprendente il token
-    const activationLink = `${process.env.NEXTAUTH_URL}/reset-password/${newToken}`;
+    const activationLink = `${process.env.NEXTAUTH_URL}/reset-password/${newToken}/${user.email}`;
     // Send email with activationLink to the user's email address
 
     const message = "Il precedente link di reset password non è più valido. Di seguito trovi il nuovo link per impostare la password: " + activationLink;

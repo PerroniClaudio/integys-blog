@@ -33,6 +33,7 @@ model VerificationToken {
   user_id    String
   token      String
   expires    DateTime
+  type        String @default("email") //email e password
  
   @@unique([token])
 }
