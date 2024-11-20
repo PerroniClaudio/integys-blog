@@ -19,6 +19,8 @@ export interface fullBlog {
   titleImage: any;
   body: any;
   date: string;
+  categories?: Categories[];
+  files?: any[];
 }
 
 export interface fullService {

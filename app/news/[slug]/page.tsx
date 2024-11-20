@@ -1,5 +1,6 @@
 export const dynamic = "force-dynamic";
 
+import FilesList from "@/app/components/FilesList";
 import Navbar from "@/app/components/Navbar";
 import { fullBlog, simpleBlogCard } from "@/app/lib/interface";
 import { client, urlFor } from "@/app/lib/sanity";
@@ -20,7 +21,8 @@ async function getData(slug: string) {
             body,
             date,
             "currentSlug": slug.current,
-            categories
+            categories,
+            files
         }[0]
     `;
 
@@ -101,6 +103,10 @@ async function BlogArticle({ params }: { params: { slug: string } }) {
                 },
               }}
             />
+
+            {data.files && 
+              <FilesList files={data.files} />
+            }
 
             <hr className="border border-secondary my-4" />
 

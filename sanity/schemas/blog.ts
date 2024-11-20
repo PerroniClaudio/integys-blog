@@ -58,5 +58,22 @@ export default {
         },
       ],
     },
+    {
+      title: 'Files',
+      name: 'files',
+      type: 'array',
+      of: [
+        {
+          type: 'file',
+          fields: [
+            {
+              name: 'title',
+              type: 'string',
+              title: 'Titolo',
+            },
+          ],
+        },
+      ],
+    }
   ],
 }

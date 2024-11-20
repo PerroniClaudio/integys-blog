@@ -5,6 +5,7 @@ import Link from "next/link";
 import ModeToggle from "./ModeToggle";
 import { Session } from "next-auth";
 import { useRouter } from "next/navigation";
+import LimitedDropdown from "./LimitedDropdown";
 
 type Props = {
   shouldChangeColor: boolean;

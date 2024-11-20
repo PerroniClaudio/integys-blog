@@ -1,3 +1,4 @@
+import FilesList from "@/app/components/FilesList";
 import Navbar from "@/app/components/Navbar";
 import { fullBlog, simpleBlogCard } from "@/app/lib/interface";
 import { client, urlFor } from "@/app/lib/sanity";
@@ -18,7 +19,8 @@ async function getData(slug: string) {
             body,
             date,
             "currentSlug": slug.current,
-            categories
+            categories,
+            files
         }[0]
     `;
 
@@ -93,6 +95,10 @@ async function BlogLimitedArticle({ params }: { params: { slug: string } }) {
 
           <div className="mt-16 prose prose-red prose-lg dark:prose-invert prose-li:marker:text-primary prose-a:text-primary w-full xl:max-w-screen-md">
             <PortableText value={data.body} />
+
+            {data.files && 
+              <FilesList files={data.files} />
+            }
 
             <hr className="border border-secondary my-4" />
 
