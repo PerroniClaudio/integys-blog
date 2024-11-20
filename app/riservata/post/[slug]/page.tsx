@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import FilesList from "@/app/components/FilesList";
 import Navbar from "@/app/components/Navbar";
 import { fullBlog, simpleBlogCard } from "@/app/lib/interface";
