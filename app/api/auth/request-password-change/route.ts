@@ -140,7 +140,8 @@ export async function POST(request: Request) {
       html: `<div> 
         <p>
           E' stata effettuata una nuova richiesta di resert password per l'area riservata di Integys. <br />
-          Nome: ${user?.name ?? ""} ${user?.surname ?? ""} <br /> 
+          Nome: ${user?.name ?? ""} <br /> 
+          Cognome:  ${user?.surname ?? ""} <br />
           Email: ${user.email} <br /> 
           Ragione Sociale: ${user?.company ?? ""}
         </p> 

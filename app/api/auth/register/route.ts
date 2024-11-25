@@ -154,7 +154,7 @@ export async function POST(request: Request) {
       html: `<div> 
         <p>
           E' stata effettuata una nuova registrazione all'area riservata di Integys. <br />
-          Nome: ${user?.name ?? ""} ${user?.surname ?? ""} <br /> 
+          Nome: ${user?.name ?? ""} <br /> 
           Cognome: ${user?.surname ?? ""} <br /> 
           Email: ${user.email} <br /> 
           Telefono:  ${user?.phone ?? ""} <br /> 
