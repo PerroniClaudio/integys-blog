@@ -6,6 +6,7 @@ import ModeToggle from "./ModeToggle";
 import { Session } from "next-auth";
 import { useRouter } from "next/navigation";
 import LimitedDropdown from "./LimitedDropdown";
+import MobileMenu from "./MobileMenu";
 
 type Props = {
   shouldChangeColor: boolean;
@@ -86,8 +87,21 @@ function NavbarClient({ shouldChangeColor, session }: Props) {
           </Link>
         </div>
         <div className="flex gap-4 items-center">
+          
           {/* Per ora l'area riservata non è attiva */}
-          {/* <LimitedDropdown session={session} /> */}
+          {/* <div className="hidden sm:flex gap-4 items-center font-semibold">
+            {/ * <Link href="/chi-siamo">
+              Chi siamo
+            </Link> * /}
+            <Link href="/servizi">
+              Servizi
+            </Link>
+            <LimitedDropdown session={session} />
+          </div>
+          <div className="sm:hidden">
+              <MobileMenu session={session} />
+          </div> */}
+
           <ModeToggle />
         </div>
       </div>
