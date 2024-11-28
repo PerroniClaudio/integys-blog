@@ -19,10 +19,9 @@ function ServicesComponent({ services }: Params) {
   return (
     <div>
       {/* Services Navigation */}
-      <section className="py-12 bg-gray-200 dark:bg-gray-600">
+      {/* <section className="py-12 bg-gray-200 dark:bg-gray-600">
         <div className="container px-4 mx-auto">
           <h2 className="text-3xl font-bold text-center mb-8">I Nostri Servizi</h2>
-          {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"> */}
           <div className="flex flex-wrap gap-6 justify-center">
             {services.map((service) => (
               <ServiceCard
@@ -33,7 +32,7 @@ function ServicesComponent({ services }: Params) {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Service Sections */}
       <section className="bg-gray-100 dark:bg-background/80">

@@ -2,6 +2,8 @@ import Link from 'next/link';
 import { getServicesData } from '../actions';
 import { fullService } from '../lib/interface';
 import ServicesComponent from '../components/ServicesComponent';
+import ContactUs from "@/components/ui/contact-us";
+import ServicesNavigationComponent from '../components/ServicesNavigationComponent';
 
 export default async function Home() {
 
@@ -10,16 +12,17 @@ export default async function Home() {
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden bg-[url('/servizi/index.png')] bg-cover">
+      <section className="relative h-fit pt-[80px] lg:pt-16 min-h-screen flex items-center justify-center overflow-hidden bg-[url('/servizi/index.png')] bg-cover">
         {/* <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-primary/5 z-10" /> */}
-        <div className="absolute inset-0 bg-primary/70 brightness-50 dark:bg-secondary/80 dark:brightness-100 z-10" />
-        <div className="container px-4 mx-auto relative z-20">
+        <div className="absolute inset-0 bg-primary/60 brightness-50 dark:bg-secondary/60 dark:brightness-100 z-10" />
+        <div className="container px-4 relative z-10 flex flex-col gap-6">
           <div className="text-center max-w-3xl mx-auto">
-            <h1 className="text-6xl font-bold tracking-tight mb-6 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-primary-foreground">
+            <h1 className="text-4xl lg:text-6xl font-bold tracking-tight mb-6 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-primary-foreground">
               Servizi Integys
             </h1>
-            <p className="text-xl text-gray-100 dark:text-gray-300 mb-8">
-              Proteggi la tua azienda con soluzioni di sicurezza all&apos;avanguardia
+            <p className="text-xl lg:text-2xl font-semibold text-gray-50 dark:text-gray-50 mb-8 flex flex-col gap-2">
+              <span>Proteggi la tua azienda con soluzioni di sicurezza all&apos;avanguardia.</span>
+              <span className='' >Prenota una sessione di presentazione dei nostri servizi per sviluppare un piano d’azione Cybersecurity personalizzato.</span>
             </p>
 
             <div className="space-x-4">
@@ -30,11 +33,14 @@ export default async function Home() {
               </Link>
             </div>
           </div>
+
+          <ServicesNavigationComponent services={data} />
+
         </div>
       </section>
 
       <ServicesComponent services={data} />
-     
+      <ContactUs />
     </div>
   );
 }

@@ -33,7 +33,7 @@ function Dialog({ isOpen, onClose, title, children }: Props) {
       {isOpen && (
         <dialog
           open={isOpen}
-          className="bg-black bg-opacity-40 w-screen h-screen fixed top-0 right-0 z-10 flex flex-col items-center">
+          className="bg-black bg-opacity-40 w-screen h-screen fixed top-0 right-0 z-30 flex flex-col items-center">
           <article
             className={`border rounded shadow-lg w-full lg:w-1/2 mt-40 bg-white p-2 relative text-black`}>
             {/* Close button */}

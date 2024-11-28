@@ -4,6 +4,7 @@ import prisma from "@/app/lib/prisma/client";
 import { RegistrationSchemaServer } from "@/app/lib/zod/types";
 import { randomBytes } from "crypto";
 import nodemailer from "nodemailer";
+import axios from "@/app/lib/axios";
 
 const mailSenderAccount = {
   user: process.env.MAIL_SENDER_ACCOUNT_USERNAME,
@@ -103,6 +104,23 @@ export async function POST(request: Request) {
       return new NextResponse(JSON.stringify({ error: 'Errore durante la creazione dell\'utente' }), { status: 500 });
     }
 
+    // Aggiungi l'utente alla lista di contatti di Mailjet
+    const mailingListId = process.env.MAILJET_GROUP_ID;
+    
+    const newsletterData = {
+        Name : `${name} ${surname}`,
+        Email: email,
+        Properties: [
+            {
+                Name: name,
+                Surname: surname
+            }
+        ],
+        Action: "addnoforce"
+    };
+
+    const mailjetResponse = await axios.post(`contactslist/${mailingListId}/managecontact`, newsletterData);
+
     // Crea token e aggiungilo alla tabella 
     const newToken = generateToken();
     const expires = new Date();
@@ -168,6 +186,6 @@ export async function POST(request: Request) {
     // risponde con success e messaggio informativo
     return new NextResponse(JSON.stringify({message: 'success'}), { status: 200 });
   } catch (error) {
-    return new NextResponse(JSON.stringify(error), { status: 500 });
+    return new NextResponse(JSON.stringify({error: true, message: 'Server error'}), { status: 500 });
   }
 }

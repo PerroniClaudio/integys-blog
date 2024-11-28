@@ -86,7 +86,7 @@ function NavbarClient({ shouldChangeColor, session }: Props) {
           </Link>
         </div>
         <div className="flex gap-4 items-center">
-          {/* Per ora la'area riservata non è attiva */}
+          {/* Per ora l'area riservata non è attiva */}
           {/* <LimitedDropdown session={session} /> */}
           <ModeToggle />
         </div>

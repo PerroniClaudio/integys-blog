@@ -5,6 +5,7 @@ import { client } from "./lib/sanity";
 import ArticleList from "./components/ArticleList";
 import Navbar from "@/app/components/Navbar";
 import Hero from "@/app/components/Hero";
+import Hero2 from "@/app/components/Hero2";
 
 import { getData, getDataWithPagination } from "./actions";
 import CategorySelector from "./components/CategorySelector";
@@ -46,6 +47,7 @@ export default async function Home() {
     <div className="pb-44"> {/* pb-44 is the padding-bottom of the footer */}
       <Navbar shouldChangeColor={true} />
       <Hero />
+      {/* <Hero2 /> */}
       <main className="max-w-7xl mx-auto px-4 mb-16">
         <div className="pt-4 pb-8">
           <div className="grid grid-cols-1 lg:grid-cols-8 gap-5">

@@ -33,7 +33,7 @@ function Footer({ isAbsolute = true }: FooterProps) {
         </div>
         <nav className="flex flex-col items-center gap-2">
           <p>INTEGYS™ è una divisione di iFortech SRL</p>
-          <p>VIA SEMPIONE 11 - MONZA - 20900 (MB)</p>
+          <p>VIA PISA 250 - SESTO SAN GIOVANNI - 20099 (MI)</p>
           <p>Copyright © {currentYear}. All Rights Reserved.</p>
         </nav>
         <div className="flex flex-col items-right ">
