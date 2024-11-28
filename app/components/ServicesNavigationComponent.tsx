@@ -22,7 +22,7 @@ function ServicesNavigationComponent({ services }: Params) {
       {/* Services Navigation */}
       <section className="py-6">
         <div className="container px-4 mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-6">I Nostri Servizi</h2>
+          <h2 className="text-3xl font-bold text-center mb-6 text-gray-50">I Nostri Servizi</h2>
           <div className="flex flex-wrap gap-4 justify-center">
             {services.map((service) => (
               <ServiceCardHero

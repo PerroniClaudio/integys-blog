@@ -20,7 +20,7 @@ export default async function Home() {
             <h1 className="text-4xl lg:text-6xl font-bold tracking-tight mb-6 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-primary-foreground">
               Servizi Integys
             </h1>
-            <p className="text-xl lg:text-2xl font-semibold text-gray-50 dark:text-gray-50 mb-8 flex flex-col gap-2">
+            <p className="text-xl lg:text-2xl font-semibold text-gray-50 mb-8 flex flex-col gap-2">
               <span>Proteggi la tua azienda con soluzioni di sicurezza all&apos;avanguardia.</span>
               <span className='' >Prenota una sessione di presentazione dei nostri servizi per sviluppare un piano d’azione Cybersecurity personalizzato.</span>
             </p>
