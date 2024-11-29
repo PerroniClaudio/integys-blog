@@ -12,6 +12,7 @@ import CategorySelector from "./components/CategorySelector";
 import Newsletter from "@/components/ui/newsletter";
 import NewsletterButton from "@/components/ui/newsletter-button";
 import Footer from "./components/Footer";
+import Link from "next/link";
 
 export async function generateStaticParams() {
   const query = `
@@ -58,6 +59,11 @@ export default async function Home() {
               <div className="flex flex-col items-center justify-between gap-4 my-2 xl:flex-row">
                 <div className="flex gap-4">
                   <NewsletterButton/>
+                  {/* <Link
+                    className="text-nowrap inline-flex items-center justify-center rounded-md bg-gray-900 px-4 py-1 text-lg font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-primary dark:text-secondary-foreground dark:hover:bg-primary/90 dark:focus-visible:ring-gray-300"
+                    href="/servizi">
+                    Scopri i nostri servizi
+                  </Link> */}
                 </div>
                 <div className="flex items-center justify-end gap-4">
                   <h2 className="text-lg font-bold md:whitespace-nowrap">Scorri gli articoli in basso o seleziona una categoria</h2>
