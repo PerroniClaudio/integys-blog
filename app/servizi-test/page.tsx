@@ -153,7 +153,8 @@ export default function Home() {
           {/* <div className="grid grid-cols-1 lg:grid-cols-8 gap-5"> */}
           <div className="hidden xl:block">
             <div className="fixed top-0 pt-[4.5rem] pb-4 z-10 w-[100dvw] flex items-start lg:items-center xl:justify-around bg-gradient-to-b from-white/60 via-white/60 dark:from-black/80 dark:via-black/80 via-[5.5rem] to-transparent to-[6.5rem] duration-200 ease-in-out">
-              <ServiziNav services={services} inView={inView} />
+              {/* Dà errore perchè è stato modificato il componente ServiziNav */}
+              {/* <ServiziNav services={services} inView={inView} /> */}
             </div>
           </div>
           <div className="xl:hidden">
@@ -180,7 +181,8 @@ export default function Home() {
                       <X />
                       {/* <span className="sr-only">Close navigation</span> */}
                     </button>
-                    <ServiziNav services={services} inView={inView} linkCallback={() => setIsNavOpen(false)} />
+                    {/* Dà errore perchè è stato modificato il componente ServiziNav */}
+                    {/* <ServiziNav services={services} inView={inView} linkCallback={() => setIsNavOpen(false)} /> */}
                   </div>
                 </div>
               </section>
