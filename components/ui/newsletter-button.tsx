@@ -6,6 +6,7 @@ import NewsletterDialog from "./newsletter-dialog";
 import { twMerge } from "tailwind-merge";
 import Dialog from "./dialog";
 import { CookiesContext } from "../cookies/cookiesContextProvider";
+import CookiesBanner from "../cookies/CookiesBanner";
 
 type Props = {
   className?: string;
@@ -26,7 +27,7 @@ function NewsletterButton({className}: Props) {
       >
         Iscriviti alla newsletter
       </Button>
-      {cookiesSettings && cookiesSettings.all
+      {cookiesSettings && cookiesSettings.all && isOpen
         ? <NewsletterDialog isOpen={isOpen} setIsOpen={setIsOpen} />
         : <Dialog
             title="Avviso"
@@ -36,10 +37,11 @@ function NewsletterButton({className}: Props) {
             <p className="mb-4">
               Per iscriverti alla newsletter invia una mail all&apos;indirizzo <a href="mailto:commerciale@integys.com"><b>commerciale@integys.com</b></a> con oggetto &quot;Iscrizione newsletter Integys&quot;. <br />
             </p>
-            <p>
+            <p className="mb-4">
               In alternativa, accettare tutti i cookies e cliccare nuovamente sul bottone &quot;<span className="font-semibold">Iscriviti alla newsletter</span>&quot;<br />
-              É possibile modificare le preferenze cookie utilizzando il bottone &quot;<span className="font-semibold">Preferenze cookies</span>&quot; in fondo alla pagina.
+              É possibile modificare le preferenze cookie utilizzando il bottone sottostante. 
             </p>
+            <CookiesBanner />
           </Dialog>
       }
     </>

@@ -62,7 +62,7 @@ export default async function Home() {
                   {/* <Link
                     className="text-nowrap inline-flex items-center justify-center rounded-md bg-gray-900 px-4 py-1 text-lg font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-primary dark:text-secondary-foreground dark:hover:bg-primary/90 dark:focus-visible:ring-gray-300"
                     href="/servizi">
-                    Scopri i nostri servizi
+                    I nostri servizi
                   </Link> */}
                 </div>
                 <div className="flex items-center justify-end gap-4">

@@ -24,7 +24,7 @@ export default function LimitedDropdown({session}: {session: Session | null}) {
           {/* <span className="sr-only">Toggle theme</span> */}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="rounded bg primary" align="end">
+      <DropdownMenuContent className="rounded" align="end">
         {!!session 
           ? (
             <>

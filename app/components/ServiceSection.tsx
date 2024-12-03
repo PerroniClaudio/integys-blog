@@ -17,7 +17,8 @@ export function ServiceSection({ service, reverse = false }: ServiceSectionProps
     <div className={`grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 items-center gap-8 md:gap-12 py-12`}>
       {/* <div className="flex-1"> */}
       <div className={`xl:col-span-2 ${reverse ? 'md:order-2' : 'md:order-1'} `}>
-        <div className="relative group shadow-xl shadow-black/60 rounded-2xl">
+        <div className="relative group shadow-xl shadow-black/60 rounded-2xl flex items-center">
+          <div id={`service-track-${service.id}`} />
           {/* <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-primary/5 rounded-2xl transform group-hover:scale-105 transition-transform duration-300" /> */}
           <img
             // src={service.titleImage}

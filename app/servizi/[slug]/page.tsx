@@ -1,15 +1,13 @@
 export const dynamic = "force-dynamic";
 
 import Navbar from "@/app/components/Navbar";
+import NavbarServizi from "@/app/components/NavbarServizi";
 import { fullService } from "@/app/lib/interface";
 import { client, urlFor } from "@/app/lib/sanity";
-import { Button } from "@/components/ui/button";
 import ContactUs from "@/components/ui/contact-us";
-import Newsletter from "@/components/ui/newsletter";
 import { PortableText } from "@portabletext/react";
 import { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 
 async function getData(slug: string) {
   // && date < now()
@@ -73,22 +71,38 @@ async function ServicePage({ params }: { params: { slug: string } }) {
   return (
     <>
       <Navbar shouldChangeColor={false} />
+      <NavbarServizi isGlobal={false} />
+
+      <div className="relative mt-16 xl:mt-24 w-full h-[30rem] flex justify-center items-center overflow-hidden">
+        {/* <div className="absolute inset-0 bg-primary/60 brightness-50 dark:bg-secondary/60 dark:brightness-100 z-10" /> */}
+        <div className="relative w-full h-full max-w-[1920px]">
+          <Image
+        src={urlFor(data.titleImage).url()}
+        alt={data.title}
+        priority
+        layout="fill"
+        objectFit="cover"
+        className="w-full h-full"
+          />
+        </div>
+      </div>
+
       <main className="max-w-8xl mx-auto px-4 py-16">
-        <div className="mt-8 w-full flex flex-col items-center">
-          <h1 className="mt-2 block text-3xl text-center leading-8 font-bold tracking-tight sm:text-4xl">
+        <div className="w-full flex flex-col items-center">
+          <h1 className="text-3xl text-center leading-8 font-bold tracking-tight sm:text-4xl">
             {data.title}
           </h1>
 
-          <Image
+          {/* <Image
             src={urlFor(data.titleImage).url()}
             alt={data.title}
             width={800}
             height={800}
             priority
             className="rounded-lg mt-8 border shadow-sm"
-          />
+          /> */}
           
-          <div className="mt-16 prose prose-red prose-lg dark:prose-invert prose-li:marker:text-primary prose-a:text-primary w-full xl:max-w-screen-md">
+          <div className="mt-12 prose prose-red prose-lg dark:prose-invert prose-li:marker:text-primary prose-a:text-primary w-full xl:max-w-screen-md">
             <PortableText value={data.body} />
 
             {/* <hr className="border border-secondary my-4" /> */}

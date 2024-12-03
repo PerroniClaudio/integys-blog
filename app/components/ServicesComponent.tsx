@@ -1,6 +1,5 @@
 "use client";
 
-import { ServiceCard } from '@/app/components/ServiceCard';
 import { ServiceSection } from '@/app/components/ServiceSection';
 import { fullService } from '../lib/interface';
 
@@ -9,12 +8,12 @@ type Params = {
 };
 
 function ServicesComponent({ services }: Params) {
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(`service-${id}`);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  // const scrollToSection = (id: string) => {
+  //   const element = document.getElementById(`service-${id}`);
+  //   if (element) {
+  //     element.scrollIntoView({ behavior: 'smooth' });
+  //   }
+  // };
 
   return (
     <div>
@@ -35,7 +34,7 @@ function ServicesComponent({ services }: Params) {
       </section> */}
 
       {/* Service Sections */}
-      <section className="bg-gray-100 dark:bg-background/80">
+      <section className="w[100dvw] bg-gray-100 dark:bg-background/80">
         <div className="container px-4 mx-auto">
           {services.map((service, index) => (
             <div 
@@ -43,7 +42,7 @@ function ServicesComponent({ services }: Params) {
               className='relative'
               // className={index !== services.length - 1 ? 'mb-20' : ''}
             >
-              <div id={`service-${service.id}`} className='absolute -top-20'></div>
+              <div id={`service-${service.id}`} className='absolute -top-28' />
               <ServiceSection
                 service={service}
                 reverse={index % 2 === 1}
