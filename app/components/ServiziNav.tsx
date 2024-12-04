@@ -42,11 +42,11 @@ function ServiziNav({services, isGlobal} : Props) {
         sections.push(section);
       }
     });
-    
+
     const observerOptions = {
       root: null,
       rootMargin: '0px',
-      threshold: 0.2,
+      threshold: 1.0,
     };
 
     const observer = new IntersectionObserver(entries => {

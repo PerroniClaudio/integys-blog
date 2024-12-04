@@ -93,15 +93,15 @@ function NavbarClient({ shouldChangeColor, session, services = [] }: Props) {
           <div className="flex gap-4 items-center">
             
             {/* Per ora l'area riservata non è attiva */}
-            {/* <div className="hidden sm:flex gap-4 items-center font-semibold">
+            <div className="hidden sm:flex gap-4 items-center font-semibold">
               <Link href="/servizi" className="text-white">
                 Servizi
               </Link>
-              <LimitedDropdown session={session} />
+              {/* <LimitedDropdown session={session} /> */}
             </div>
             <div className="sm:hidden">
                 <MobileMenu session={session} />
-            </div> */}
+            </div>
 
             <ModeToggle />
           </div>

@@ -36,11 +36,11 @@ export default function MobileMenu({session}: {session: Session | null}) {
             Servizi
           </Link>
         </DropdownMenuItem>
-          <hr />
+          {/* <hr />
         {!!session 
           ? (
             <>
-              <DropdownMenuItem >{/* className="cursor-pointer" onClick={()=>{router.push("/riservata"); router.refresh();}} */}
+              <DropdownMenuItem >
                 <Link href="/riservata">
                   Vai all&apos;area riservata
                 </Link>
@@ -71,7 +71,7 @@ export default function MobileMenu({session}: {session: Session | null}) {
             </>
           )
 
-        }
+        } */}
       </DropdownMenuContent>
     </DropdownMenu>
   )

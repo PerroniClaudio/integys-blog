@@ -18,7 +18,6 @@ export function ServiceSection({ service, reverse = false }: ServiceSectionProps
       {/* <div className="flex-1"> */}
       <div className={`xl:col-span-2 ${reverse ? 'md:order-2' : 'md:order-1'} `}>
         <div className="relative group shadow-xl shadow-black/60 rounded-2xl flex items-center">
-          <div id={`service-track-${service.id}`} />
           {/* <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-primary/5 rounded-2xl transform group-hover:scale-105 transition-transform duration-300" /> */}
           <img
             // src={service.titleImage}
@@ -29,7 +28,7 @@ export function ServiceSection({ service, reverse = false }: ServiceSectionProps
         </div>
       </div>
       {/* <div className="flex-1 space-y-6"> */}
-      <div className={`space-y-6 ${reverse ? 'md:order-1' : 'md:order-2'} `}>
+      <div id={`service-track-${service.id}`} className={`space-y-6 ${reverse ? 'md:order-1' : 'md:order-2'} `} >
         <h2 className="text-3xl md:text-4xl lg:text-6xl font-bold tracking-tight">{service.title}</h2>
         <div className="text-lg md:text-xl lg:text-2xl">
           <PortableText value={service.smallDescription} />
