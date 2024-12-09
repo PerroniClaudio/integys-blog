@@ -43,10 +43,10 @@ function NavbarClient({ shouldChangeColor, session, services = [] }: Props) {
             : "bg-primary border-primary-foreground dark:bg-secondary dark:border-primary-foreground"
         }`}>
         <div className="mx-auto w-full max-w-7xl flex items-center justify-between px-8 py-3">
-          <div className="flex gap-4 items-center">
+          <div className="flex gap-4 items-center pr-2">
             <Link
-              href="/"
-              className={`font-bold text-3xl ${
+              href="https://integys.com/"
+              className={`font-bold text-2xl sm:text-3xl ${
                 scrolled ? "text-primary" : "text-primary-foreground"
               }`}>
               <div className="flex items-center gap-2 ">
@@ -61,10 +61,10 @@ function NavbarClient({ shouldChangeColor, session, services = [] }: Props) {
                 
                 {scrolled 
                   ? (<>
-                      <img src="/integys.png" alt="Integys" className="h-10 w-auto dark:hidden" />
-                      <img src="/integys-white-sphere.png" alt="Integys" className="h-10 w-auto hidden dark:block" />
+                      <img src="/integys.png" alt="Integys" className="h-8 sm:h-10 w-auto dark:hidden" />
+                      <img src="/integys-white-sphere.png" alt="Integys" className="h-8 sm:h-10 w-auto hidden dark:block" />
                     </>)
-                  : <img src="/integys-white-sphere.png" alt="Integys" className="h-10 w-auto" />
+                  : <img src="/integys-white-sphere.png" alt="Integys" className="h-8 sm:h-10 w-auto" />
                 }
 
                 <span>INTEGYS</span>
@@ -80,12 +80,15 @@ function NavbarClient({ shouldChangeColor, session, services = [] }: Props) {
                     scrolled ? "bg-primary dark:bg-primary" : "bg-white"
                   }`}>
                   <svg xmlns="http://www.w3.org/2000/svg" height="30" viewBox="0 0 72 72" width="30" 
-                    className={`${scrolled ? "fill-background dark:fill-white" : "fill-primary dark:fill-secondary"}`}
+                    className={`h-6 w-6 sm:h-8 sm:w-8 aspect-square ${scrolled ? "fill-background dark:fill-white" : "fill-primary dark:fill-secondary"}`}
                   >
                     <path d="M62,62 L51.315625,62 L51.315625,43.8021149 C51.315625,38.8127542 49.4197917,36.0245323 45.4707031,36.0245323 C41.1746094,36.0245323 38.9300781,38.9261103 38.9300781,43.8021149 L38.9300781,62 L28.6333333,62 L28.6333333,27.3333333 L38.9300781,27.3333333 L38.9300781,32.0029283 C38.9300781,32.0029283 42.0260417,26.2742151 49.3825521,26.2742151 C56.7356771,26.2742151 62,30.7644705 62,40.051212 L62,62 Z M16.349349,22.7940133 C12.8420573,22.7940133 10,19.9296567 10,16.3970067 C10,12.8643566 12.8420573,10 16.349349,10 C19.8566406,10 22.6970052,12.8643566 22.6970052,16.3970067 C22.6970052,19.9296567 19.8566406,22.7940133 16.349349,22.7940133 Z M11.0325521,62 L21.769401,62 L21.769401,27.3333333 L11.0325521,27.3333333 L11.0325521,62 Z"/>
                   </svg>
                 </div>
             </Link>
+            <Link href="/" className="font-semibold text-white text-lg">
+              Home
+            </Link> 
             {/* <Link href="/chi-siamo" className="font-semibold text-white">
               Chi siamo
             </Link>  */}
@@ -94,7 +97,7 @@ function NavbarClient({ shouldChangeColor, session, services = [] }: Props) {
             
             {/* Per ora l'area riservata non è attiva */}
             <div className="hidden sm:flex gap-4 items-center font-semibold">
-              <Link href="/servizi" className="text-white">
+              <Link href="/servizi" className="text-white text-lg">
                 Servizi
               </Link>
               {/* <LimitedDropdown session={session} /> */}

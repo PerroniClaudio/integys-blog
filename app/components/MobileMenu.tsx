@@ -20,7 +20,7 @@ export default function MobileMenu({session}: {session: Session | null}) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline">
+        <Button variant="outline" className="px-2">
           <Menu />
         </Button>
       </DropdownMenuTrigger>
