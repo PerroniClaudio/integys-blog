@@ -1,28 +1,31 @@
 export const dynamic = "force-dynamic";
 
-import FilesList from "@/app/components/FilesList";
 import Navbar from "@/app/components/Navbar";
-import { fullBlog, simpleBlogCard } from "@/app/lib/interface";
+import { fullBlogPreview, simpleBlogCard } from "@/app/lib/interface";
 import { client, urlFor } from "@/app/lib/sanity";
 import { Button } from "@/components/ui/button";
 import Newsletter from "@/components/ui/newsletter";
 import { PortableText } from "@portabletext/react";
 import { Metadata } from "next";
+import { getServerSession } from "next-auth";
 import Image from "next/image";
 import Link from "next/link";
+import { notFound, redirect } from "next/navigation";
 
 async function getData(slug: string) {
   // && date < now()
+  // Dato che è una preview dell'articolo limitato, non si prendono il body e i file ma si prende il preview_text
   const query = `
         *[_type == 'blog' && limited == true && slug.current == '${slug}'] {
             title,
             smallDescription,
             titleImage,
-            body,
             date,
             "currentSlug": slug.current,
             categories,
-            files
+            limited,
+            show_preview,
+            preview_text
         }[0]
     `;
 
@@ -31,14 +34,16 @@ async function getData(slug: string) {
   return data;
 }
 
+// Se non è flaggato show_preview o non è limited non deve esistere la pagina di preview
 export async function generateStaticParams() {
   const query = `
-    *[_type == 'blog' && limited == true && date < now()] | order(date desc) {
+    *[_type == 'blog' && limited == true && show_preview == true && date < now()] | order(date desc) {
       title,
       smallDescription,
       titleImage,
       "currentSlug": slug.current,
-      categories[]->{name, "slug" : slug.current}
+      categories[]->{name, "slug" : slug.current},
+      preview_text
     }
   `;
 
@@ -52,7 +57,7 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  const data: fullBlog = await getData(params.slug);
+  const data: fullBlogPreview = await getData(params.slug);
 
   return {
     title: data.title,
@@ -69,12 +74,19 @@ export async function generateMetadata({
 }
 
 export const revalidate = 30;
-async function BlogLimitedArticle({ params }: { params: { slug: string } }) {
-  const data: fullBlog = await getData(params.slug);
-  return (
+async function BlogArticle({ params }: { params: { slug: string } }) {
+  const data: fullBlogPreview = await getData(params.slug);
+  
+  const session = await getServerSession();
+  if(session) {
+    redirect("/riservata/" + params.slug);
+  }
+
+  // Dato che c'è force-dynamic si deve verificare anche qui se l'articolo è limitato o se show_preview è false
+  return ((!data?.limited || !data?.show_preview) ? notFound() :
     <>
       <Navbar shouldChangeColor={false} />
-      <main className="max-w-7xl mx-auto px-4 py-16">
+      <main className="max-w-8xl mx-auto px-4 py-16">
         <div className="mt-8 w-full flex flex-col items-center">
           <h1 className="mt-2 block text-3xl text-center leading-8 font-bold tracking-tight sm:text-4xl">
             {data.title}
@@ -94,17 +106,35 @@ async function BlogLimitedArticle({ params }: { params: { slug: string } }) {
               Pubblicato il {new Date(data.date).toLocaleDateString("it-IT")}
             </span>
           </p>
-
+          
           <div className="mt-16 prose prose-red prose-lg dark:prose-invert prose-li:marker:text-primary prose-a:text-primary w-full xl:max-w-screen-md">
-            <PortableText value={data.body} />
+            <div className="relative" >
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-background pointer-events-none"></div>
+              <PortableText value={data.preview_text}
+                components={{
+                  types: {
+                    image: ImageBlock, // Per il tipo image utilizza il componente ImageBlock
+                  },
+                }}
+              />
+            </div>
 
-            {data.files && 
-              <FilesList files={data.files} />
-            }
+            <div className="font-semibold text-xl flex flex-col items-center">
+              <p>
+                Vuoi vedere l&apos;articolo completo e accedere a altri contenuti speciali?
+              </p>
+              <Link href="/register">
+                <Button
+                  variant={"secondary"}
+                  className="text-secondary-foreground text-lg py-4 px-12 min-w-16 text-center bg-primary">
+                  Registrati
+                </Button>
+              </Link>
+            </div>
 
             <hr className="border border-secondary my-4" />
 
-            <p className="font-bold text-2xl">
+            <p className="font-bold text-2xl text-center">
               Prenota una sessione di presentazione dei nostri servizi per sviluppare un piano d&rsquo;azione personalizzato.
             </p>
 
@@ -122,4 +152,20 @@ async function BlogLimitedArticle({ params }: { params: { slug: string } }) {
     </>
   );
 }
-export default BlogLimitedArticle;
+
+
+const ImageBlock = ({ value }: any) => {
+  const { asset } = value;
+  if (!asset) {
+    // Gestisci il caso in cui l'asset non è disponibile
+    return null;
+  }
+
+  const imageUrl = urlFor(asset).url();
+
+  return (
+    <Image src={imageUrl} alt={value.alt || 'Immagine'} width={800} height={1000} />
+  );
+};
+
+export default BlogArticle;

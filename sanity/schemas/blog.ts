@@ -74,6 +74,20 @@ export default {
           ],
         },
       ],
-    }
+    },
+    {
+      name: 'show_preview',
+      type: 'boolean',
+      title: 'Mostra Preview',
+      initialValue: false, // imposta il valore di default su false
+    },
+    {
+      name: 'preview_text',
+      type: 'array',
+      title: 'Testo Preview',
+      of: [
+        {type: 'block'}
+      ],
+    },
   ],
 }

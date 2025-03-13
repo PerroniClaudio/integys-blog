@@ -14,11 +14,13 @@ const variants = {
 function ArticleCard({
   article,
   index,
-  limited = false
+  limited = false,
+  isPreview = false
 }: {
   article: simpleBlogCard;
   index: number;
   limited?: boolean;
+  isPreview?: boolean;
 }) {
   return (
     <MotionDiv
@@ -35,13 +37,25 @@ function ArticleCard({
           height={500}
           className="rounded-t-lg h-[200px] w-full object-cover"
         />
-        <CardContent className="mt-5">
-          <h3 className="text-lg line-clamp-2 font-bold">{article.title}</h3>
-          <p className="text-sm mt-2 text-gray-600 dark:text-gray-300 line-clamp-3">
-            {article.smallDescription}
-          </p>
-          <Button asChild className="w-full mt-7">
-            <Link href={limited ? `/riservata/post/${article.currentSlug}` : `/news/${article.currentSlug}`}>
+        {!!isPreview &&  
+          // <div className="text-center bg-accent text-accent-foreground font-semibold">Preview</div>
+          <div className="text-center bg-metallic-silver text-gray-700 font-semibold " >Preview</div>
+        }
+        <CardContent className="mt-5 flex-1 flex flex-col justify-between gap-7">
+          <div>
+            <h3 className="text</MotionDiv>-lg line-clamp-2 font-bold">{article.title}</h3>
+            <p className="text-sm mt-2 text-gray-600 dark:text-gray-300 line-clamp-3">
+              {article.smallDescription}
+            </p>
+          </div>
+          <Button asChild className="w-full">
+            {/* Se l'articolo è limited allora siamo in area riservata. A meno che non sia una preview */}
+            <Link href={isPreview 
+              ?  `/preview/${article.currentSlug}`  
+              : ( limited 
+                  ? `/riservata/post/${article.currentSlug}`
+                  : `/news/${article.currentSlug}`) 
+              }>
               Continua a leggere
             </Link>
           </Button>

@@ -53,7 +53,8 @@ export async function getData(limited:boolean = false) {
       smallDescription,
       titleImage,
       "currentSlug": slug.current,
-      categories[]->{name, "slug" : slug.current}
+      categories[]->{name, "slug" : slug.current},
+      preview_text,
     }
   `;
 
@@ -79,4 +80,37 @@ export async function getServicesData() {
   const data = await client.fetch(query);
 
   return data;
+}
+
+export async function getPreviewCards() {
+  // RICORDARSI DI SOSTITUIRE LA QUERY PER LA PRODUZIONE (uso l'altra perchè non ci sono articoli limitati già pubblicati)
+  const query = `
+      *[_type == 'blog' && limited == true && show_preview == true && date < now()] | order(date desc) {
+        "id": _id,
+        title,
+        smallDescription,
+        titleImage,
+        "currentSlug": slug.current,
+        categories[]->{name, "slug" : slug.current}
+        
+      }[0...3]
+    `;
+  // Query per sviluppo
+  // const query = `
+  //     *[_type == 'blog' && limited == true && show_preview == true] | order(date desc) {
+  //       "id": _id,
+  //       title,
+  //       smallDescription,
+  //       titleImage,
+  //       "currentSlug": slug.current,
+  //       categories[]->{name, "slug" : slug.current}
+        
+  //     }[0...3]
+  //   `;
+
+  const data = await client.fetch(query);
+
+  return data.map((post: simpleBlogCard, index: number) => (
+    <ArticleCard key={post.id} article={post} index={index} limited={false} isPreview={true} />
+  ));
 }

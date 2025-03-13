@@ -14,17 +14,17 @@ import Link from "next/link";
 async function getData(slug: string) {
   // && date < now()
   const query = `
-        *[_type == 'blog' && limited == false && slug.current == '${slug}'] {
-            title,
-            smallDescription,
-            titleImage,
-            body,
-            date,
-            "currentSlug": slug.current,
-            categories,
-            files
-        }[0]
-    `;
+    *[_type == 'blog' && limited == false && slug.current == '${slug}'] {
+      title,
+      smallDescription,
+      titleImage,
+      body,
+      date,
+      "currentSlug": slug.current,
+      categories,
+      files
+    }[0]
+  `;
 
   const data = await client.fetch(query);
 
@@ -111,7 +111,7 @@ async function BlogArticle({ params }: { params: { slug: string } }) {
             <hr className="border border-secondary my-4" />
 
             <p className="font-bold text-2xl">
-              Prenota una sessione di presentazione dei nostri servizi per sviluppare un piano d&rsquo;azione Cybersecurity personalizzato.
+              Prenota una sessione di presentazione dei nostri servizi per sviluppare un piano d&rsquo;azione personalizzato.
             </p>
 
             <Link href="/contattaci">

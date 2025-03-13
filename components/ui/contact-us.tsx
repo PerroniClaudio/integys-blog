@@ -10,7 +10,7 @@ function ContactUs({}: Props) {
     <section className="py-8 border-t border-primary">
       <div className="container mx-auto flex flex-col gap-4 justify-between items-center">
         <h2 className="font-bold text-3xl text-center">
-          Prenota una sessione di presentazione dei nostri servizi per sviluppare un piano d’azione Cybersecurity personalizzato.
+          Prenota una sessione di presentazione dei nostri servizi per sviluppare un piano d’azione personalizzato.
         </h2>
         <Link href="/contattaci" className="justify-self-start">
           <Button

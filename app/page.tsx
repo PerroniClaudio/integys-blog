@@ -7,7 +7,7 @@ import Navbar from "@/app/components/Navbar";
 import Hero from "@/app/components/Hero";
 import Hero2 from "@/app/components/Hero2";
 
-import { getData, getDataWithPagination } from "./actions";
+import { getData, getDataWithPagination, getPreviewCards } from "./actions";
 import CategorySelector from "./components/CategorySelector";
 import Newsletter from "@/components/ui/newsletter";
 import NewsletterButton from "@/components/ui/newsletter-button";
@@ -35,6 +35,7 @@ export const revalidate = 30;
 export default async function Home() {
   const data: simpleBlogCard[] = await getData();
   const posts = await getDataWithPagination(1, 6);
+  const limitedPreviewCards = await getPreviewCards();
 
 
   let categories = data
@@ -76,6 +77,8 @@ export default async function Home() {
 
             <div className="col-span-8 flex flex-col gap-5">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                {/* Card preview articoli riservati. per ora non si devono vedere */}
+                {/* {(limitedPreviewCards?.length == 3) && limitedPreviewCards} */}
                 {posts}
               </div>
               <ArticleList />

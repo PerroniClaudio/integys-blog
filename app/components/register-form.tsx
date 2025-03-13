@@ -76,18 +76,10 @@ export default function RegisterForm() {
           <label htmlFor="company" className="text-primary font-semibold">Ragione Sociale</label>
           <input name="company" id="company" type="text" className="rounded pl-2" required />
         </div>
-        {/* <div className="flex flex-col gap-2">
-          <label htmlFor="password" className="text-primary font-semibold">Password</label>
-          <input name="password" id="password" type="password" className="rounded pl-2" required />
-        </div>
-        <div className="flex flex-col gap-2">
-          <label htmlFor="re-password" className="text-primary font-semibold">Repeat password</label>
-          <input name="re-password" id="re-password" type="password" className="rounded pl-2" required />
-        </div> */}
-        {/* <p className="text-xs">
-          {passwordErrorString}
-        </p> */}
         <button className="bg-primary text-white px-4 py-2 rounded w-fit self-center mt-8" type="submit" disabled={isLoading}>Registrati</button>
+        <p className="text-center mt-4">
+          Sei già registrato? <a href="/login" className="text-primary font-semibold">Accedi</a>
+        </p>
       </form>
     </div>
   );

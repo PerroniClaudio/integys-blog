@@ -49,6 +49,20 @@
   }
 }
 
+.bg-metallic-silver {
+  background: linear-gradient(150deg, #c0c0c0 15%, #e0e0e0 30%, #ffffff 35%, #e0e0e0 40%, #c0c0c0 55%);
+  background-size: 200% 200%;
+  /* animation: gradientAnimation 7s ease infinite; */
+}
+
+/* Se si vuole usare l'animazione sulla card preview */
+/* @keyframes gradientAnimation {
+  0% { background-position: 0% 50%; }
+  20% { background-position: 100% 50%; }
+  90% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+} */
+
 @layer base {
   * {
     @apply border-border;
