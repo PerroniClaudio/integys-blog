@@ -8,6 +8,7 @@ import Footer from "./components/Footer";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { CookiesContextProvider } from "@/components/cookies/cookiesContextProvider";
+import Head from "next/head";
 
 export const metadata: Metadata = {
   title: {
@@ -23,6 +24,9 @@ export const metadata: Metadata = {
         alt: "Integys",
       },
     ],
+  },
+  other: {
+    "google-site-verification": "TtG6b53ZlYddcxjiJSGy9uNaJ8SiK-ojw5DyVkgYsfs",
   },
 };
 
