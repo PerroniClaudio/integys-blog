@@ -6,8 +6,8 @@ export const RegistrationSchemaClient = z.object({
   name: z.string().min(1, { message: "Nome non valido" }),
   surname: z.string().min(1, { message: "Cognome non valido" }),
   email: z.string().email({ message: "Email non valida" }),
-  phone: z.string().min(1, { message: "Numero di telefono non valido" }),
-  company: z.string().min(1, { message: "Nome azienda non valido" }),
+  // phone: z.string().min(1, { message: "Numero di telefono non valido" }),
+  // company: z.string().min(1, { message: "Nome azienda non valido" }),
 });
 
 export const RegistrationSchemaServer = z.object({

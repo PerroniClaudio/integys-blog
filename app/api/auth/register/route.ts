@@ -18,9 +18,9 @@ const generateToken = () => {
 
 export async function POST(request: Request) {
   try {
-    const { name, surname, email, phone, company } = await request.json();
+    const { name, surname, email } = await request.json();
 
-    if (!name || !surname || !email || !phone || !company) {
+    if (!name || !surname || !email ) {
       return new NextResponse(JSON.stringify({ error: 'All fields are required' }), { status: 400 });
     }
 
@@ -57,29 +57,11 @@ export async function POST(request: Request) {
     if (existingUser) {
       if (existingUser.emailVerified !== null) {
         // User account is already activated
-        // Respond with appropriate code and message
         return new NextResponse(JSON.stringify({ error: 'Account già attivato' }), { status: 400 });
       } else {
-        // Check if the token is still valid
-        const verificationToken = await prisma.verificationToken.findFirst({
-          where: {
-            user_id: existingUser.id,
-            type: 'email',
-            expires: {
-              gte: new Date()
-            }
-          }
-        });
-
-        if (verificationToken) {
-          // Token is still valid
-          // Respond with a message to check email
-          return new NextResponse(JSON.stringify({ error: 'Token già inviato, controlla la tua email' }), { status: 400 });
-        } else {
-          // Queste sono le stesse operazioni che si fanno per un nuovo utente, quindi non serve duplicarle qui
-          // Token is not valid or doesn't exist
-          // Generate a new token and proceed as a new account
-          // Create token and add it to the table
+        // User account is not approved yet
+        if(existingUser.is_new){
+          return new NextResponse(JSON.stringify({ error: 'Registrazione già richiesta. Account in attesa di approvazione.' }), { status: 400 });
         }
       }
     } else {
@@ -91,8 +73,6 @@ export async function POST(request: Request) {
           name,
           surname,
           email,
-          phone,
-          company,
           password: hashedPassword
         }
       });
@@ -104,81 +84,53 @@ export async function POST(request: Request) {
       return new NextResponse(JSON.stringify({ error: 'Errore durante la creazione dell\'utente' }), { status: 500 });
     }
 
-    // Aggiungi l'utente alla lista di contatti di Mailjet
-    const mailingListId = process.env.MAILJET_GROUP_ID;
-    
-    const newsletterData = {
-        Name : `${name} ${surname}`,
-        Email: email,
-        Properties: [
-            {
-                Name: name,
-                Surname: surname
-            }
-        ],
-        Action: "addnoforce"
-    };
+    // prima di fare tutto il resto bisogna controllare di persona i dati dell'utente (lato admin). Poi si possono fare le operazioni successive.
 
-    const mailjetResponse = await axios.post(`contactslist/${mailingListId}/managecontact`, newsletterData);
-
-    // Crea token e aggiungilo alla tabella 
-    const newToken = generateToken();
-    const expires = new Date();
-    expires.setDate(expires.getDate() + 7);
-
-    await prisma.verificationToken.create({
-      data: {
-        user_id: user.id,
-        type: 'email',
-        token: newToken,
-        expires
-      }
-    });
-
-    // Invia mail per validazione email col link comprendente il token
-    const activationLink = `${process.env.NEXTAUTH_URL}/validate-email/${newToken}/${user.email}`;
-    // Send email with activationLink to the user's email address
-
-    const message = "Ti sei registrato all'area riservata di Integys. Di seguito trovi il link di verifica email per attivare la tua utenza ed impostare la password di accesso: " + activationLink;
-
-    const mailData = {
+    const userMailData = {
       from: mailSenderAccount.user,
       to: user.email,
-      subject: `INTEGYS - Verifica email registrazione`,
-      text: message,
+      subject: `INTEGYS - Richiesta di registrazione`,
+      text: `La tua richiesta di registrazione all'area riservata di Integys &egrave; in elaborazione. 
+        Per completare la registrazione attendi la mail con l'esito della richiesta e le istruzioni per l'attivazione. 
+        Se non ti sei registrato, ignora questa email.
+      `,
       html: `<div> 
         <p>
-          Ti sei registrato all'area riservata di Integys.<br/> Clicca <a href="${activationLink}">qui</a> per effettuare la verifica email, attivare la tua utenza ed impostare la password di accesso. <br/> 
-        </p> <br/>
-        <p>
-          Se il link non funziona, copia e incolla il seguente URL nel tuo browser: <br/> 
-          ${activationLink}
-        </p> <br/>
-        <p>
+          La tua richiesta di registrazione all'area riservata di Integys &egrave; in elaborazione. <br />
+          Per completare la registrazione attendi la mail con l'esito della richiesta e le istruzioni per l'attivazione. <br />
           Se non ti sei registrato, ignora questa email.
-        </p>
+        </p> 
       </div>`,
+      headers: {
+        'Content-Type': 'text/html; charset=UTF-8'
+      }
     };
 
-    const info = await transporter.sendMail(mailData);
-
+    const userInfo = await transporter.sendMail(userMailData);
+    
     // Qui si invia la mail informativa all'amministrazione
     
     const adminMailData = {
       from: mailSenderAccount.user,
       to: process.env.SEND_MAIL_TO,
       subject: `INTEGYS - Nuova registrazione utente`,
-      text: `E' stata effettuata una nuova registrazione all'area riservata di Integys. Nome: ${user?.name ?? ""}, Email: ${user.email}, Telefono:  ${user?.phone ?? ""}, Ragione Sociale: ${user?.company ?? ""}.`,
+      text: `E' stata effettuata una nuova registrazione all'area riservata di Integys. Nome: ${user?.name ?? ""},  Cognome: ${user?.surname ?? ""}, Email: ${user.email}}.`,
       html: `<div> 
         <p>
           E' stata effettuata una nuova registrazione all'area riservata di Integys. <br />
           Nome: ${user?.name ?? ""} <br /> 
           Cognome: ${user?.surname ?? ""} <br /> 
           Email: ${user.email} <br /> 
-          Telefono:  ${user?.phone ?? ""} <br /> 
-          Ragione Sociale: ${user?.company ?? ""}
         </p> 
+        <div>
+          <a href="${process.env.NEXTAUTH_URL}/admin/users" target="_blank" >
+           <button>Vai alla lista utenti</button>
+          </a>
+        </div>
       </div>`,
+      headers: {
+        'Content-Type': 'text/html; charset=UTF-8'
+      }
     };
 
     const adminInfo = await transporter.sendMail(adminMailData);

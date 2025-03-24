@@ -22,8 +22,6 @@ export default function RegisterForm() {
       name: formData.get("name") as string,
       surname: formData.get("surname") as string,
       email: formData.get("email") as string,
-      phone: formData.get("phone") as string,
-      company: formData.get("company") as string,
     }
     
     const checkResult = RegistrationSchemaClient.safeParse(registrationForm);
@@ -43,7 +41,7 @@ export default function RegisterForm() {
     });
 
     if(res.ok){
-      toast.success("Registrazione effettuata con successo. Ti è stata inviata una mail col link di attivazione.");
+      toast.success("Registrazione effettuata con successo. Attendi la mail con l'esito della richiesta e le istruzioni per l'attivazione.");
       router.push("/riservata");
       router.refresh();
     } else {
@@ -68,14 +66,14 @@ export default function RegisterForm() {
           <label htmlFor="email" className="text-primary font-semibold">Email</label>
           <input name="email" id="email" type="email" className="rounded pl-2" required />
         </div>
-        <div className="flex flex-col gap-2">
+        {/* <div className="flex flex-col gap-2">
           <label htmlFor="phone" className="text-primary font-semibold">Numero di telefono</label>
           <input name="phone" id="phone" type="tel" className="rounded pl-2" required />
         </div>
         <div className="flex flex-col gap-2">
           <label htmlFor="company" className="text-primary font-semibold">Ragione Sociale</label>
           <input name="company" id="company" type="text" className="rounded pl-2" required />
-        </div>
+        </div> */}
         <button className="bg-primary text-white px-4 py-2 rounded w-fit self-center mt-8" type="submit" disabled={isLoading}>Registrati</button>
         <p className="text-center mt-4">
           Sei già registrato? <a href="/login" className="text-primary font-semibold">Accedi</a>

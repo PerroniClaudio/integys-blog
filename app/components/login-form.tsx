@@ -55,7 +55,7 @@ export default function LoginForm() {
       toast.success("Accesso effettuato");
       router.refresh();
     } else {
-      toast.error("Credenziali non valide");
+      toast.error("Credenziali non valide o account eliminato/non abilitato.");
     }
   }
 
