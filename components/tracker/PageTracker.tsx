@@ -51,7 +51,7 @@ export default function PageTracker() {
 
         // Estrai attributi data-track-* personalizzati
         const trackAttributes: Record<string, string> = {};
-        for (const attr of buttonElement.attributes) {
+        for (const attr of Array.from(buttonElement.attributes)) {
           if (
             attr.name.startsWith("data-track-") &&
             attr.name !== "data-track-no-track"
