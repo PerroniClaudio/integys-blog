@@ -37,10 +37,10 @@ function ArticleCard({
           height={500}
           className="rounded-t-lg h-[200px] w-full object-cover"
         />
-        {!!isPreview &&  
-          // <div className="text-center bg-accent text-accent-foreground font-semibold">Preview</div>
+        {/* Se si vogliono differenziare penso basti questa riga. da decidere il testo all'interno */}
+        {/* {!!isPreview &&  
           <div className="text-center bg-metallic-silver text-gray-700 font-semibold " >Preview</div>
-        }
+        } */}
         <CardContent className="mt-5 flex-1 flex flex-col justify-between gap-7">
           <div>
             <h3 className="text</MotionDiv>-lg line-clamp-2 font-bold">{article.title}</h3>

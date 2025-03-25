@@ -137,7 +137,7 @@ export async function POST(request: Request) {
     const activationLink = `${process.env.NEXTAUTH_URL}/reset-password/${newToken}/${user.email}`;
     // Send email with activationLink to the user's email address
 
-    const message = "Il precedente link di reset password non &egrave; più valido. Di seguito trovi il nuovo link per impostare la password: " + activationLink;
+    const message = "Il precedente link di reset password non è più valido. Di seguito trovi il nuovo link per impostare la password: " + activationLink;
 
     const mailData = {
       from: mailSenderAccount.user,
@@ -146,7 +146,7 @@ export async function POST(request: Request) {
       text: message,
       html: `<div> 
         <p>
-          Il precedente link di reset password non &egrave; più valido. Di seguito trovi il nuovo link. <br/> Clicca <a href="${activationLink}">qui</a> per impostare la password di accesso. <br/> 
+          Il precedente link di reset password non è più valido. Di seguito trovi il nuovo link. <br/> Clicca <a href="${activationLink}">qui</a> per impostare la password di accesso. <br/> 
         </p> <br/>
         <p>
           Se il link non funziona, copia e incolla il seguente URL nel tuo browser: <br/> 
@@ -156,6 +156,7 @@ export async function POST(request: Request) {
           Se non hai richiesto tu il reset password, ignora questa email.
         </p>
       </div>`,
+      headers: {'Content-Type': 'text/html; charset=UTF-8'}
     };
 
     const info = await transporter.sendMail(mailData);

@@ -90,13 +90,13 @@ export async function POST(request: Request) {
       from: mailSenderAccount.user,
       to: user.email,
       subject: `INTEGYS - Richiesta di registrazione`,
-      text: `La tua richiesta di registrazione all'area riservata di Integys &egrave; in elaborazione. 
+      text: `La tua richiesta di registrazione all'area riservata di Integys è in elaborazione. 
         Per completare la registrazione attendi la mail con l'esito della richiesta e le istruzioni per l'attivazione. 
         Se non ti sei registrato, ignora questa email.
       `,
       html: `<div> 
         <p>
-          La tua richiesta di registrazione all'area riservata di Integys &egrave; in elaborazione. <br />
+          La tua richiesta di registrazione all'area riservata di Integys è in elaborazione. <br />
           Per completare la registrazione attendi la mail con l'esito della richiesta e le istruzioni per l'attivazione. <br />
           Se non ti sei registrato, ignora questa email.
         </p> 

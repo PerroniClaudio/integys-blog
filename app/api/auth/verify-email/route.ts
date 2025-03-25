@@ -121,7 +121,7 @@ export async function POST(request: Request) {
     const activationLink = `${process.env.NEXTAUTH_URL}/activate-user/${newToken}`;
     // Send email with activationLink to the user's email address
 
-    const message = "Il precedente link di verifica non &egrave; più valido. Di seguito trovi il nuovo link di verifica email per attivare la tua utenza ed impostare la password di accesso: " + activationLink;
+    const message = "Il precedente link di verifica non è più valido. Di seguito trovi il nuovo link di verifica email per attivare la tua utenza ed impostare la password di accesso: " + activationLink;
 
     const mailData = {
       from: mailSenderAccount.user,
@@ -130,7 +130,7 @@ export async function POST(request: Request) {
       text: message,
       html: `<div> 
         <p>
-          Il precedente link di verifica non &egrave; più valido. Di seguito trovi il nuovo link di verifica. <br/> Clicca <a href="${activationLink}">qui</a> per effettuare la verifica email, attivare la tua utenza ed impostare la password di accesso. <br/> 
+          Il precedente link di verifica non è più valido. Di seguito trovi il nuovo link di verifica. <br/> Clicca <a href="${activationLink}">qui</a> per effettuare la verifica email, attivare la tua utenza ed impostare la password di accesso. <br/> 
         </p> <br/>
         <p>
           Se il link non funziona, copia e incolla il seguente URL nel tuo browser: <br/> 

@@ -95,7 +95,7 @@ export async function getPreviewCards() {
         
       }[0...3]
     `;
-  // Query per sviluppo
+  // // Query per sviluppo
   // const query = `
   //     *[_type == 'blog' && limited == true && show_preview == true] | order(date desc) {
   //       "id": _id,

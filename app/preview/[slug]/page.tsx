@@ -16,7 +16,7 @@ async function getData(slug: string) {
   // && date < now()
   // Dato che è una preview dell'articolo limitato, non si prendono il body e i file ma si prende il preview_text
   const query = `
-        *[_type == 'blog' && limited == true && slug.current == '${slug}'] {
+        *[_type == 'blog' && limited == true && date < now() && slug.current == '${slug}'] {
             title,
             smallDescription,
             titleImage,
@@ -34,6 +34,7 @@ async function getData(slug: string) {
   return data;
 }
 
+//  && date < now()
 // Se non è flaggato show_preview o non è limited non deve esistere la pagina di preview
 export async function generateStaticParams() {
   const query = `
@@ -78,12 +79,13 @@ async function BlogArticle({ params }: { params: { slug: string } }) {
   const data: fullBlogPreview = await getData(params.slug);
   
   const session = await getServerSession();
-  if(session) {
-    redirect("/riservata/" + params.slug);
-  }
+  // if(session) {
+  //   redirect("/riservata/" + params.slug);
+  // }
 
   // Dato che c'è force-dynamic si deve verificare anche qui se l'articolo è limitato o se show_preview è false
-  return ((!data?.limited || !data?.show_preview) ? notFound() :
+  return (
+    // (!data?.limited || !data?.show_preview) ? notFound() :
     <>
       <Navbar shouldChangeColor={false} />
       <main className="max-w-8xl mx-auto px-4 py-16">

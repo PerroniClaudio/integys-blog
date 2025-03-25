@@ -110,7 +110,7 @@ export async function POST(request: Request) {
     }
 
     if(!is_approved){
-      const message = "La tua registrazione all'area riservata di Integys &egrave; stata rifiutata. Per ulteriori informazioni rispondi a questa mail.";
+      const message = "La tua registrazione all'area riservata di Integys è stata rifiutata. Per ulteriori informazioni rispondi a questa mail.";
 
       const rejectedMailData = {
         from: mailSenderAccount.user,
@@ -119,7 +119,7 @@ export async function POST(request: Request) {
         text: message,
         html: `<div> 
           <p>
-            La tua registrazione all'area riservata di Integys &egrave; stata rifiutata. <br/> 
+            La tua registrazione all'area riservata di Integys è stata rifiutata. <br/> 
             Per ulteriori informazioni rispondi a questa mail.
           </p> <br/>
           <p>
@@ -171,7 +171,7 @@ export async function POST(request: Request) {
     const activationLink = `${process.env.NEXTAUTH_URL}/validate-email/${newToken}/${user.email}`;
     // Send email with activationLink to the user's email address
 
-    const message = "La tua registrazione all'area riservata di Integys &egrave; stata approvata. Di seguito trovi il link di verifica email per attivare la tua utenza ed impostare la password di accesso: " + activationLink;
+    const message = "La tua registrazione all'area riservata di Integys è stata approvata. Di seguito trovi il link di verifica email per attivare la tua utenza ed impostare la password di accesso: " + activationLink;
 
     const mailData = {
       from: mailSenderAccount.user,
@@ -180,7 +180,7 @@ export async function POST(request: Request) {
       text: message,
       html: `<div> 
         <p>
-          La tua registrazione all'area riservata di Integys &egrave; stata approvata.<br/> Clicca <a href="${activationLink}">qui</a> per effettuare la verifica email, attivare la tua utenza ed impostare la password di accesso. <br/> 
+          La tua registrazione all'area riservata di Integys è stata approvata.<br/> Clicca <a href="${activationLink}">qui</a> per effettuare la verifica email, attivare la tua utenza ed impostare la password di accesso. <br/> 
         </p> <br/>
         <p>
           Se il link non funziona, copia e incolla il seguente URL nel tuo browser: <br/> 
@@ -190,9 +190,7 @@ export async function POST(request: Request) {
           Se non ti sei registrato, ignora questa email.
         </p>
       </div>`,
-      headers: {
-        'Content-Type': 'text/html; charset=UTF-8'
-      }
+      headers: {'Content-Type': 'text/html; charset=UTF-8'}
     };
 
     const info = await transporter.sendMail(mailData);
