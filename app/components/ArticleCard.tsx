@@ -31,7 +31,7 @@ function ArticleCard({
       viewport={{ amount: 0 }}>
       <Card>
         <Image
-          src={urlFor(article.titleImage).url()}
+          src={article.titleImage ? (urlFor(article.titleImage)?.url() || "/opengraph-integys.png") : "/opengraph-integys.png"}
           alt={article.title}
           width={500}
           height={500}
