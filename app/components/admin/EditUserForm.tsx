@@ -53,6 +53,7 @@ function EditUserForm({user, mutateUser = ()=>{}}: Props) {
     company: '',
     company_address: '',
     is_admin: false,
+    is_new: true,
     is_deleted: false,
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -100,20 +101,6 @@ function EditUserForm({user, mutateUser = ()=>{}}: Props) {
 
   useEffect(() => {
     if (user) {
-      // Altrimenti manda anche altri valori che non vogliamo gestire da qui
-      // const filteredUser: UserUpdate = {
-      //   id: user.id || '',
-      //   email: user.email || '',
-      //   name: user.name || '',
-      //   surname: user.surname || '',
-      //   phone: user.phone || '',
-      //   occupation: user.occupation || '',
-      //   company: user.company || '',
-      //   company_address: user.company_address || '',
-      //   is_admin: user.is_admin,
-      //   is_deleted: user.is_deleted,
-      // };
-      // setFormData(filteredUser);
       setFormData(user);
     }
   }, [user]);
