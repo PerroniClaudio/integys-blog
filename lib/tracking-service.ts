@@ -7,12 +7,26 @@ const LOCAL_TRACKING_API = "/api/tracker";
 const TRACKING_SERVER_URL = "https://tracking.ifortech.com/webhook/endpoint";
 
 const getSessionId = (): string => {
-  if (typeof window !== "undefined") {
-    let sessionId = window.localStorage.getItem("integys_session_id");
+  if (typeof document !== "undefined") {
+    const getCookie = (name: string): string | null => {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop()?.split(";").shift() || null;
+      return null;
+    };
+
+    const setCookie = (name: string, value: string, days: number): void => {
+      const date = new Date();
+      date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+      const expires = `expires=${date.toUTCString()}`;
+      document.cookie = `${name}=${value}; ${expires}; path=/`;
+    };
+
+    let sessionId = getCookie("integys_session_id");
 
     if (!sessionId) {
       sessionId = uuidv4();
-      window.localStorage.setItem("integys_session_id", sessionId);
+      setCookie("integys_session_id", sessionId, 1);
     }
 
     return sessionId;
