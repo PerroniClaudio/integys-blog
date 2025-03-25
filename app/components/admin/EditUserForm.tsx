@@ -15,9 +15,8 @@
 
 import { UserLight } from "@/app/lib/types"
 import { Button } from "@/components/ui/button"
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
-import useSWR from "swr";
 
  
 //   createdAt DateTime @default(now())
@@ -44,22 +43,49 @@ type Props = {
 function EditUserForm({user, mutateUser = ()=>{}}: Props) {
 
   const [formData, setFormData] = useState<UserLight>({
-    id: '',
-    email: '',
-    name: '',
-    surname: '',
-    phone: '',
-    occupation: '',
-    company: '',
-    company_address: '',
-    is_admin: false,
-    is_new: true,
-    is_deleted: false,
-    createdAt: new Date(),
-    updatedAt: new Date(),
+    id: user.id || '',
+    email: user.email || '',
+    name: user.name || '',
+    surname: user.surname || '',
+    phone: user.phone || '',
+    occupation: user.occupation || '',
+    company: user.company || '',
+    company_address: user.company_address || '',
+    is_admin: user.is_admin || false,
+    is_new: user.is_new || true,
+    is_deleted: user.is_deleted || false,
+    createdAt: user.createdAt || new Date(),
+    updatedAt: user.updatedAt || new Date(),
   });
 
   const [isLoading, setIsLoading] = useState(false);
+  const [isSendingVerificationEmail, setIsSendingVerificationEmail] = useState(false);
+
+  const resendVerificationEmail = async () => {
+    setIsSendingVerificationEmail(true);
+    try {
+      let response = await fetch(`/api/auth/resend-email-verification`, {
+        method: 'POST',
+        body: JSON.stringify({ id: user.id }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        toast.success(`Email di verifica inviata con successo`);
+      } else {
+        toast.error(`Si è verificato un errore.`);
+        const errorData = await response.json();
+        console.log(errorData);
+      }
+    } catch (error) {
+      toast.error(`Si è verificato un errore.`);
+      console.log(error);
+    } finally {
+      setIsSendingVerificationEmail(false);
+    }
+  }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -98,16 +124,6 @@ function EditUserForm({user, mutateUser = ()=>{}}: Props) {
       setIsLoading(false);
     }
   };
-
-  useEffect(() => {
-    if (user) {
-      setFormData(user);
-    }
-  }, [user]);
-  
-  useEffect(() => {
-    console.log(formData);  
-  }, [formData]);
 
   return (<div>
         {/* <form className="space-y-6 max-w-screen-sm m-auto" action="#" method="POST"> */}
@@ -151,7 +167,7 @@ function EditUserForm({user, mutateUser = ()=>{}}: Props) {
             <label htmlFor="email" className="block text-sm font-medium text-primary">
               Email
             </label>
-            <div className="mt-1">
+            <div className="mt-1 flex gap-2">
               <input
                 id="email"
                 name="email"
@@ -161,6 +177,12 @@ function EditUserForm({user, mutateUser = ()=>{}}: Props) {
                 required
                 className="rounded px-2 py-1 w-full"
               />
+              <Button 
+                type="button" 
+                onClick={resendVerificationEmail}
+                disabled={isSendingVerificationEmail}
+                className="h-8"  
+              >Reinvia verifica</Button>
             </div>
           </div>
 

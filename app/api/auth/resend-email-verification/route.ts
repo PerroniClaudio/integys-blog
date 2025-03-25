@@ -4,6 +4,7 @@ import { randomBytes } from "crypto";
 import nodemailer from "nodemailer";
 import { z } from "zod";
 import { hash } from "bcryptjs";
+import { headers } from "next/headers";
 
 const mailSenderAccount = {
   user: process.env.MAIL_SENDER_ACCOUNT_USERNAME,
@@ -16,20 +17,19 @@ const generateToken = () => {
 };
 
 const VerificationSchema = z.object({
-  email: z.string().email({ message: "Email non valida" }),
-  token: z.string().min(5, { message: "Token non valido" }),
-  password: z.string().min(8, { message: "Formato password non valido" })
-    .max(16, { message: "Formato password non valido" })
-    .regex(/[a-z]/, { message: "Formato password non valido" })
-    .regex(/[A-Z]/, { message: "Formato password non valido" })
-    .regex(/[0-9]/, { message: "Formato password non valido" })
-    .regex(/[\W_]/, { message: "Formato password non valido" }),
+  id: z.string(),
 });
 
 export async function POST(request: Request) {
 
   try{
-    const { token, email, password } = await request.json();
+    const { id } = await request.json();
+
+    const parsedData = VerificationSchema.safeParse({ id });
+
+    if (!parsedData.success) {
+      return new NextResponse(JSON.stringify({ error: parsedData.error.errors }), { status: 400 });
+    }
 
     const transporter = nodemailer.createTransport({
       host: "smtp.office365.com",
@@ -45,63 +45,42 @@ export async function POST(request: Request) {
       },
     });
 
-    const verificationForm = {
-      email,
-      token,
-      password
-    }
-
-    const checkResult = VerificationSchema.safeParse(verificationForm);
-    if(!checkResult.success){
-      if(checkResult.error.errors[0].path[0] === 'password'){
-        return new NextResponse(JSON.stringify({ error: checkResult.error.errors[0].message }), { status: 400 });
-      }
-      return new NextResponse(JSON.stringify({ error: 'Dati non validi' }), { status: 400 });
-    }
-
     // Se l'email o il token non esistono restituire un messaggio di errore e reindirizzare alla home
     // controlla che la mail dell'utente esista tra gli utenti registrati e che il campo emailVerified sia null
     const user = await prisma.user.findUnique({
       where: {
-        email: email
+        id: id
       }
     });
 
     if(!user){
       // restituisce un messaggio di errore e reindirizza alla home
-      return new NextResponse(JSON.stringify({ error: 'Dati non validi' }), { status: 400 });
+      return new NextResponse(JSON.stringify({ error: 'Utente non trovato' }), { status: 400 });
     }
 
     if(user.emailVerified !== null){
       // restituisce email verificata e reindirizza all'area riservata
-      return new NextResponse(JSON.stringify({ error: 'Account già attivato', value: user.emailVerified }), { status: 400 });
+      return new NextResponse(JSON.stringify({ error: 'Email già verificata', value: user.emailVerified }), { status: 400 });
     }
 
-    // Recupera il token controllando che non sia scaduto e che corrisponda all'utente indicato
+    // Controlla se c'è già un token valido per l'utente
     const tokenData = await prisma.verificationToken.findFirst({
       where: {
         user_id: user.id,
-        token: token
+        type: 'email',
+        expires: {
+          gt: new Date()
+        }
       }
     });
-    // Se il token è valido, aggiorna il campo emailVerified e la password dell'utente
-    if(!!tokenData && tokenData.expires >= new Date()){
-      const hashedPassword = await hash(password, 10);
-      const updatedUser = await prisma.user.update({
-        where: {
-          id: user.id
-        },
-        data: {
-          password: hashedPassword,
-          emailVerified: new Date()
-        }
-      });
 
-      if (!updatedUser){
-        return new NextResponse(JSON.stringify({ error: 'Errore durante la verifica' }), { status: 500 });
-      }
-      
-      return new NextResponse(JSON.stringify({message: 'success'}), { status: 200 });
+    // Se il token è valido, reinvia lo stesso o lo elimina? se reinvia lo stesso deve inserisre anche la data di scadenza nella mail
+    if(!!tokenData){
+      await prisma.verificationToken.delete({
+        where: {
+          token: tokenData.token,
+        },
+      });
     }
 
     // Crea token e aggiungilo alla tabella 
@@ -140,14 +119,18 @@ export async function POST(request: Request) {
           Se non ti sei registrato, ignora questa email.
         </p>
       </div>`,
-      headers: {'Content-Type': 'text/html; charset=UTF-8'}
+      headers: {'Content-Type': 'text/html', 'charset': 'utf-8'}
     };
 
     const info = await transporter.sendMail(mailData);
 
 
     // risponde con success e messaggio informativo
-    return new NextResponse(JSON.stringify({message: 'Generato nuovo token di verifica'}), { status: 201 });
+    return new NextResponse(JSON.stringify({message: 'Generato nuovo token di verifica'
+      , link: activationLink, ricreato: `${process.env.NEXTAUTH_URL}/validate-email/${newToken}/${user.email}`, email: user.email
+
+
+    }), { status: 201 });
   } catch (error) {
     return new NextResponse(JSON.stringify(error), { status: 500 });
   }
