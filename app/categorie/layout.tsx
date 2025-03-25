@@ -7,8 +7,8 @@ export default function Layout({
 }>) {
   return (
     <div className="pb-44">
-        {children}
-        <Footer />
+      {children}
+      <Footer />
     </div>
   );
 }
