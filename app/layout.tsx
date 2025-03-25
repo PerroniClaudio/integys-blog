@@ -5,11 +5,11 @@ import "./globals.css";
 import { ThemeProvider } from "./components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 import Footer from "./components/Footer";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { CookiesContextProvider } from "@/components/cookies/cookiesContextProvider";
-import Head from "next/head";
-
+import PageTracker from "@/components/tracker/PageTracker";
+import { Suspense } from "react";
 export const metadata: Metadata = {
   title: {
     default: "Integys",
@@ -39,20 +39,25 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${GeistSans.variable}`}>
         {/* <div className="relative min-h-screen pb-44"> Per gestire il footer */}
-        <div className="relative min-h-screen"> {/* senza il footer. Lo si aggiunge nei singoli layout/pagine */}
+        <div className="relative min-h-screen">
+          {" "}
+          {/* senza il footer. Lo si aggiunge nei singoli layout/pagine */}
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"
             enableSystem
             disableTransitionOnChange>
-          <CookiesContextProvider>
-            {children}
-            <Toaster />
-            <ToastContainer className="z-50" />
-            {/* <Footer /> */}
-            {/* Cookies */}
-            <Analytics />
-          </CookiesContextProvider>
+            <CookiesContextProvider>
+              {children}
+              <Toaster />
+              <ToastContainer className="z-50" />
+              {/* <Footer /> */}
+              {/* Cookies */}
+              <Analytics />
+              <Suspense fallback={<div>Loading...</div>}>
+                <PageTracker />
+              </Suspense>
+            </CookiesContextProvider>
           </ThemeProvider>
         </div>
       </body>
