@@ -9,7 +9,6 @@ export async function POST(request: NextRequest) {
     const ip =
       request.headers.get("x-forwarded-for") ||
       request.headers.get("x-real-ip") ||
-      request.ip ||
       "unknown";
 
     // Otteniamo lo user agent
