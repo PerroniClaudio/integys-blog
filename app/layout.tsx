@@ -9,6 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { CookiesContextProvider } from "@/components/cookies/cookiesContextProvider";
 import PageTracker from "@/components/tracker/PageTracker";
+import { Suspense } from "react";
 export const metadata: Metadata = {
   title: {
     default: "Integys",
@@ -53,7 +54,9 @@ export default function RootLayout({
               {/* <Footer /> */}
               {/* Cookies */}
               <Analytics />
-              <PageTracker />
+              <Suspense fallback={<div>Loading...</div>}>
+                <PageTracker />
+              </Suspense>
             </CookiesContextProvider>
           </ThemeProvider>
         </div>
