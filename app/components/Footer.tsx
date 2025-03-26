@@ -9,10 +9,16 @@ function Footer({ isAbsolute = true }: FooterProps) {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className={"w-full py-6 border-t border-primary " + (isAbsolute ? " absolute bottom-0 " : "")}>
+    <footer
+      className={
+        "w-full py-6 border-t border-primary " +
+        (isAbsolute ? " absolute bottom-0 " : "")
+      }>
       <div className="container flex items-center justify-between gap-4 px-4 text-sm md:gap-6 min-h-32">
         <div className="flex flex-col gap-2">
-          <Link href="/" className={`font-bold text-3xl text-primary dark:hidden`}>
+          <Link
+            href="/"
+            className={`font-bold text-3xl text-primary dark:hidden`}>
             <div className="flex items-center gap-1 ">
               <div className="p-1">
                 <img src="/integys.png" alt="Integys" className="h-8 w-auto" />
@@ -21,10 +27,16 @@ function Footer({ isAbsolute = true }: FooterProps) {
               <span>INTEGYS</span>
             </div>
           </Link>
-          <Link href="/" className={`font-bold text-3xl text-primary hidden dark:block`}>
+          <Link
+            href="/"
+            className={`font-bold text-3xl text-primary hidden dark:block`}>
             <div className="flex items-center gap-1 ">
               <div className="p-1">
-                <img src="/integys-white-sphere.png" alt="Integys" className="h-8 w-auto" />
+                <img
+                  src="/integys-white-sphere.png"
+                  alt="Integys"
+                  className="h-8 w-auto"
+                />
               </div>
 
               <span>INTEGYS</span>
