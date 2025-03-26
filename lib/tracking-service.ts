@@ -7,12 +7,26 @@ const LOCAL_TRACKING_API = "/api/tracker";
 const TRACKING_SERVER_URL = "https://tracking.ifortech.com/webhook/endpoint";
 
 const getSessionId = (): string => {
-  if (typeof window !== "undefined") {
-    let sessionId = window.localStorage.getItem("integys_session_id");
+  if (typeof document !== "undefined") {
+    const getCookie = (name: string): string | null => {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop()?.split(";").shift() || null;
+      return null;
+    };
+
+    const setCookie = (name: string, value: string, days: number): void => {
+      const date = new Date();
+      date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+      const expires = `expires=${date.toUTCString()}`;
+      document.cookie = `${name}=${value}; ${expires}; path=/`;
+    };
+
+    let sessionId = getCookie("integys_session_id");
 
     if (!sessionId) {
       sessionId = uuidv4();
-      window.localStorage.setItem("integys_session_id", sessionId);
+      setCookie("integys_session_id", sessionId, 1);
     }
 
     return sessionId;
@@ -136,10 +150,10 @@ export const trackButtonClick = async (
     });
 
     // Inviamo i dati tramite la nostra API locale
-    const response_remote = await fetch(LOCAL_TRACKING_API, {
+    const response_remote = await fetch(TRACKING_SERVER_URL, {
       method: "POST",
       headers: {
-        "X-Tracking-Event-Type": "DID_PRESS_BUTTON",
+        "X-Tracker-Webhook-Event": "DID_PRESS_BUTTON",
       },
       body: fd,
       keepalive: true,
@@ -153,5 +167,67 @@ export const trackButtonClick = async (
     }
   } catch (error) {
     console.error("Failed to send button tracking data", error);
+  }
+};
+
+interface ScrollData {
+  scroll_percentage: number;
+  session_id?: string;
+  path: string;
+}
+
+export const trackScroll = async (scrollData: ScrollData): Promise<void> => {
+  try {
+    const sessionId = getSessionId();
+    if (!sessionId) return;
+
+    const data = {
+      ...scrollData,
+      session_id: sessionId,
+      event_type: "scroll",
+    };
+
+    // Facciamo la richiesta alla nostra API locale invece che direttamente
+    // al server di tracciamento esterno
+    const response = await fetch(LOCAL_TRACKING_API, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+      keepalive: true,
+    });
+
+    if (!response.ok) {
+      console.error("Failed to send tracking data", response.statusText);
+    }
+
+    const fd = new FormData();
+
+    // Aggiungi i dati di tracciamento al FormData
+
+    let dt = await response.json();
+    Object.entries(dt.enrichedData).forEach(([key, value]) => {
+      fd.append(key, value as string);
+    });
+
+    // Inviamo i dati tramite la nostra API locale
+    const response_remote = await fetch(TRACKING_SERVER_URL, {
+      method: "POST",
+      headers: {
+        "X-Tracker-Webhook-Event": "SCROLL_UPDATE",
+      },
+      body: fd,
+      keepalive: true,
+    });
+
+    if (!response_remote.ok) {
+      console.error(
+        "Failed to send scroll tracking data",
+        response_remote.statusText
+      );
+    }
+  } catch (error) {
+    console.error("Failed to send scroll tracking data", error);
   }
 };
