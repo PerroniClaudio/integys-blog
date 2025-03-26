@@ -57,7 +57,7 @@ export async function generateMetadata({
     openGraph: {
       images: [
         {
-          url: urlFor(data.titleImage).url(),
+          url: data.titleImage ? (urlFor(data.titleImage).url() || (process.env.NEXTAUTH_URL + "/opengraph-integys.png")) : (process.env.NEXTAUTH_URL + "/opengraph-integys.png"),
           alt: data.title,
         },
       ],
@@ -77,7 +77,7 @@ async function ServicePage({ params }: { params: { slug: string } }) {
         {/* <div className="absolute inset-0 bg-primary/60 brightness-50 dark:bg-secondary/60 dark:brightness-100 z-10" /> */}
         <div className="relative w-full h-full max-w-[1920px]">
           <Image
-        src={urlFor(data.titleImage).url()}
+        src={data.titleImage ? (urlFor(data.titleImage).url() || "/opengraph-integys.png") : "/opengraph-integys.png"}
         alt={data.title}
         priority
         layout="fill"
@@ -94,7 +94,7 @@ async function ServicePage({ params }: { params: { slug: string } }) {
           </h1>
 
           {/* <Image
-            src={urlFor(data.titleImage).url()}
+            src={data.titleImage ? (urlFor(data.titleImage).url() || "/opengraph-integys.png") : "/opengraph-integys.png"}
             alt={data.title}
             width={800}
             height={800}

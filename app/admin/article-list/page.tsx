@@ -65,7 +65,7 @@ async function getData() {
 //     openGraph: {
 //       images: [
 //         {
-//           url: urlFor(data.titleImage).url(),
+//           url: data.titleImage ? (urlFor(data.titleImage).url() || "/opengraph-integys.png") : "/opengraph-integys.png",
 //           alt: data.title,
 //         },
 //       ],

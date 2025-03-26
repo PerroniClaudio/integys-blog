@@ -59,7 +59,7 @@ export async function generateMetadata({
     openGraph: {
       images: [
         {
-          url: urlFor(data.titleImage).url(),
+          url: data.titleImage ? (urlFor(data.titleImage).url() || (process.env.NEXTAUTH_URL + "/opengraph-integys.png")) : (process.env.NEXTAUTH_URL + "/opengraph-integys.png"),
           alt: data.title,
         },
       ],
@@ -80,7 +80,7 @@ async function BlogArticle({ params }: { params: { slug: string } }) {
           </h1>
 
           <Image
-            src={urlFor(data.titleImage).url()}
+            src={data.titleImage ? (urlFor(data.titleImage).url() || "/opengraph-integys.png") : "/opengraph-integys.png"}
             alt={data.title}
             width={800}
             height={800}
