@@ -47,7 +47,7 @@ export default function LimitedDropdown({session}: {session: Session | null}) {
           : (
             <>
               <DropdownMenuItem>
-                <Link href="/login">
+                <Link href="/login-hub">
                   Accedi
                 </Link>
               </DropdownMenuItem>

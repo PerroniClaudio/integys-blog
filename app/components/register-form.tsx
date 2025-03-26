@@ -76,7 +76,7 @@ export default function RegisterForm() {
         </div> */}
         <button className="bg-primary text-white px-4 py-2 rounded w-fit self-center mt-8" type="submit" disabled={isLoading}>Registrati</button>
         <p className="text-center mt-4">
-          Sei già registrato? <a href="/login" className="text-primary font-semibold">Accedi</a>
+          Sei già registrato? <a href="/login-hub" className="text-primary font-semibold">Accedi</a>
         </p>
       </form>
     </div>

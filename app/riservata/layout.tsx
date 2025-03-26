@@ -22,7 +22,7 @@ export default async function Layout({ children }: Readonly<{ children: React.Re
 
   const session = await getServerSession();
   if(!session) {
-    redirect("/login");
+    redirect("/login-hub");
   }
   const user = await prisma.user.findUnique({
     where: { 

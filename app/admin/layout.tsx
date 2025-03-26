@@ -18,7 +18,7 @@ export default async function Layout({ children }: Readonly<{ children: React.Re
 
   const session = await getServerSession();
   if(!session) {
-    redirect("/login");
+    redirect("/login-hub");
   }
 
   // Recupera i dati dell'utente dal database

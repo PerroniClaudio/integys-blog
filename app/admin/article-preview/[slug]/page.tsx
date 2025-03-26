@@ -11,9 +11,12 @@ import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
+// Questa pagina serve a vedere un'anteprima degli articoli prima di pubblicarli, quindi deve recuperare l'articolo anche senza date e a prescindere che sia limited o no
+
 async function getData(slug: string) {
+  // && date < now()
   const query = `
-    *[_type == 'blog' && limited == false && date < now() && slug.current == '${slug}'] {
+    *[_type == 'blog' && slug.current == '${slug}'] {
       title,
       smallDescription,
       titleImage,
@@ -32,7 +35,7 @@ async function getData(slug: string) {
 
 export async function generateStaticParams() {
   const query = `
-    *[_type == 'blog' && limited == false && date < now()] | order(date desc) {
+    *[_type == 'blog'] | order(date desc) {
       title,
       smallDescription,
       titleImage,

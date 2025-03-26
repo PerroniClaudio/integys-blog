@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import { trackPageView, trackButtonClick } from "@/lib/tracking-service";
 
@@ -9,12 +9,14 @@ export default function PageTracker() {
   const searchParams = useSearchParams();
   // Usa un ref per tenere traccia dell'ultimo URL tracciato
   const lastTrackedUrlRef = useRef<string>("");
+  const [fullUrlString, setFullUrlString] = useState<string>("");
 
   useEffect(() => {
     // Ricostruisci l'URL completo con i parametri di query
     const fullUrl = `${window.location.origin}${pathname}${
       searchParams.toString() ? `?${searchParams.toString()}` : ""
     }`;
+    setFullUrlString(fullUrl);
 
     // Verifica se questo URL è già stato tracciato recentemente
     if (fullUrl === lastTrackedUrlRef.current) {
@@ -71,7 +73,7 @@ export default function PageTracker() {
           text: buttonElement.innerText || "No text",
           trackId: trackId,
           className: buttonElement.className || undefined,
-          path: pathname,
+          path: fullUrlString,
           timestamp: new Date().toISOString(),
           ...trackAttributes, // Includi attributi personalizzati
         });
