@@ -37,9 +37,10 @@ const getSessionId = (): string => {
 
 interface TrackingData {
   path: string;
-  referrer?: string;
+  referer?: string;
   timestamp: number;
   session_id?: string;
+  user_email?: string | null;
   // Aggiungi altri dati di tracciamento che desideri raccogliere
 }
 
@@ -49,13 +50,15 @@ export const trackPageView = async (path: string): Promise<void> => {
     if (!sessionId) return;
 
     const urlParams = new URLSearchParams(window.location.search);
-    const referrer = urlParams.get("referrer") || "direct_traffic";
+    const referer = urlParams.get("referer") || "direct_traffic";
+    const user_email = urlParams.get("email") || null;
 
     const data: TrackingData = {
       path,
-      referrer,
+      referer,
       timestamp: Date.now(),
       session_id: sessionId,
+      user_email,
     };
 
     // Facciamo la richiesta alla nostra API locale invece che direttamente
@@ -82,10 +85,12 @@ export const trackPageView = async (path: string): Promise<void> => {
       fd.append(key, value as string);
     });
 
+    const eventType = path.includes("/news/") ? "ARTICLE_VIEW" : "PAGE_VIEW";
+
     const response_remote = await fetch(TRACKING_SERVER_URL, {
       method: "POST",
       headers: {
-        "X-Tracker-Webhook-Event": "PAGE_VIEW",
+        "X-Tracker-Webhook-Event": eventType,
       },
       body: fd,
     });
@@ -119,8 +124,14 @@ export const trackButtonClick = async (
     const sessionId = getSessionId();
     if (!sessionId) return;
 
+    const urlParams = new URLSearchParams(window.location.search);
+    const referer = urlParams.get("referer") || "direct_traffic";
+    const user_email = urlParams.get("email") || null;
+
     const data = {
       ...buttonData,
+      referer,
+      user_email,
       session_id: sessionId,
       event_type: "button_click",
     };

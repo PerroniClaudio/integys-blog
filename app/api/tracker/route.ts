@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
       custom_get_params: "",
       custom_post_params: "",
       url: trackingData.path || "",
-      referer: trackingData.referrer || "direct_traffic",
+      referer: trackingData.referer || "direct_traffic",
     };
 
     return NextResponse.json({ success: true, enrichedData }, { status: 200 });
