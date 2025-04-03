@@ -53,7 +53,7 @@ export default function RegisterForm() {
   return (
     <div className="flex flex-col justify-center items-center p-8 pt-24 gap-4">
       <h1 className="w-fit font-semibold text-xl">Registrati</h1>
-      <form className="flex flex-col gap-2 w-full md:w-1/3 lg:w-1/4 bg-input rounded-lg p-4" onSubmit={handleSubmit}>
+      <form className="flex flex-col gap-2 w-full md:w-1/3 lg:w-1/4 bg-card rounded-lg p-4" onSubmit={handleSubmit}>
         <div className="flex flex-col gap-2">
           <label htmlFor="name" className="text-primary font-semibold">Nome</label>
           <input name="name" id="name" type="text" className="rounded pl-2" required />
@@ -63,7 +63,7 @@ export default function RegisterForm() {
           <input name="surname" id="surname" type="text" className="rounded pl-2" required />
         </div>
         <div className="flex flex-col gap-2">
-          <label htmlFor="email" className="text-primary font-semibold">Email</label>
+          <label htmlFor="email" className="text-primary font-semibold">Email aziendale</label>
           <input name="email" id="email" type="email" className="rounded pl-2" required />
         </div>
         {/* <div className="flex flex-col gap-2">

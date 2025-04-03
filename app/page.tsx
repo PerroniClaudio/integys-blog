@@ -7,12 +7,13 @@ import Navbar from "@/app/components/Navbar";
 import Hero from "@/app/components/Hero";
 import Hero2 from "@/app/components/Hero2";
 
-import { getData, getDataWithPagination, getPreviewCards } from "./actions";
+import { getData, getDataWithPagination, getHighlightedPostsData, getPreviewCards } from "./actions";
 import CategorySelector from "./components/CategorySelector";
 import Newsletter from "@/components/ui/newsletter";
 import NewsletterButton from "@/components/ui/newsletter-button";
 import Footer from "./components/Footer";
 import Link from "next/link";
+import HighlightedArticles from "./components/HighlightedArticles";
 
 export async function generateStaticParams() {
   const query = `
@@ -36,6 +37,8 @@ export default async function Home() {
   const data: simpleBlogCard[] = await getData();
   const posts = await getDataWithPagination(1, 6);
   const limitedPreviewCards = await getPreviewCards();
+  const highlightedPosts: simpleBlogCard[] = await getHighlightedPostsData(); // DA CAMBIARE PRIMA DELLA PUBBLICAZIONE. true è per i limited e false è per i pubblici
+  // const highlightedPosts: simpleBlogCard[] = await getHighlightedPostsData(true);
 
 
   let categories = data
@@ -49,8 +52,13 @@ export default async function Home() {
     <div className="pb-44"> {/* pb-44 is the padding-bottom of the footer */}
       <Navbar shouldChangeColor={true} />
       <Hero />
+      {!!highlightedPosts && (highlightedPosts.length > 0) && 
+        <HighlightedArticles data={highlightedPosts} />
+      }
       {/* <Hero2 /> */}
-      <main className="max-w-7xl mx-auto px-4 mb-16">
+      
+      {/* <main className="max-w-7xl mx-auto px-4 mb-16"> */}
+      <main className="max-w-screen-2xl mx-auto px-4 mb-16">
         <div className="pt-4 pb-8">
           <div className="grid grid-cols-1 lg:grid-cols-8 gap-5">
             

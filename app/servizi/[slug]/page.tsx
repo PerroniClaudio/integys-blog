@@ -10,7 +10,6 @@ import { Metadata } from "next";
 import Image from "next/image";
 
 async function getData(slug: string) {
-  // && date < now()
   const query = `
         *[_type == 'servizi' && slug.current == '${slug}'] {
             title,

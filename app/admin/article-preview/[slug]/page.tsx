@@ -14,7 +14,6 @@ import Link from "next/link";
 // Questa pagina serve a vedere un'anteprima degli articoli prima di pubblicarli, quindi deve recuperare l'articolo anche senza date e a prescindere che sia limited o no
 
 async function getData(slug: string) {
-  // && date < now()
   const query = `
     *[_type == 'blog' && slug.current == '${slug}'] {
       title,
@@ -93,7 +92,7 @@ async function BlogArticle({ params }: { params: { slug: string } }) {
 
           <p className="mt-4">
             <span className="italic text-gray-500 text-sm">
-              Pubblicato il {new Date(data.date).toLocaleDateString("it-IT")}
+              Pubblicato il {data?.date ? new Date(data.date).toLocaleDateString("it-IT") : "Nessuna data di pubblicazione"}
             </span>
           </p>
           

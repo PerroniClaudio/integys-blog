@@ -12,9 +12,9 @@ import Image from "next/image";
 import Link from "next/link";
 
 async function getData(slug: string) {
-  // && date < now()
+  // && date < now() DA CAMBIARE PRIMA DELLA PUBBLICAZIONE. va inserito
   const query = `
-        *[_type == 'blog' && limited == true && slug.current == '${slug}'] {
+        *[_type == 'blog' && limited == true && slug.current == '${slug}' && date < now()] {
             title,
             smallDescription,
             titleImage,

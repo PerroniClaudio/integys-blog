@@ -1,11 +1,11 @@
 import Link from "next/link";
 
-function Hero() {
+function HeroRiservata() {
   return (
     <div
       className="relative"
       style={{
-        backgroundImage: "url('/ente.jpg')",
+        backgroundImage: "url('/hero_riservata.jpg')",
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
@@ -22,13 +22,19 @@ function Hero() {
                 }}>
                 Integys Information Center
               </h1>
+              <h2
+                className="text-xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-4xl/none text-primary-foreground"
+                style={{
+                  textShadow: "0 0 6px rgba(0,0,0,0.5)",
+                }}>
+                Area riservata
+              </h2>
               <p
                 className="mx-auto max-w-[700px] text-gray-100 md:text-xl dark:text-gray-300"
                 style={{
                   textShadow: "0 0 6px rgba(0,0,0,0.5)",
                 }}>
-                Dedicato alle ultime tendenze e approfondimenti nel mondo della
-                tecnologia.
+                Approfondimenti e contenuti speciali.
               </p>
             </div>
             <div className="flex gap-4">
@@ -51,4 +57,4 @@ function Hero() {
     </div>
   );
 }
-export default Hero;
+export default HeroRiservata;

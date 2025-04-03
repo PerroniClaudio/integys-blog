@@ -35,7 +35,7 @@ function Dialog({ isOpen, onClose, title, children }: Props) {
           open={isOpen}
           className="bg-black bg-opacity-40 w-screen h-screen fixed top-0 right-0 z-30 flex flex-col items-center">
           <article
-            className={`border rounded shadow-lg w-full lg:w-1/2 mt-40 bg-white p-2 relative text-black`}>
+            className={`border-[1px] border-foreground rounded shadow-lg w-full lg:w-1/2 mt-40 bg-popover p-2 relative text-popover-foreground outline outline-2 outline-popover`}>
             {/* Close button */}
             <div
               className="absolute top-0 right-0 p-2 text-gray-300 cursor-pointer"

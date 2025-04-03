@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, ArrowRightIcon, ChartLine, ExternalLink, FilePenLine, Send, UserRoundSearch } from "lucide-react";
+import { ArrowRight, ArrowRightIcon, ChartLine, ExternalLink, FilePenLine, Newspaper, Send, UserRoundSearch } from "lucide-react";
 import Link from "next/link";
 
 export const dynamic = "force-dynamic";
@@ -36,10 +36,23 @@ export default async function Home() {
                   </div>
                 </Button>
               </Link>
+              <Link href={'/admin/article-list'} target="_blank">
+                <Button className="relative flex-col space-y-4 w-full min-h-fit py-8 items-center pt-6 rounded-lg border-2">
+                  <h3 className="text-xl font-semibold text-foreground text-center">
+                    Anteprima articoli
+                  </h3>
+                  <div className="w-fit m-auto mt-8">
+                    <Newspaper size={100} strokeWidth={1.5} />
+                  </div>
+                  <div className="absolute right-4 top-4">
+                    <ArrowRight size={34} />
+                  </div>
+                </Button>
+              </Link>
               <Link href={process.env.SANITY_PUBLIC_SITE_URL ?? '#'} target="_blank">
                 <Button className="relative flex-col space-y-4 w-full min-h-fit py-8 items-center pt-6 rounded-lg border-2">
                   <h3 className="text-xl font-semibold text-foreground text-center">
-                    Contenuti
+                    Modifica contenuti
                   </h3>
                   <div className="w-fit m-auto mt-8">
                     <FilePenLine size={100} strokeWidth={1.5} />

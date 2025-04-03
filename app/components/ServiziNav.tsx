@@ -73,7 +73,7 @@ function ServiziNav({services, isGlobal} : Props) {
       <div className="mx-auto w-full max-w-7xl">
         {/* Navbar dei servizi */}
         {/* Desktop */}
-        <div className="hidden xl:flex fixed top-0 left-0 pt-[4.5rem] pb-2 z-20 w-[100dvw]  items-start lg:items-center xl:justify-around bg-white dark:bg-background duration-200 ease-in-out border-primary border-b-[1px]">
+        <div className="hidden xl:flex fixed top-0 left-0 pt-[4.5rem] pb-2 z-20 w-[100dvw]  items-start lg:items-center xl:justify-around bg-background duration-200 ease-in-out border-primary border-b-[1px]">
           {/* <ServiziNav services={services} inView={inView} /> */}
           <div className="flex flex-col xl:flex-row p-2 gap-1 xl:p-0 xl:gap-0 font-semibold text-xs xl:text-sm">
             {/* <div>

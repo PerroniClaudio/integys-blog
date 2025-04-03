@@ -24,7 +24,7 @@ import Link from "next/link";
 
 async function getData() {
   const query = `
-    *[_type == 'blog'] {
+    *[_type == 'blog'] | order(_createdAt desc) {
       title,
       titleImage,
       "currentSlug": slug.current,

@@ -22,6 +22,25 @@ export async function getDataWithPagination(page: number, pageSize: number, limi
   ));
 }
 
+// Prende gli articoli evidenziati (limitati o no in base al parametro) in ordine di order e data. Massimo 4 articoli.
+export async function getHighlightedPostsData(limited:boolean = false) {
+  // && date < now() DA CAMBIARE PRIMA DELLA PUBBLICAZIONE. va inserito
+  const query = `
+      *[_type == 'blog' && limited == ${limited} && highlighted == true && date < now()] | order(order asc, date desc) {
+        "id": _id,
+        title,
+        smallDescription,
+        titleImage,
+        "currentSlug": slug.current,
+        categories[]->{name, "slug" : slug.current}
+      }[0...4]
+    `;
+
+  const data = await client.fetch(query);
+
+  return data;
+}
+
 export async function getDataWithPaginationCategories(
   slug: string,
   page: number,

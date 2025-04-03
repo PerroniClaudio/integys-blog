@@ -36,7 +36,7 @@ function AdminUserContent({userId}: Props) {
   ? (userError ? <div>Errore nel caricamento dei dati dell&apos;utente</div> : <div className="loading loading-spinner loading-lg text-primary" />)
   : !!user && <>
     <section className="col-span-8 flex gap-4">
-      <div className="grid grid-cols-2 gap-4 bg-input rounded-lg p-4 m-auto max-w-screen-sm w-full">
+      <div className="grid grid-cols-2 gap-4 bg-card rounded-lg p-4 m-auto max-w-screen-sm w-full">
         <div><span className="text-primary font-semibold">Creazione utenza: </span>{new Date(user.createdAt).toLocaleDateString()}</div>
         <div><span className="text-primary font-semibold">Ultima modifica: </span>{new Date(user.createdAt).toLocaleDateString()}</div>
         <div><span className="text-primary font-semibold">Grado: </span>{user.is_admin ? 'Amministratore' : 'Utente'}</div>

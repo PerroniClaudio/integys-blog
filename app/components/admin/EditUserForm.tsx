@@ -127,7 +127,7 @@ function EditUserForm({user, mutateUser = ()=>{}}: Props) {
 
   return (<div>
         {/* <form className="space-y-6 max-w-screen-sm m-auto" action="#" method="POST"> */}
-        <form className="space-y-6 max-w-screen-sm m-auto bg-input rounded-lg p-4" onSubmit={handleSubmit}>
+        <form className="space-y-6 max-w-screen-sm m-auto bg-card rounded-lg p-4" onSubmit={handleSubmit}>
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-primary">
               Nome
