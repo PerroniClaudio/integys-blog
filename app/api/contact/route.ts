@@ -31,6 +31,7 @@ export async function POST(request: Request) {
     subject: `Richiesta di contatto da INTEGYS`,
     text: message,
     html: `<div> Nome: ${name} <br/> Email aziendale: ${email} <br/> Azienda: ${businessName} <br/> Richiesta: ${requestType} <br/> Messaggio: <br/> ${message} </div>`,
+    headers: {'Content-Type': 'text/html; charset=UTF-8'}
   };
 
   const info = await transporter.sendMail(mailData);

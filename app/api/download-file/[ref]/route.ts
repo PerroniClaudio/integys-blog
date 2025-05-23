@@ -120,6 +120,7 @@ export async function GET(req: Request, { params }: { params: { ref: string } })
       subject: `INTEGYS - Download file`,
       text: message,
       html: `<div>${message.replace(/\n/g, '<br>')}</div>`,
+      headers: {'Content-Type': 'text/html; charset=UTF-8'}
     };
 
     const adminInfo = await transporter.sendMail(adminMailData);

@@ -10,7 +10,6 @@ import { Metadata } from "next";
 import Image from "next/image";
 
 async function getData(slug: string) {
-  // && date < now()
   const query = `
         *[_type == 'servizi' && slug.current == '${slug}'] {
             title,
@@ -57,7 +56,7 @@ export async function generateMetadata({
     openGraph: {
       images: [
         {
-          url: urlFor(data.titleImage).url(),
+          url: data.titleImage ? (urlFor(data.titleImage).url() || (process.env.NEXTAUTH_URL + "/opengraph-integys.png")) : (process.env.NEXTAUTH_URL + "/opengraph-integys.png"),
           alt: data.title,
         },
       ],
@@ -77,7 +76,7 @@ async function ServicePage({ params }: { params: { slug: string } }) {
         {/* <div className="absolute inset-0 bg-primary/60 brightness-50 dark:bg-secondary/60 dark:brightness-100 z-10" /> */}
         <div className="relative w-full h-full max-w-[1920px]">
           <Image
-        src={urlFor(data.titleImage).url()}
+        src={data.titleImage ? (urlFor(data.titleImage).url() || "/opengraph-integys.png") : "/opengraph-integys.png"}
         alt={data.title}
         priority
         layout="fill"
@@ -92,52 +91,14 @@ async function ServicePage({ params }: { params: { slug: string } }) {
           <h1 className="text-3xl text-center leading-8 font-bold tracking-tight sm:text-4xl">
             {data.title}
           </h1>
-
-          {/* <Image
-            src={urlFor(data.titleImage).url()}
-            alt={data.title}
-            width={800}
-            height={800}
-            priority
-            className="rounded-lg mt-8 border shadow-sm"
-          /> */}
           
-          <div className="mt-12 prose prose-red prose-lg dark:prose-invert prose-li:marker:text-primary prose-a:text-primary w-full xl:max-w-screen-md">
+          <div className="mt-12 prose prose-red prose-lg dark:prose-invert prose-li:marker:text-primary prose-a:text-primary w-full 
+            max-w-4/5 xl:max-w-screen-lg 2xl:max-w-screen-xl lg:text-xl">
             <PortableText value={data.body} />
-
-            {/* <hr className="border border-secondary my-4" /> */}
-
-            {/* <p className="font-bold text-2xl">
-              Prenota una sessione di presentazione dei nostri servizi per sviluppare un piano d&rsquo;azione personalizzato.
-            </p>
-
-            <Link href="/contattaci">
-              <Button
-                variant={"secondary"}
-                className="text-secondary-foreground text-lg py-8 px-12 min-w-16 text-center bg-primary w-full">
-                Contattaci
-              </Button>
-            </Link> */}
           </div>
         </div>
       </main>
-      {/* <section className="py-8 border-t border-primary">
-        <div className="container mx-auto flex flex-col gap-4 justify-between items-center">
-          <h2 className="font-bold text-3xl text-center">
-            Prenota una sessione di presentazione dei nostri servizi per sviluppare un piano d&rsquo;azione personalizzato.
-          </h2>
-
-          <Link href="/contattaci">
-            <Button
-              variant={"secondary"}
-              className="text-secondary-foreground text-lg py-8 px-12 min-w-16 text-center bg-primary w-full">
-              Contattaci
-            </Button>
-          </Link>
-        </div>
-      </section> */}
       <ContactUs />
-      {/* <Newsletter /> */}
     </>
   );
 }

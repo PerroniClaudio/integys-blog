@@ -156,6 +156,7 @@ export async function POST(request: Request) {
           Se non hai richiesto tu il reset password, ignora questa email.
         </p>
       </div>`,
+      headers: {'Content-Type': 'text/html; charset=UTF-8'}
     };
 
     const info = await transporter.sendMail(mailData);

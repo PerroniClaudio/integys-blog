@@ -1,18 +1,12 @@
 export const dynamic = "force-dynamic";
 
-import { Button } from "@/components/ui/button";
-
-import Newsletter from "@/components/ui/newsletter";
-import NewsletterButton from "@/components/ui/newsletter-button";
-import Navbar from "../components/Navbar";
 import { simpleBlogCard } from "../lib/interface";
-import Hero from "../components/Hero";
-import Link from "next/link";
 import ArticleList from "../components/ArticleList";
 import { client } from "../lib/sanity";
 import { getData, getDataWithPagination } from "../actions";
 import CategorySelector from "../components/CategorySelector";
 import ContactUs from "@/components/ui/contact-us";
+import HeroRiservata from "../components/HeroRiservata";
 
 export async function generateStaticParams() {
   const query = `
@@ -47,7 +41,7 @@ export default async function Home() {
   return (
     <>
       {/* <Navbar shouldChangeColor={true} /> */}
-      <Hero />
+      <HeroRiservata />
       <main className="max-w-7xl mx-auto px-4 mb-16">
         <div className="pt-4 pb-8">
           <div className="grid grid-cols-1 lg:grid-cols-8 gap-5">
@@ -57,7 +51,7 @@ export default async function Home() {
               <hr className="border border-secondary" />
               <div className="flex flex-col items-center justify-between gap-4 my-2 xl:flex-row">
                 <div className="flex gap-4 justify-start">
-                  <NewsletterButton/>
+                  {/* <NewsletterButton/> */}
                 </div>
                 <div className="flex items-center justify-end gap-4">
                   <h2 className="text-lg font-bold md:whitespace-nowrap">Scorri gli articoli in basso o seleziona una categoria</h2>

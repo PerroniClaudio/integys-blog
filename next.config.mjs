@@ -9,6 +9,11 @@ const nextConfig = {
       },
     ],
   },
+  swcMinify: false, // Disabilita la minificazione con Terser
+  webpack(config) {
+    config.optimization.minimize = false; // Disabilita la minificazione
+    return config;
+  },
 };
 
 export default nextConfig;

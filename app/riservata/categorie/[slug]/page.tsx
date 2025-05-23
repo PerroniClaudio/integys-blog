@@ -4,13 +4,13 @@ import { Categories, simpleBlogCard } from "@/app/lib/interface";
 import { client } from "@/app/lib/sanity";
 import ArticleList from "@/app/components/ArticleList";
 import Navbar from "@/app/components/Navbar";
-import Hero from "@/app/components/Hero";
 import { getDataWithPaginationCategories } from "@/app/actions";
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import CategorySelector from "@/app/components/CategorySelector";
 import Newsletter from "@/components/ui/newsletter";
+import HeroRiservata from "@/app/components/HeroRiservata";
 
 async function getData(slug: string) {
   const query = `
@@ -70,7 +70,7 @@ async function Categorie({ params }: { params: { slug: string } }) {
   return (
     <>
       <Navbar shouldChangeColor={true} />
-      <Hero />
+      <HeroRiservata />
       <main className="max-w-7xl mx-auto px-4 mb-16">
         <div className="pt-4 pb-8">
           <div className="grid grid-cols-1 lg:grid-cols-8 gap-5">

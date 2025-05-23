@@ -83,7 +83,7 @@ export default function ValidateForm({ email, token, type = "email" }: { email: 
       <h1 className="w-fit font-semibold text-xl">
         {type === "email" ? "Validazione email" : "Reset password"}
       </h1>
-      <form className="flex flex-col gap-2 w-full md:w-1/3 lg:w-1/4 bg-input rounded-lg p-4" onSubmit={handleSubmit}>
+      <form className="flex flex-col gap-2 w-full md:w-1/3 lg:w-1/4 bg-card rounded-lg p-4" onSubmit={handleSubmit}>
         <div className="flex flex-col gap-2">
           <label htmlFor="email" className="text-primary font-semibold">Email</label>
           <input name="email" id="email" type="email" className="rounded pl-2" defaultValue={email} required />

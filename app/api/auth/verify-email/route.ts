@@ -118,7 +118,7 @@ export async function POST(request: Request) {
     });
 
     // Invia mail per validazione email col link comprendente il token
-    const activationLink = `${process.env.NEXTAUTH_URL}/activate-user/${newToken}`;
+    const activationLink = `${process.env.NEXTAUTH_URL}/validate-email/${newToken}/${user.email}`;
     // Send email with activationLink to the user's email address
 
     const message = "Il precedente link di verifica non è più valido. Di seguito trovi il nuovo link di verifica email per attivare la tua utenza ed impostare la password di accesso: " + activationLink;
@@ -140,6 +140,7 @@ export async function POST(request: Request) {
           Se non ti sei registrato, ignora questa email.
         </p>
       </div>`,
+      headers: {'Content-Type': 'text/html; charset=UTF-8'}
     };
 
     const info = await transporter.sendMail(mailData);

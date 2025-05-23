@@ -42,7 +42,12 @@ function NavbarClient({ shouldChangeColor, session, services = [] }: Props) {
             ? "bg-background border-primary"
             : "bg-primary border-primary-foreground dark:bg-secondary dark:border-primary-foreground"
         }`}>
-        <div className="mx-auto w-full max-w-7xl flex items-center justify-between px-8 py-3">
+        <div 
+          // className="mx-auto w-full max-w-7xl flex items-center justify-between px-8 py-3"
+          className={`mx-auto w-full max-w-7xl flex items-center justify-between px-8 py-3 ${
+            scrolled ? "text-primary" : "text-primary-foreground"
+          }`}
+        >
           <div className="flex gap-4 items-center pr-2">
             <Link
               href="https://integys.com/"
@@ -86,7 +91,7 @@ function NavbarClient({ shouldChangeColor, session, services = [] }: Props) {
                   </svg>
                 </div>
             </Link>
-            <Link href="/" className="font-semibold text-white text-lg">
+            <Link href="/" className="font-semibold text-lg">
               Home
             </Link> 
             {/* <Link href="/chi-siamo" className="font-semibold text-white">
@@ -97,7 +102,7 @@ function NavbarClient({ shouldChangeColor, session, services = [] }: Props) {
             
             {/* Per ora l'area riservata non è attiva */}
             <div className="hidden sm:flex gap-4 items-center font-semibold">
-              <Link href="/servizi" className="text-white text-lg">
+              <Link href="/servizi" className=" text-lg">
                 Servizi
               </Link>
               {/* <LimitedDropdown session={session} /> */}

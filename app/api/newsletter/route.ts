@@ -1,4 +1,6 @@
+import { getServerSession } from 'next-auth';
 import axios from '../../lib/axios';
+import prisma from '@/app/lib/prisma/client';
 
 /**
  * 
@@ -50,3 +52,23 @@ export async function POST(request: Request) {
 
     return new Response(JSON.stringify(data)); 
 }
+
+// Lista contatti
+export async function GET() {
+    const session = await getServerSession();
+    
+    const user = await prisma.user.findUnique({
+      where: { email: session?.user?.email || "" },
+    });
+
+    if (!session || !user?.is_admin) {
+        return new Response('Unauthorized', { status: 401 });
+    }
+    const mailingListId = process.env.MAILJET_GROUP_ID;
+
+    const response = await axios.get(`contact?ContactsList=${mailingListId}`);
+    const data = response.data;
+
+    return new Response(JSON.stringify(data));
+}
+

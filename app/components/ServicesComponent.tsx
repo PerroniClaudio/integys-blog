@@ -8,33 +8,13 @@ type Params = {
 };
 
 function ServicesComponent({ services }: Params) {
-  // const scrollToSection = (id: string) => {
-  //   const element = document.getElementById(`service-${id}`);
-  //   if (element) {
-  //     element.scrollIntoView({ behavior: 'smooth' });
-  //   }
-  // };
 
   return (
     <div>
       {/* Services Navigation */}
-      {/* <section className="py-12 bg-gray-200 dark:bg-gray-600">
-        <div className="container px-4 mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-8">I Nostri Servizi</h2>
-          <div className="flex flex-wrap gap-6 justify-center">
-            {services.map((service) => (
-              <ServiceCard
-                key={service.id}
-                service={service}
-                onClick={() => scrollToSection(service.id)}
-              />
-            ))}
-          </div>
-        </div>
-      </section> */}
 
       {/* Service Sections */}
-      <section className="w[100dvw] bg-gray-100 dark:bg-background/80">
+      <section className="w[100dvw] bg-background">
         <div className="container px-4 mx-auto">
           {services.map((service, index) => (
             <div 

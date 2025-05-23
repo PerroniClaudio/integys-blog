@@ -21,7 +21,7 @@ export function ServiceSection({ service, reverse = false }: ServiceSectionProps
           {/* <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-primary/5 rounded-2xl transform group-hover:scale-105 transition-transform duration-300" /> */}
           <img
             // src={service.titleImage}
-            src={urlFor(service.titleImage).url()}
+            src={service.titleImage ? (urlFor(service.titleImage).url() || "/opengraph-integys.png") : "/opengraph-integys.png"}
             alt={service.title}
             className="rounded-2xl shadow-xl relative z-10 w-full h-[400px] xl:h-[500px] object-cover"
           />

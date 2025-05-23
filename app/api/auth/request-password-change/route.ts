@@ -127,6 +127,7 @@ export async function POST(request: Request) {
           Se non hai richiesto tu il link di reset della password, ignora questa email.
         </p>
       </div>`,
+      headers: {'Content-Type': 'text/html; charset=UTF-8'}
     };
 
     const info = await transporter.sendMail(mailData);
@@ -146,6 +147,7 @@ export async function POST(request: Request) {
           Ragione Sociale: ${user?.company ?? ""}
         </p> 
       </div>`,
+      headers: {'Content-Type': 'text/html; charset=UTF-8'}
     };
 
     const adminInfo = await transporter.sendMail(adminMailData);

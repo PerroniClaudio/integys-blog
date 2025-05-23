@@ -1,3 +1,5 @@
+import { Rule } from "@sanity/types";
+
 export default {
   name: 'categorie',
   title: 'Categorie',
@@ -7,6 +9,7 @@ export default {
       name: 'name',
       type: 'string',
       title: 'Nome',
+      validation: (Rule: Rule) => Rule.required().error('Il nome è obbligatorio.'),
     },
     {
       name: 'slug',
@@ -16,6 +19,7 @@ export default {
         source: 'name',
         maxLength: 96,
       },
+      validation: (Rule: Rule) => Rule.required().error('Lo slug è obbligatorio e deve essere unico.'),
     },
     {
       name: 'description',

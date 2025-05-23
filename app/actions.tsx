@@ -3,9 +3,14 @@ import { client } from "./lib/sanity";
 import ArticleCard from "./components/ArticleCard";
 import { simpleBlogCard } from "./lib/interface";
 
-export async function getDataWithPagination(page: number, pageSize: number, limited:boolean = false) {
+// Prende gli articoli in ordine di ordine (se ce ne sono) e data. 
+// Si può decidere se prendere solo quelli limitati o solo quelli non limitati. 
+// Si può decidere se includere gli evidenziati o no.
+export async function getDataWithPagination(page: number, pageSize: number, limited:boolean = false, includeHighlighted:boolean = true) {
+  // ${highlighted ? '' : '&& highlighted == false'}]
   const query = `
-      *[_type == 'blog' && limited == ${limited} && date < now()] | order(date desc) {
+      *[_type == 'blog' && limited == ${limited} && date < now() 
+        ${includeHighlighted ? '' : (' && highlighted != true')}] | order(order asc, date desc) {
         "id": _id,
         title,
         smallDescription,
@@ -20,6 +25,25 @@ export async function getDataWithPagination(page: number, pageSize: number, limi
   return data.map((post: simpleBlogCard, index: number) => (
     <ArticleCard key={post.id} article={post} index={index} limited={limited} />
   ));
+}
+
+// Prende gli articoli evidenziati (limitati o no in base al parametro) in ordine di order e data. Massimo 10 articoli.
+export async function getHighlightedPostsData(limited:boolean = false) {
+  // && date < now() DA CAMBIARE PRIMA DELLA PUBBLICAZIONE. (va inserito)
+  const query = `
+      *[_type == 'blog' && limited == ${limited} && highlighted == true && date < now()] | order(order asc, date desc) {
+        "id": _id,
+        title,
+        smallDescription,
+        titleImage,
+        "currentSlug": slug.current,
+        categories[]->{name, "slug" : slug.current}
+      }[0...10]
+    `;
+
+  const data = await client.fetch(query);
+
+  return data;
 }
 
 export async function getDataWithPaginationCategories(
@@ -95,7 +119,7 @@ export async function getPreviewCards() {
         
       }[0...3]
     `;
-  // Query per sviluppo
+  // // Query per sviluppo
   // const query = `
   //     *[_type == 'blog' && limited == true && show_preview == true] | order(date desc) {
   //       "id": _id,

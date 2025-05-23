@@ -28,19 +28,32 @@ function ArticleCard({
       initial="hidden"
       animate="visible"
       transition={{ delay: index * 0.25, duration: 0.5, ease: "easeInOut" }}
-      viewport={{ amount: 0 }}>
+      viewport={{ amount: 0 }}
+    >
       <Card>
-        <Image
-          src={urlFor(article.titleImage).url()}
-          alt={article.title}
-          width={500}
-          height={500}
-          className="rounded-t-lg h-[200px] w-full object-cover"
-        />
-        {!!isPreview &&  
-          // <div className="text-center bg-accent text-accent-foreground font-semibold">Preview</div>
+        <div className="relative rounded-t-lg h-[260px] w-full overflow-hidden">
+          {/* Questo è per quando avremo reimpostato la lista degli articoli, se serviranno i lati delle immagini blurrati come in dpo
+          <div 
+            className= "absolute inset-0 rounded-t-lg bg-cover bg-center z-0"
+            style={{
+              backgroundImage: `url(${article.titleImage ? urlFor(article.titleImage)?.url() : "/opengraph-integys.png"})`,
+              filter: "blur(4px)",
+            }}
+          >
+          </div> */}
+          <Image
+            src={article.titleImage ? (urlFor(article.titleImage)?.url() || "/opengraph-integys.png") : "/opengraph-integys.png"}
+            alt={article.title}
+            width={500}
+            height={500}
+            className="rounded-t-lg h-[250px] w-full object-cover"
+            // className="relative rounded-t-lg h-[260px] w-full object-contain z-10"
+          />
+        </div>
+        {/* Se si vogliono differenziare penso basti questa riga. da decidere il testo all'interno */}
+        {/* {!!isPreview &&  
           <div className="text-center bg-metallic-silver text-gray-700 font-semibold " >Preview</div>
-        }
+        } */}
         <CardContent className="mt-5 flex-1 flex flex-col justify-between gap-7">
           <div>
             <h3 className="text</MotionDiv>-lg line-clamp-2 font-bold">{article.title}</h3>

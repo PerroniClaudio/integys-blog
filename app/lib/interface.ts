@@ -7,6 +7,14 @@ export interface simpleBlogCard {
   categories: Categories[];
 }
 
+export interface blogCardListElement {
+  id: string;
+  title: string;
+  currentSlug: string;
+  titleImage: any;
+  categories: Categories[];
+}
+
 export interface Categories {
   name: string;
   slug: string;

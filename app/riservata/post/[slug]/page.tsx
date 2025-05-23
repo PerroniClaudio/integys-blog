@@ -12,9 +12,9 @@ import Image from "next/image";
 import Link from "next/link";
 
 async function getData(slug: string) {
-  // && date < now()
+  // && date < now() DA CAMBIARE PRIMA DELLA PUBBLICAZIONE. va inserito
   const query = `
-        *[_type == 'blog' && limited == true && slug.current == '${slug}'] {
+        *[_type == 'blog' && limited == true && slug.current == '${slug}' && date < now()] {
             title,
             smallDescription,
             titleImage,
@@ -60,7 +60,7 @@ export async function generateMetadata({
     openGraph: {
       images: [
         {
-          url: urlFor(data.titleImage).url(),
+          url: data.titleImage ? (urlFor(data.titleImage).url() || (process.env.NEXTAUTH_URL + "/opengraph-integys.png")) : (process.env.NEXTAUTH_URL + "/opengraph-integys.png"),
           alt: data.title,
         },
       ],
@@ -81,7 +81,7 @@ async function BlogLimitedArticle({ params }: { params: { slug: string } }) {
           </h1>
 
           <Image
-            src={urlFor(data.titleImage).url()}
+            src={data.titleImage ? (urlFor(data.titleImage).url() || "/opengraph-integys.png") :  "/opengraph-integys.png"}
             alt={data.title}
             width={800}
             height={800}
@@ -95,7 +95,8 @@ async function BlogLimitedArticle({ params }: { params: { slug: string } }) {
             </span>
           </p>
 
-          <div className="mt-16 prose prose-red prose-lg dark:prose-invert prose-li:marker:text-primary prose-a:text-primary w-full xl:max-w-screen-md">
+          <div className="mt-16 prose prose-red prose-lg dark:prose-invert prose-li:marker:text-primary prose-a:text-primary w-full 
+            max-w-4/5 xl:max-w-screen-lg 2xl:max-w-screen-xl lg:text-xl">
             <PortableText value={data.body} />
 
             {data.files && 
@@ -104,17 +105,19 @@ async function BlogLimitedArticle({ params }: { params: { slug: string } }) {
 
             <hr className="border border-secondary my-4" />
 
-            <p className="font-bold text-2xl">
-              Prenota una sessione di presentazione dei nostri servizi per sviluppare un piano d&rsquo;azione personalizzato.
-            </p>
+           <div className="flex flex-col items-center">
+              <p className="font-bold text-2xl">
+                Prenota una sessione di presentazione dei nostri servizi per sviluppare un piano d&rsquo;azione personalizzato.
+              </p>
 
-            <Link href="/contattaci">
-              <Button
-                variant={"secondary"}
-                className="text-secondary-foreground text-lg py-8 px-12 min-w-16 text-center bg-primary w-full">
-                Contattaci
-              </Button>
-            </Link>
+              <Link href="/contattaci">
+                <Button
+                  variant={"secondary"}
+                  className="text-secondary-foreground text-lg py-8 px-20 min-w-16 text-center bg-primary">
+                  Contattaci
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </main>
