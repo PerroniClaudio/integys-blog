@@ -13,7 +13,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 
 async function getData(slug: string) {
-  // && date < now()
+  // && date < now() DA CAMBIARE PRIMA DELLA PUBBLICAZIONE. (va inserito)
   // Dato che è una preview dell'articolo limitato, non si prendono il body e i file ma si prende il preview_text
   const query = `
         *[_type == 'blog' && limited == true && date < now() && slug.current == '${slug}'] {
@@ -109,7 +109,8 @@ async function BlogArticle({ params }: { params: { slug: string } }) {
             </span>
           </p>
           
-          <div className="mt-16 prose prose-red prose-lg dark:prose-invert prose-li:marker:text-primary prose-a:text-primary w-full xl:max-w-screen-md">
+          <div className="mt-16 prose prose-red prose-lg dark:prose-invert prose-li:marker:text-primary prose-a:text-primary w-full
+            max-w-4/5 xl:max-w-screen-lg 2xl:max-w-screen-xl lg:text-xl">
             <div className="relative" >
               <div className="absolute inset-0 bg-gradient-to-b from-transparent to-background pointer-events-none"></div>
               <PortableText value={data.preview_text}
@@ -136,17 +137,19 @@ async function BlogArticle({ params }: { params: { slug: string } }) {
 
             <hr className="border border-secondary my-4" />
 
-            <p className="font-bold text-2xl text-center">
-              Prenota una sessione di presentazione dei nostri servizi per sviluppare un piano d&rsquo;azione personalizzato.
-            </p>
+            <div className="flex flex-col items-center">
+              <p className="font-bold text-2xl">
+                Prenota una sessione di presentazione dei nostri servizi per sviluppare un piano d&rsquo;azione personalizzato.
+              </p>
 
-            <Link href="/contattaci">
-              <Button
-                variant={"secondary"}
-                className="text-secondary-foreground text-lg py-8 px-12 min-w-16 text-center bg-primary w-full">
-                Contattaci
-              </Button>
-            </Link>
+              <Link href="/contattaci">
+                <Button
+                  variant={"secondary"}
+                  className="text-secondary-foreground text-lg py-8 px-20 min-w-16 text-center bg-primary">
+                  Contattaci
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </main>
