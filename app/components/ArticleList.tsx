@@ -6,7 +6,7 @@ import {
   getDataWithPaginationCategories,
 } from "../actions";
 import { useInView } from "react-intersection-observer";
-import { useState, useEffect } from "react";
+import { useState, useEffect, ReactElement } from "react";
 import { Button } from "@/components/ui/button";
 
 type Props = {
@@ -14,7 +14,7 @@ type Props = {
   limited?: boolean;
 };
 
-export type ArticleCard = JSX.Element;
+export type ArticleCard = ReactElement;
 
 function ArticleList({ category, limited = false }: Props) {
   const { ref, inView } = useInView();

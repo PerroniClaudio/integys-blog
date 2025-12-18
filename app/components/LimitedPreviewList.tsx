@@ -7,14 +7,14 @@ import {
   getPreviewCards,
 } from "../actions";
 // import { useInView } from "react-intersection-observer";
-import { useState, useEffect } from "react";
+import { useState, useEffect, ReactElement } from "react";
 
 type Props = {
   category?: string;
   limited?: boolean;
 };
 
-export type ArticleCard = JSX.Element;
+export type ArticleCard = ReactElement;
 
 function ArticleList({ category, limited = false }: Props) {
   const [data, setData] = useState<ArticleCard[]>([]);

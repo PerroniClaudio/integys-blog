@@ -6,7 +6,7 @@ import {
   getDataWithPaginationCategories,
 } from "../actions";
 import { useInView } from "react-intersection-observer";
-import { useState, useEffect } from "react";
+import { useState, useEffect, ReactElement } from "react";
 import { Button } from "@/components/ui/button";
 
 type Props = {
@@ -15,7 +15,7 @@ type Props = {
   firstArticles?: ArticleCard[];
 };
 
-export type ArticleCard = JSX.Element;
+export type ArticleCard = ReactElement;
 
 function AdditiveArticleList({ category, limited = false, firstArticles }: Props) {
   const { ref, inView } = useInView();
