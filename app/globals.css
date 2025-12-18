@@ -57,6 +57,15 @@
     --input: 0 0% 14.9%;
     --ring: 0 72.2% 50.6%;
   }
+
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+  }
 }
 
 .bg-metallic-silver {
@@ -72,12 +81,3 @@
   90% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 } */
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-}

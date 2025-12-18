@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/react";
-import { GeistSans } from "geist/font/sans";
 import "./globals.css";
 import { ThemeProvider } from "./components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
@@ -36,8 +35,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${GeistSans.variable}`}>
+    <html lang="en" suppressHydrationWarning>
+      <body className="font-sans antialiased">
         {/* <div className="relative min-h-screen pb-44"> Per gestire il footer */}
         <div className="relative min-h-screen">
           {" "}

@@ -1,7 +1,7 @@
 import type { Config } from "tailwindcss";
 
 const config = {
-  darkMode: ["class"],
+  darkMode: "class",
   content: [
     "./pages/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
@@ -18,10 +18,8 @@ const config = {
       },
     },
     extend: {
-      extend: {
-        fontFamily: {
-          sans: ["var(--font-geist-sans)"],
-        },
+      fontFamily: {
+        sans: ["ui-sans-serif", "system-ui", "sans-serif", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"],
       },
       colors: {
         border: "hsl(var(--border))",

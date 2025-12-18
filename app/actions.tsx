@@ -53,7 +53,7 @@ export async function getDataWithPaginationCategories(
   limited:boolean = false
 ) {
   const query = `
-      *[_type == 'blog' && limited == ${limited} && date < now() && '${slug}' in categories[]->slug.current] | order(date desc) {
+      *[_type == 'blog' && limited == ${limited} && date < now() && references(*[_type == 'category' && slug.current == '${slug}']._id)] | order(date desc) {
         "id": _id,
         title,
         smallDescription,

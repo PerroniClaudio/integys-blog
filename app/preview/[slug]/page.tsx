@@ -50,15 +50,16 @@ export async function generateStaticParams() {
 
   const data: simpleBlogCard[] = await client.fetch(query);
 
-  return data.map(({ currentSlug }) => currentSlug);
+  return data.map(({ currentSlug }) => ({ slug: currentSlug }));
 }
 
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
-  const data: fullBlogPreview = await getData(params.slug);
+  const { slug } = await params;
+  const data: fullBlogPreview = await getData(slug);
 
   return {
     title: data.title,
@@ -75,12 +76,13 @@ export async function generateMetadata({
 }
 
 export const revalidate = 30;
-async function BlogArticle({ params }: { params: { slug: string } }) {
-  const data: fullBlogPreview = await getData(params.slug);
+async function BlogArticle({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const data: fullBlogPreview = await getData(slug);
   
   const session = await getServerSession();
   // if(session) {
-  //   redirect("/riservata/" + params.slug);
+  //   redirect("/riservata/" + slug);
   // }
 
   // Dato che c'è force-dynamic si deve verificare anche qui se l'articolo è limitato o se show_preview è false

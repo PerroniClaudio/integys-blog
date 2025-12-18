@@ -1,10 +1,4 @@
 import AdminUserContent from '@/app/components/admin/AdminUserContent';
-import EditUserForm from '@/app/components/admin/EditUserForm';
-import prisma from '@/app/lib/prisma/client';
-import { Button } from '@/components/ui/button';
-import { PrismaClient } from '@prisma/client';
-import { Edit } from 'lucide-react';
-import { useParams } from 'next/navigation';
 
 
 

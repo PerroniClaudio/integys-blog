@@ -40,15 +40,16 @@ export async function generateStaticParams() {
 
   const data: fullService[] = await client.fetch(query);
 
-  return data.map(({ currentSlug }) => currentSlug);
+  return data.map(({ currentSlug }) => ({ slug: currentSlug }));
 }
 
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
-  const data: fullService = await getData(params.slug);
+  const { slug } = await params;
+  const data: fullService = await getData(slug);
 
   return {
     title: data.title,
@@ -65,8 +66,9 @@ export async function generateMetadata({
 }
 
 export const revalidate = 30;
-async function ServicePage({ params }: { params: { slug: string } }) {
-  const data: fullService = await getData(params.slug);
+async function ServicePage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const data: fullService = await getData(slug);
   return (
     <>
       <Navbar shouldChangeColor={false} />

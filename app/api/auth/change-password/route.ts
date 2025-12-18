@@ -53,8 +53,8 @@ export async function POST(request: Request) {
 
     const checkResult = VerificationSchema.safeParse(verificationForm);
     if(!checkResult.success){
-      if(checkResult.error.errors[0].path[0] === 'password'){
-        return new NextResponse(JSON.stringify({ error: checkResult.error.errors[0].message }), { status: 400 });
+      if(checkResult.error.issues[0].path[0] === 'password'){
+        return new NextResponse(JSON.stringify({ error: checkResult.error.issues[0].message }), { status: 400 });
       }
       return new NextResponse(JSON.stringify({ error: 'Dati non validi' }), { status: 400 });
     }

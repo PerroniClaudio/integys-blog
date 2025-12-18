@@ -28,7 +28,7 @@ export async function POST(request: Request) {
     const parsedData = VerificationSchema.safeParse({ id });
 
     if (!parsedData.success) {
-      return new NextResponse(JSON.stringify({ error: parsedData.error.errors }), { status: 400 });
+      return new NextResponse(JSON.stringify({ error: parsedData.error.issues }), { status: 400 });
     }
 
     const transporter = nodemailer.createTransport({

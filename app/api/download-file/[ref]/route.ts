@@ -11,8 +11,8 @@ const mailSenderAccount = {
 type blogData = {
   limited: boolean;
 }
-export async function GET(req: Request, { params }: { params: { ref: string } }) {
-  const { ref } = params;
+export async function GET(req: Request, { params }: { params: Promise<{ ref: string }> }) {
+  const { ref } = await params;
 
   if(!ref){
     return new Response("Missing ref parameter", { status: 404 });

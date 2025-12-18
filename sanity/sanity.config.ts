@@ -8,8 +8,8 @@ export default defineConfig({
   name: 'default',
   title: 'integys',
 
-  projectId: 't06x8g8r',
-  dataset: 'production',
+  projectId:'t06x8g8r',
+  dataset:'production',
 
   plugins: [structureTool(), visionTool(), itITLocale()],
 

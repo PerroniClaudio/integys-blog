@@ -28,7 +28,7 @@ export async function generateStaticParams() {
 
   const data: simpleBlogCard[] = await client.fetch(query);
 
-  return data.map(({ currentSlug }) => currentSlug);
+  return data.map(({ currentSlug }) => ({ slug: currentSlug }));
 }
 
 export const revalidate = 30;

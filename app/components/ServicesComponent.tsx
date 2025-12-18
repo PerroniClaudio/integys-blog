@@ -28,8 +28,8 @@ function ServicesComponent({ services }: Params) {
                 reverse={index % 2 === 1}
               />
               {index !== services.length - 1 && (
-                // <div className="border-b border-border/50 mt-20" />
-                <div className="border-b border-border/50" />
+                // <div className="border-b border-gray-200/50 mt-20" />
+                <div className="border-b border-gray-200/50" style={{ borderColor: 'hsl(var(--border) / 0.5)' }} />
               )}
             </div>
           ))}

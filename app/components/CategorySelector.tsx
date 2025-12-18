@@ -15,7 +15,8 @@ function CategorySelector({ categories, selected, limited = false }: Params) {
 
   return (
     <select 
-      className='min-w-fit border border-border bg-input rounded-md px-2 py-2 w-1/2 md:w-1/4'
+      className='min-w-fit border border-gray-200 bg-gray-100 rounded-md px-2 py-2 w-1/2 md:w-1/4'
+      style={{ borderColor: 'hsl(var(--border))', backgroundColor: 'hsl(var(--input))' }}
       defaultValue={selected}
       onChange={(e)=>e.target.value == "tutte" ? router.push(limited ? `/riservata` : `/`) : router.push(limited ? `/riservata/categorie/${e.target.value}` : `/categorie/${e.target.value}`)}
     >

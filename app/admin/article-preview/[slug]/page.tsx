@@ -45,15 +45,16 @@ export async function generateStaticParams() {
 
   const data: simpleBlogCard[] = await client.fetch(query);
 
-  return data.map(({ currentSlug }) => currentSlug);
+  return data.map(({ currentSlug }) => ({ slug: currentSlug }));
 }
 
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
-  const data: fullBlog = await getData(params.slug);
+  const { slug } = await params;
+  const data: fullBlog = await getData(slug);
 
   return {
     title: data.title,
@@ -70,8 +71,9 @@ export async function generateMetadata({
 }
 
 export const revalidate = 30;
-async function BlogArticle({ params }: { params: { slug: string } }) {
-  const data: fullBlog = await getData(params.slug);
+async function BlogArticle({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const data: fullBlog = await getData(slug);
   return (
     <>
       <Navbar shouldChangeColor={false} />

@@ -14,7 +14,7 @@ import HeroRiservata from "@/app/components/HeroRiservata";
 
 async function getData(slug: string) {
   const query = `
-      *[_type == 'blog' && limited == true && '${slug}' in categories[]->slug.current  && date < now()] | order(date desc) {
+      *[_type == 'blog' && limited == true && references(*[_type == 'category' && slug.current == '${slug}']._id) && date < now()] | order(date desc) {
         title,
         smallDescription,
         titleImage,
@@ -58,13 +58,14 @@ export async function generateStaticParams() {
 
   const data: Categories[] = await client.fetch(query);
 
-  return data.map(({ slug }) => slug);
+  return data.map(({ slug }) => ({ slug }));
 }
 
 export const revalidate = 30;
 
-async function Categorie({ params }: { params: { slug: string } }) {
-  const posts = await getDataWithPaginationCategories(params.slug, 1, 6, true);
+async function Categorie({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const posts = await getDataWithPaginationCategories(slug, 1, 6, true);
   const categories: Categories[] = await getCategories();
 
   return (
@@ -88,7 +89,7 @@ async function Categorie({ params }: { params: { slug: string } }) {
                 </Link>
                 <div className="flex items-center justify-end gap-4">
                   <h2 className="text-lg font-bold md:whitespace-nowrap">Scorri gli articoli in basso o seleziona una categoria</h2>
-                  <CategorySelector categories={categories} selected={params.slug} limited={true} />
+                  <CategorySelector categories={categories} selected={slug} limited={true} />
                 </div>
               </div>
               <hr className="border border-secondary" />
@@ -98,7 +99,7 @@ async function Categorie({ params }: { params: { slug: string } }) {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                 {posts}
               </div>
-              <ArticleList category={params.slug} limited={true} />
+              <ArticleList category={slug} limited={true} />
             </div>
 
           </div>
