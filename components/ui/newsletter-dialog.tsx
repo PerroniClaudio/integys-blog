@@ -6,8 +6,8 @@ import { toast } from "react-toastify";
 import { Button } from "./button";
 // import { useToast } from "./use-toast";
 
-// reCAPTCHA
-import ReCAPTCHA from "react-google-recaptcha";
+// hCaptcha
+import HCaptcha from "@hcaptcha/react-hcaptcha";
 
 type Props = {
   isOpen: boolean;
@@ -29,11 +29,11 @@ function NewsletterDialog({isOpen, setIsOpen}: Props) {
     email: "",
   });
 
-  // reCAPTCHA
-  const recaptchaRef = useRef<ReCAPTCHA>(null)
+  // hCaptcha
+  const recaptchaRef = useRef<HCaptcha>(null)
   const [isVerified, setIsverified] = useState<boolean>(false)
 
-  async function handleCaptchaSubmission(token: string | null) {
+  async function handleCaptchaSubmission(token: string) {
     // Server function to verify captcha
     const request = fetch("/api/captcha", {
       method: "POST",
@@ -145,10 +145,10 @@ function NewsletterDialog({isOpen, setIsOpen}: Props) {
             />
           </div>
 
-          <ReCAPTCHA
-            sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+          <HCaptcha
+            sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY!}
             ref={recaptchaRef}
-            onChange={handleCaptchaSubmission}
+            onVerify={handleCaptchaSubmission}
           />
  
           <button

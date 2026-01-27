@@ -21,8 +21,8 @@ import { z } from "zod";
 import { useToast } from "@/components/ui/use-toast";
 import { useContext, useRef, useState } from "react";
 
-// reCAPTCHA
-import ReCAPTCHA from "react-google-recaptcha";
+// hCaptcha
+import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { CookiesContext } from "@/components/cookies/cookiesContextProvider";
 
 const formSchema = z.object({
@@ -59,14 +59,14 @@ function Contattaci() {
     },
   });
 
-  // reCAPTCHA
-  const recaptchaRef = useRef<ReCAPTCHA>(null)
+  // hCaptcha
+  const recaptchaRef = useRef<HCaptcha>(null)
   const [isVerified, setIsverified] = useState<boolean>(false)
   
   //cookies
   const {cookiesSettings} = useContext(CookiesContext);
 
-  async function handleCaptchaSubmission(token: string | null) {
+  async function handleCaptchaSubmission(token: string) {
     // Server function to verify captcha
     const request = fetch("/api/captcha", {
       method: "POST",
@@ -195,10 +195,10 @@ function Contattaci() {
                         </FormItem>
                       )}
                     />
-                    <ReCAPTCHA
-                      sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+                    <HCaptcha
+                      sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY!}
                       ref={recaptchaRef}
-                      onChange={handleCaptchaSubmission}
+                      onVerify={handleCaptchaSubmission}
                     />
                     <Button type="submit" 
                       disabled={!isVerified}
