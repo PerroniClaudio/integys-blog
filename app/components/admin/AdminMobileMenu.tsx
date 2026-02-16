@@ -27,7 +27,7 @@ export default function AdminMobileMenu({session}: {session: Session | null}) {
       <DropdownMenuContent className="rounded bg primary" align="end">
 
         {/* <DropdownMenuItem>
-          <Link href="/chi-siamo">
+          <Link href="/admin/chi-siamo">
             Chi siamo
           </Link>
         </DropdownMenuItem> */}
@@ -41,7 +41,7 @@ export default function AdminMobileMenu({session}: {session: Session | null}) {
           ? (
             <>
               <DropdownMenuItem >
-                <Link href="/riservata">
+                <Link href="/admin/riservata">
                   Vai all&apos;area riservata
                 </Link>
               </DropdownMenuItem>
@@ -59,12 +59,12 @@ export default function AdminMobileMenu({session}: {session: Session | null}) {
           : (
             <>
               <DropdownMenuItem>
-                <Link href="/login">
+                <Link href="/admin/login">
                   Accedi
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <Link href="/register">
+                <Link href="/admin/register">
                   Registrati
                 </Link>
               </DropdownMenuItem>

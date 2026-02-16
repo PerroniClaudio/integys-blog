@@ -3,19 +3,23 @@ import { notFound } from 'next/navigation';
 
 type Props = {
   children: React.ReactNode;
-  params: Promise<{ locale: string }>;
+  params: { locale: string } | Promise<{ locale: string }>;
 };
 
 export default async function LocaleLayout({ children, params }: Props) {
-  const { locale } = await params;
-  
+  const resolvedParams = await Promise.resolve(params);
+  const locale = (resolvedParams?.locale || '').trim().toLowerCase();
+  if (typeof console !== 'undefined') {
+    // eslint-disable-next-line no-console
+    console.log('Locale ricevuto in layout:', locale);
+  }
   // Valida che il locale sia supportato
-  if (!locales.includes(locale as Locale)) {
+  if (!locale || !locales.includes(locale as Locale)) {
+    console.log(`Locale "${locale}" non supportato. I locali supportati sono: ${locales.join(', ')}.`);
     notFound();
   }
-  
   return (
-    <div lang={locale}  className="pb-44"> {/* pb-44 is the padding-bottom of the footer */}
+    <div lang={locale} className="pb-44"> {/* pb-44 is the padding-bottom of the footer */}
       {children}
     </div>
   );

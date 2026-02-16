@@ -12,11 +12,11 @@ import DynamicBlogContent from "@/app/components/DynamicBlogContent";
 export const revalidate = 30;
 
 interface PageProps {
-  params: Promise<{ locale: string }>;
+  params: { locale: string } | Promise<{ locale: string }>;
 }
 
 export default async function LocaleHome({ params }: PageProps) {
-  const { locale } = await params;
+  const { locale } = await Promise.resolve(params);
   
 
   // Recupera la lista articoli tramite API route
@@ -67,7 +67,8 @@ export default async function LocaleHome({ params }: PageProps) {
       {/* Contenuto dinamico che si aggiorna in base alla lingua */}
       {/* Forza il remount anche se la route cambia senza ricaricare la pagina */}
       <DynamicBlogContent 
-        key={locale + '-' + (typeof window !== 'undefined' ? window.location.pathname : '')}
+        key={locale}
+        locale={locale}
         fallbackData={posts.slice(0, 6)} 
         fallbackHighlighted={highlightedPosts} 
       />

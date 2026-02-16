@@ -14,8 +14,9 @@ import '../swiperStyleOverride.css';
 
 type Props = {
   data: simpleBlogCard[];
+  locale: string;
 }
-function HighlightedArticles({data}: Props) {
+function HighlightedArticles({data, locale}: Props) {
   return (
     <div className='bg-popover bg-opacity-50 pt-6 lg:pt-10'>
       <Swiper
@@ -39,7 +40,7 @@ function HighlightedArticles({data}: Props) {
       >
         {data.map((post, index) => 
           <SwiperSlide key={post.id} className='h-auto mb-8'>
-            <HighlightedArticleCard key={post.id} article={post} index={index} />
+            <HighlightedArticleCard key={post.id} article={post} index={index} locale={locale} />
           </SwiperSlide>
         )}
       </Swiper>

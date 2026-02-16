@@ -42,7 +42,7 @@ export default async function Layout({ children }: Readonly<{ children: React.Re
             <p>
               L&apos;account è ancora da abilitare, è stato eliminato o non esiste. 
             </p>
-            <Link href="/">
+            <Link href={`/${params.locale || 'it'}`}> 
               <Button>
                 Torna alla home
               </Button>

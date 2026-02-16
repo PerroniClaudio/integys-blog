@@ -30,7 +30,7 @@ export default function MobileMenu({session}: {session: Session | null}) {
       <DropdownMenuContent className="rounded bg primary" align="end">
 
         {/* <DropdownMenuItem>
-          <Link href="/chi-siamo">
+          <Link href={`/${typeof window !== 'undefined' ? window.location.pathname.split('/')[1] : 'it'}/chi-siamo`}>
             Chi siamo
           </Link>
         </DropdownMenuItem> */}
@@ -44,7 +44,7 @@ export default function MobileMenu({session}: {session: Session | null}) {
           ? (
             <>
               <DropdownMenuItem >
-                <Link href="/riservata">
+                <Link href={`/${typeof window !== 'undefined' ? window.location.pathname.split('/')[1] : 'it'}/riservata`}>
                   Vai all&apos;area riservata
                 </Link>
               </DropdownMenuItem>
@@ -62,12 +62,12 @@ export default function MobileMenu({session}: {session: Session | null}) {
           : (
             <>
               <DropdownMenuItem>
-                <Link href="/login">
+                <Link href={`/${typeof window !== 'undefined' ? window.location.pathname.split('/')[1] : 'it'}/login`}>
                   Accedi
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <Link href="/register">
+                <Link href={`/${typeof window !== 'undefined' ? window.location.pathname.split('/')[1] : 'it'}/register`}>
                   Registrati
                 </Link>
               </DropdownMenuItem>

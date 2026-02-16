@@ -21,7 +21,7 @@ function Footer({ isAbsolute = true }: FooterProps) {
       <div className="container flex items-center justify-between gap-4 px-4 text-sm md:gap-6 min-h-32">
         <div className="flex flex-col gap-2">
           <Link
-            href="/"
+            href={`/${typeof window !== 'undefined' ? window.location.pathname.split('/')[1] : 'it'}`}
             className={`font-bold text-3xl text-primary dark:hidden`}>
             <div className="flex items-center gap-1 ">
               <div className="p-1">
@@ -32,7 +32,7 @@ function Footer({ isAbsolute = true }: FooterProps) {
             </div>
           </Link>
           <Link
-            href="/"
+            href={`/${typeof window !== 'undefined' ? window.location.pathname.split('/')[1] : 'it'}`}
             className={`font-bold text-3xl text-primary hidden dark:block`}>
             <div className="flex items-center gap-1 ">
               <div className="p-1">

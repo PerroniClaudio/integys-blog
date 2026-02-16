@@ -29,7 +29,7 @@ export default function LimitedDropdown({session}: {session: Session | null}) {
           ? (
             <>
               <DropdownMenuItem >{/* className="cursor-pointer" onClick={()=>{router.push("/riservata"); router.refresh();}} */}
-                <Link href="/riservata">
+                <Link href={`/${typeof window !== 'undefined' ? window.location.pathname.split('/')[1] : 'it'}/riservata`}>
                   Vai all&apos;area riservata
                 </Link>
               </DropdownMenuItem>
@@ -47,12 +47,12 @@ export default function LimitedDropdown({session}: {session: Session | null}) {
           : (
             <>
               <DropdownMenuItem>
-                <Link href="/login-hub">
+                <Link href={`/${typeof window !== 'undefined' ? window.location.pathname.split('/')[1] : 'it'}/login-hub`}>
                   Accedi
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <Link href="/register">
+                <Link href={`/${typeof window !== 'undefined' ? window.location.pathname.split('/')[1] : 'it'}/register`}>
                   Registrati
                 </Link>
               </DropdownMenuItem>

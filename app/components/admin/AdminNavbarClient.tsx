@@ -28,7 +28,7 @@ function AdminNavbarClient({ session = null }: Props) {
                 <span>INTEGYS</span>
               </div>
             </Link>
-            <Link href="/" className="font-semibold text-white text-lg">
+            <Link href="/admin" className="font-semibold text-white text-lg">
               Home
             </Link> 
             <Link href="/admin" className="font-semibold text-white text-lg">

@@ -48,8 +48,8 @@ export async function POST(request: Request) {
 //     return new Response(JSON.stringify(data));
 // }
 
-export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
-    const { id : userId } = await params;
+export async function GET(req: Request, { params }: { params: Promise<{ id: string }> | { id: string } }) {
+    const { id : userId } = await Promise.resolve(params);
     // Validazione
     if(!userId){
       return new Response("Missing ID parameter", { status: 404 });
@@ -96,8 +96,8 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
     return new Response(JSON.stringify(user));
 }
 
-export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {
-  const { id: userId } = await params;
+export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> | { id: string } }) {
+    const { id: userId } = await Promise.resolve(params);
     // Validazione
     if(!userId){
         return new Response("Missing ID parameter", { status: 404 });
@@ -136,8 +136,8 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
 }
     
 
-export async function DELETE(req: Request, { params }: { params: Promise<{ id: string }> }) {
-  const { id: userId } = await params;
+export async function DELETE(req: Request, { params }: { params: Promise<{ id: string }> | { id: string } }) {
+    const { id: userId } = await Promise.resolve(params);
     // Validazione
     if(!userId){
       return new Response("Missing ID parameter", { status: 404 });

@@ -9,12 +9,14 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import ContactUsButton from "@/app/components/ContactUsButton";
 
-export default async function RegisterPage() {
 
+interface PageProps {
+  params: Promise<{ locale: string }> | { locale: string };
+}
+
+export default async function RegisterPage({ params }: PageProps) {
+  const { locale } = await Promise.resolve(params);
   const session = await getServerSession();
-
-  // Area reiservata disabilitata. Redirect all'homepage
-  // redirect("/");
 
   if(session) {
     redirect("/riservata");
@@ -23,18 +25,11 @@ export default async function RegisterPage() {
   return (
     <main className="pt-16">
       <Navbar shouldChangeColor={false} />
-      {/* <LoginHub /> Non dovrebbe servire se sono solo link */}
-      {
-        // Rimando al login per l'area riservata
-        // Rimando al supporto per la gestione delle richieste
-        // Rimando al contattaci
-      }    
-      {/* Area riservata e Supporto, diviso in due */}
       <div className="m-auto grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-screen p-8 xl:max-w-screen-lg">
         {/* Area riservata */}
         <Card className="px-4 py-8 flex flex-col justify-between items-center gap-8">
           <h2 className="text-2xl font-semibold">Vuoi accedere all'area riservata?</h2>
-          <Link href="/login">
+          <Link href={`/${locale || 'it'}/login`}>
             <Button className="font-semibold">
               Vai al login
             </Button>

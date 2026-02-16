@@ -12,7 +12,7 @@ import ContactUsButton from "@/app/components/ContactUsButton";
 import Footer from "@/app/components/Footer";
 
 interface PageProps {
-  params: Promise<{ locale: string; slug: string }>;
+  params: Promise<{ locale: string; slug: string }> | { locale: string; slug: string };
 }
 
 async function getData(slug: string, locale: string) {
@@ -53,12 +53,13 @@ export async function generateStaticParams() {
   }));
 }
 
+
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ locale: string; slug: string }>;
+  params: Promise<{ locale: string; slug: string }> | { locale: string; slug: string };
 }): Promise<Metadata> {
-  const { locale, slug } = await params;
+  const { locale, slug } = await Promise.resolve(params);
   const data: fullBlog = await getData(slug, locale);
 
   if (!data) {
@@ -83,8 +84,9 @@ export async function generateMetadata({
 
 export const revalidate = 30;
 
+
 async function BlogArticle({ params }: PageProps) {
-  const { locale, slug } = await params;
+  const { locale, slug } = await Promise.resolve(params);
   const data: fullBlog & { postIdMultilingua?: string; language?: string } = await getData(slug, locale);
   
   if (!data) {

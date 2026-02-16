@@ -13,7 +13,7 @@ import NewsletterButton from "@/components/ui/newsletter-button";
 import Footer from "@/app/components/Footer";
 
 interface PageProps {
-  params: Promise<{ locale: string; slug: string }>;
+  params: Promise<{ locale: string; slug: string }> | { locale: string; slug: string };
 }
 
 async function getData(slug: string, locale: string) {
@@ -52,8 +52,9 @@ export async function generateStaticParams() {
 
 export const revalidate = 30;
 
+
 async function Categorie({ params }: PageProps) {
-  const { locale, slug } = await params;
+  const { locale, slug } = await Promise.resolve(params);
   const posts = await getDataWithPaginationCategoriesI18n(slug, 1, 6, locale);
   const categoriesData = await getCategoriesDataI18n(locale);
 

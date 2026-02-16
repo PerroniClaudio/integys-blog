@@ -13,7 +13,10 @@ const client = createClient({
 });
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { locale = 'it', page = 1, pageSize = 6, includeHighlighted = 'true', highlighted = false } = req.query;
+  const { locale, page = 1, pageSize = 6, includeHighlighted = 'true', highlighted = false } = req.query;
+  if (locale !== 'it' && locale !== 'en') {
+    return res.status(400).json({ success: false, error: 'Parametro locale mancante o non valido' });
+  }
   try {
     let filter = `[_type == 'blog' && limited == false && date < now() && language == $locale`;
     if (highlighted === 'true') {

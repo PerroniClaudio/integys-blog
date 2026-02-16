@@ -43,12 +43,13 @@ export async function generateStaticParams() {
   return data.map(({ currentSlug }) => ({ slug: currentSlug }));
 }
 
+
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string }> | { slug: string };
 }): Promise<Metadata> {
-  const { slug } = await params;
+  const { slug } = await Promise.resolve(params);
   const data: fullService = await getData(slug);
 
   return {
@@ -66,8 +67,8 @@ export async function generateMetadata({
 }
 
 export const revalidate = 30;
-async function ServicePage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
+async function ServicePage({ params }: { params: Promise<{ slug: string }> | { slug: string } }) {
+  const { slug } = await Promise.resolve(params);
   const data: fullService = await getData(slug);
   return (
     <>

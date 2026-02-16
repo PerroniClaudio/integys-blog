@@ -7,31 +7,29 @@ import HighlightedArticles from './HighlightedArticles';
 import DynamicArticleList from './DynamicArticleList';
 
 interface DynamicContentProps {
+  locale: string;
   fallbackData?: any[];
   fallbackHighlighted?: any[];
 }
 
-export default function DynamicBlogContent({ fallbackData, fallbackHighlighted }: DynamicContentProps) {
-  // Assicurati che la lingua dall'URL sia sincronizzata
-  const { isReady } = useLanguageFromURL();
-  
-  // Fetch dei dati degli articoli per la lingua corrente
+export default function DynamicBlogContent({ locale, fallbackData, fallbackHighlighted }: DynamicContentProps) {
+  // Fetch dei dati degli articoli per la lingua passata dal server
   const { data: posts, loading: postsLoading } = useBlogData({
     page: 1,
     pageSize: 6,
     limited: false,
-    includeHighlighted: true
+    includeHighlighted: true,
+    locale
   });
 
   // Fetch degli articoli evidenziati
-  const { data: highlightedPosts, loading: highlightedLoading } = useHighlightedBlogData(false);
+  const { data: highlightedPosts, loading: highlightedLoading } = useHighlightedBlogData(false, locale);
 
-  // Durante il caricamento iniziale, mostra i dati di fallback
-  if (!isReady || postsLoading) {
+  if (postsLoading) {
     return (
       <>
         {!!fallbackHighlighted && (fallbackHighlighted.length > 0) && 
-          <HighlightedArticles data={fallbackHighlighted} />
+          <HighlightedArticles data={fallbackHighlighted} locale={locale} />
         }
         <main className="max-w-screen-2xl mx-auto px-4 mb-16">
           <div className="pt-4 pb-8">
@@ -42,7 +40,6 @@ export default function DynamicBlogContent({ fallbackData, fallbackHighlighted }
                     <ArticleCard key={post.id || index} article={post} index={index} limited={false} />
                   ))}
                 </div>
-                {/* Placeholder per ArticleList durante il caricamento */}
                 <div className="text-center py-8">
                   <div className="loading loading-spinner loading-lg text-primary" />
                 </div>
@@ -57,7 +54,7 @@ export default function DynamicBlogContent({ fallbackData, fallbackHighlighted }
   return (
     <>
       {!!highlightedPosts && Array.isArray(highlightedPosts) && highlightedPosts.length > 0 && 
-        <HighlightedArticles data={highlightedPosts} />
+        <HighlightedArticles data={highlightedPosts} locale={locale} />
       }
       <main className="max-w-screen-2xl mx-auto px-4 mb-16">
         <div className="pt-4 pb-8">
@@ -68,7 +65,6 @@ export default function DynamicBlogContent({ fallbackData, fallbackHighlighted }
                   <ArticleCard key={post.id} article={post} index={index} limited={false} />
                 ))}
               </div>
-              {/* ArticleList dinamico che si aggiorna con la lingua */}
               <DynamicArticleList />
             </div>
           </div>

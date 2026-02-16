@@ -33,11 +33,11 @@ export const revalidate = 30;
 
 type CategoryData = { name: string; currentSlug: string; };
 interface PageProps {
-  params: Promise<{ locale: string }>;
+  params: { locale: string };
 }
 
 export default async function Home({ params }: PageProps) {
-  const { locale } = await params;
+  const { locale } = params;
   const data: simpleBlogCard[] = await getDataI18n(locale, true);
   const posts = await getDataWithPaginationI18n(1, 6, locale, true);
 

@@ -15,12 +15,14 @@ function HighlightedArticleCard({
   article,
   index,
   limited = false,
-  isPreview = false
+  isPreview = false,
+  locale = 'it',
 }: {
   article: simpleBlogCard;
   index: number;
   limited?: boolean;
   isPreview?: boolean;
+  locale?: string;
 }) {
   const { t } = useTranslation();
   return (
@@ -48,10 +50,10 @@ function HighlightedArticleCard({
           <Button asChild className="w-fit py-6 px-12 text-lg m-auto">
             {/* Se l'articolo è limited allora siamo in area riservata. A meno che non sia una preview */}
             <Link href={isPreview 
-              ?  `/preview/${article.currentSlug}`  
+              ?  `/${locale}/preview/${article.currentSlug}`  
               : ( limited 
-                  ? `/riservata/post/${article.currentSlug}`
-                  : `/news/${article.currentSlug}`) 
+                  ? `/${locale}/riservata/post/${article.currentSlug}`
+                  : `/${locale}/news/${article.currentSlug}`) 
               }>
               {t('discoverMore')}
             </Link>

@@ -14,7 +14,7 @@ import { notFound } from "next/navigation";
 import ContactUsButton from "@/app/components/ContactUsButton";
 
 interface PageProps {
-  params: Promise<{ locale: string; slug: string }>;
+  params: Promise<{ locale: string; slug: string }> | { locale: string; slug: string };
 }
 
 async function getData(slug: string, locale: string) {
@@ -60,12 +60,13 @@ export async function generateStaticParams() {
   }));
 }
 
+
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ locale: string; slug: string }>;
+  params: Promise<{ locale: string; slug: string }> | { locale: string; slug: string };
 }): Promise<Metadata> {
-  const { slug, locale } = await params;
+  const { slug, locale } = await Promise.resolve(params);
   const data: fullBlogPreview = await getData(slug, locale);
 
   if (!data) {
@@ -89,8 +90,9 @@ export async function generateMetadata({
 }
 
 export const revalidate = 30;
+
 async function BlogArticle({ params }: PageProps) {
-  const { slug, locale } = await params;
+  const { slug, locale } = await Promise.resolve(params);
   const data: fullBlogPreview = await getData(slug, locale);
   
   if (!data) {

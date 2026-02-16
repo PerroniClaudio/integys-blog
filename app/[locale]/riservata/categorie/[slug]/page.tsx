@@ -69,8 +69,8 @@ import CategorySelector from "@/app/components/CategorySelector";
 import ArticleList from "@/app/components/ArticleList";
 import HeroRiservata from "@/app/components/HeroRiservata";
 
-async function Categorie({ params }: { params: Promise<{ slug: string, locale: string }> }) {
-  const { slug, locale } = await params;
+async function Categorie({ params }: { params: Promise<{ slug: string, locale: string }> | { slug: string, locale: string } }) {
+  const { slug, locale } = await Promise.resolve(params);
   const posts = await getDataWithPaginationCategoriesI18n(slug, 1, 6, locale, true);
   const categoriesData = await getCategoriesDataI18n(locale);
 
