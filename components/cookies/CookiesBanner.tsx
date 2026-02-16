@@ -22,7 +22,7 @@ type CookieConsent = {
 
 function CookiesBanner() {
   const router = useRouter();
-  const pathname = usePathname();
+  const pathname = usePathname() || '';
   const { t, i18n } = useTranslation();
   
   const {cookiesSettings, setCookies} = useContext(CookiesContext);

@@ -9,7 +9,7 @@ import { useRouter, usePathname } from "next/navigation";
 export default function MobileMenu({session}: {session: Session | null}) {
 
   const router = useRouter();
-  const pathname = usePathname();
+  const pathname = usePathname() || '';
   
   // Estrai il locale dal pathname
   const segments = pathname.split('/').filter(Boolean);

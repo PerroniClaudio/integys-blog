@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 
 function Hero2() {
   const { t } = useTranslation();
-  const pathname = usePathname();
+  const pathname = usePathname() || '';
   
   // Estrai il locale dal pathname
   const segments = pathname.split('/').filter(Boolean);

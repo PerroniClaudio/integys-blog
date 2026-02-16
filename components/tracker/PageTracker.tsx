@@ -26,9 +26,8 @@ export default function PageTracker() {
 
   useEffect(() => {
     // Ricostruisci l'URL completo con i parametri di query
-    const fullUrl = `${window.location.origin}${pathname}${
-      searchParams.toString() ? `?${searchParams.toString()}` : ""
-    }`;
+    const searchString = searchParams && typeof searchParams.toString === 'function' ? searchParams.toString() : '';
+    const fullUrl = `${window.location.origin}${pathname}${searchString ? `?${searchString}` : ''}`;
     setFullUrlString(fullUrl);
 
     // Verifica se questo URL è già stato tracciato recentemente

@@ -14,8 +14,8 @@ type Params =  {
 function CategorySelector({ categories, selected, limited = false }: Params) {
   const { t } = useTranslation();
   const router = useRouter();
-  const pathname = usePathname();
-  
+  const rawPathname = usePathname();
+  const pathname = rawPathname || '';
   // Estrai il locale dal pathname
   const segments = pathname.split('/').filter(Boolean);
   const localeFromPath = segments[0];

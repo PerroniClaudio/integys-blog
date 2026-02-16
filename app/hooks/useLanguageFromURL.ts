@@ -5,7 +5,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export function useLanguageFromURL() {
-  const pathname = usePathname();
+  const pathname = usePathname() || '';
   const router = useRouter();
   const { i18n } = useTranslation();
   const [isReady, setIsReady] = useState(false);

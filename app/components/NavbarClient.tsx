@@ -20,7 +20,7 @@ type Props = {
 function NavbarClient({ shouldChangeColor, session, services = [] }: Props) {
   const [scrolled, setScrolled] = useState(false);
   const { t } = useTranslation();
-  const pathname = usePathname();
+  const pathname = usePathname() || '';
   
   // Estrai il locale dal pathname
   const segments = pathname.split('/').filter(Boolean);

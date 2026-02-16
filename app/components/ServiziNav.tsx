@@ -17,7 +17,7 @@ function ServiziNav({services, isGlobal} : Props) {
   const [trackerIds, setTrackerIds] = useState<string[]>(services.map(service => `service-track-${service.id}`));
 
   const router = useRouter();
-  const pathname = usePathname();
+  const pathname = usePathname() || '';
 
   // Estrai il locale dal pathname
   const segments = pathname.split('/').filter(Boolean);

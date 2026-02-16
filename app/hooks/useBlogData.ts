@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { client } from '@/lib/sanity';
+// import { client } from '@/lib/sanity';
 import { simpleBlogCard } from '@/lib/interface';
 import { useTranslation } from '@/lib/useTranslation';
 
@@ -49,8 +49,17 @@ export function useBlogData(options: UseBlogDataOptions = {}) {
           }[${(page - 1) * pageSize}...${page * pageSize}]
         `;
 
-        const result = await client.fetch(query);
-        
+        // Usa la nuova API route per recuperare i dati dal server
+        const params = new URLSearchParams({
+          page: String(page),
+          pageSize: String(pageSize),
+          limited: String(limited),
+          includeHighlighted: String(includeHighlighted),
+          language: currentLanguage
+        });
+        const res = await fetch(`/api/blog-list?${params.toString()}`);
+        if (!res.ok) throw new Error('Errore nella fetch API blog-list');
+        const result = await res.json();
         setData(result);
       } catch (err) {
         console.error('Error fetching blog data:', err);
@@ -97,8 +106,17 @@ export function useHighlightedBlogData(limited: boolean = false) {
           }[0...10]
         `;
 
-        const result = await client.fetch(query);
-        
+        // Usa la nuova API route per recuperare i dati dal server
+        const params = new URLSearchParams({
+          page: '1',
+          pageSize: '10',
+          limited: String(limited),
+          includeHighlighted: 'true',
+          language: currentLanguage
+        });
+        const res = await fetch(`/api/blog-list?${params.toString()}`);
+        if (!res.ok) throw new Error('Errore nella fetch API blog-list');
+        const result = await res.json();
         setData(result);
       } catch (err) {
         console.error('Error fetching highlighted blog data:', err);

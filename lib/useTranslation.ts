@@ -33,7 +33,7 @@ export function useTranslation() {
   useEffect(() => {
     function syncLangWithUrl() {
       if (typeof window !== 'undefined') {
-        const pathname = window.location.pathname;
+        const pathname = window.location.pathname || '';
         const segments = pathname.split('/').filter(Boolean);
         const localeFromPath = segments[0];
         if (localeFromPath === 'it' || localeFromPath === 'en') {

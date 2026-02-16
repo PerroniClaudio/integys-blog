@@ -27,7 +27,7 @@ interface ArticleVersion {
 export default function LanguageSwitcher() {
   const { i18n } = useTranslation();
   const { updateURLLanguage, isReady } = useLanguageFromURL();
-  const pathname = usePathname();
+  const pathname = usePathname() || '';
   const [mounted, setMounted] = React.useState(false);
   const [articleVersions, setArticleVersions] = React.useState<ArticleVersion[]>([]);
   const [isArticlePage, setIsArticlePage] = React.useState(false);

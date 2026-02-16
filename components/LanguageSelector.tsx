@@ -10,7 +10,7 @@ import { useEffect } from 'react';
 const LanguageSelector = () => {
   const { t, i18n } = useTranslation();
   const router = useRouter();
-  const pathname = usePathname();
+  const pathname = usePathname() || '';
   
   // Sincronizza lo stato i18n con il locale del path
   useEffect(() => {
