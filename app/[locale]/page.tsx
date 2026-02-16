@@ -29,7 +29,8 @@ export default async function LocaleHome({ params }: PageProps) {
   });
   // In SSR, fetch accetta solo path relativo
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
-  const res = await fetch(new URL(`/api/blog-list?${blogParams.toString()}`, baseUrl));
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+  const res = await fetch(`${siteUrl}/api/blog-list?${blogParams.toString()}`);
   const postsResult = res.ok ? await res.json() : { data: [] };
   const posts = Array.isArray(postsResult.data) ? postsResult.data : [];
 
@@ -42,12 +43,12 @@ export default async function LocaleHome({ params }: PageProps) {
     includeHighlighted: 'true',
     locale: locale
   });
-  const highlightedRes = await fetch(new URL(`/api/blog-list?${highlightedParams.toString()}`, baseUrl));
+  const highlightedRes = await fetch(`${siteUrl}/api/blog-list?${highlightedParams.toString()}`);
   const highlightedResult = highlightedRes.ok ? await highlightedRes.json() : { data: [] };
   const highlightedPosts = Array.isArray(highlightedResult.data) ? highlightedResult.data : [];
 
   // Recupera categorie tramite API route (ipotizzando /api/categories-list)
-  const categoriesRes = await fetch(new URL(`/api/categories-list?language=${locale}`, baseUrl));
+  const categoriesRes = await fetch(`${siteUrl}/api/categories-list?language=${locale}`);
   const categoriesData = categoriesRes.ok ? await categoriesRes.json() : [];
 
   return (
