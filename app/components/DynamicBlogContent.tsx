@@ -56,7 +56,7 @@ export default function DynamicBlogContent({ fallbackData, fallbackHighlighted }
 
   return (
     <>
-      {!!highlightedPosts && (highlightedPosts.length > 0) && 
+      {!!highlightedPosts && Array.isArray(highlightedPosts) && highlightedPosts.length > 0 && 
         <HighlightedArticles data={highlightedPosts} />
       }
       <main className="max-w-screen-2xl mx-auto px-4 mb-16">
@@ -64,7 +64,7 @@ export default function DynamicBlogContent({ fallbackData, fallbackHighlighted }
           <div className="grid grid-cols-1 lg:grid-cols-8 gap-5">
             <div className="col-span-8 flex flex-col gap-5">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                {posts.map((post, index) => (
+                {(Array.isArray(posts) ? posts : []).map((post, index) => (
                   <ArticleCard key={post.id} article={post} index={index} limited={false} />
                 ))}
               </div>

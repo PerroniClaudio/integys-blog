@@ -5,18 +5,24 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { createClient } from '@sanity/client';
 
 const client = createClient({
-  projectId: process.env.SANITY_STUDIO_PROJECT_ID,
-  dataset: process.env.SANITY_STUDIO_DATASET,
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
+  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET,
   token: process.env.SANITY_READ_TOKEN, // Token di sola lettura
-  apiVersion: process.env.SANITY_STUDIO_API_VERSION || '2024-11-27',
+  apiVersion: process.env.NEXT_PUBLIC_SANITY_API_VERSION || '2024-11-27',
   useCdn: false,
 });
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { locale = 'it', page = 1, pageSize = 6, highlighted = false } = req.query;
+  const { locale = 'it', page = 1, pageSize = 6, includeHighlighted = 'true', highlighted = false } = req.query;
   try {
-    const query = `
-      *[_type == 'blog' && limited == false && date < now() && language == $locale${highlighted === 'true' ? ' && highlighted == true' : ''}]
+    let filter = `[_type == 'blog' && limited == false && date < now() && language == $locale`;
+    if (highlighted === 'true') {
+      filter += ' && highlighted == true';
+    } else if (includeHighlighted === 'false') {
+      filter += ' && highlighted != true';
+    }
+    filter += ']';
+    const query = `*${filter}
       | order(order asc, date desc) {
         "id": _id,
         title,

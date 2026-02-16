@@ -55,12 +55,12 @@ export function useBlogData(options: UseBlogDataOptions = {}) {
           pageSize: String(pageSize),
           limited: String(limited),
           includeHighlighted: String(includeHighlighted),
-          language: currentLanguage
+          locale: currentLanguage
         });
         const res = await fetch(`/api/blog-list?${params.toString()}`);
         if (!res.ok) throw new Error('Errore nella fetch API blog-list');
         const result = await res.json();
-        setData(result);
+        setData(Array.isArray(result.data) ? result.data : []);
       } catch (err) {
         console.error('Error fetching blog data:', err);
         setError(err instanceof Error ? err.message : 'Unknown error');
@@ -112,12 +112,12 @@ export function useHighlightedBlogData(limited: boolean = false) {
           pageSize: '10',
           limited: String(limited),
           includeHighlighted: 'true',
-          language: currentLanguage
+          locale: currentLanguage
         });
         const res = await fetch(`/api/blog-list?${params.toString()}`);
         if (!res.ok) throw new Error('Errore nella fetch API blog-list');
         const result = await res.json();
-        setData(result);
+        setData(Array.isArray(result.data) ? result.data : []);
       } catch (err) {
         console.error('Error fetching highlighted blog data:', err);
         setError(err instanceof Error ? err.message : 'Unknown error');

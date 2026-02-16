@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 
 // Import delle traduzioni
 import itTranslations from '@/public/locales/it/common.json';
@@ -27,38 +28,20 @@ const translations = {
 
 
 export function useTranslation() {
-
   const [currentLang, setCurrentLang] = useState<'it' | 'en'>('it');
+  const pathname = typeof window !== 'undefined' ? window.location.pathname : '';
 
   useEffect(() => {
     function syncLangWithUrl() {
-      if (typeof window !== 'undefined') {
-        const pathname = window.location.pathname || '';
-        const segments = pathname.split('/').filter(Boolean);
-        const localeFromPath = segments[0];
-        if (localeFromPath === 'it' || localeFromPath === 'en') {
-          setCurrentLang(localeFromPath);
-        }
+      const segments = pathname.split('/').filter(Boolean);
+      const localeFromPath = segments[0];
+      if (localeFromPath === 'it' || localeFromPath === 'en') {
+        setCurrentLang(localeFromPath);
       }
     }
     syncLangWithUrl();
-    window.addEventListener('popstate', syncLangWithUrl);
-    const origPushState = window.history.pushState;
-    const origReplaceState = window.history.replaceState;
-    window.history.pushState = function(...args) {
-      origPushState.apply(this, args);
-      syncLangWithUrl();
-    };
-    window.history.replaceState = function(...args) {
-      origReplaceState.apply(this, args);
-      syncLangWithUrl();
-    };
-    return () => {
-      window.removeEventListener('popstate', syncLangWithUrl);
-      window.history.pushState = origPushState;
-      window.history.replaceState = origReplaceState;
-    };
-  }, []);
+    // Event listeners rimossi: ora la lingua si aggiorna solo su cambio pathname
+  }, [pathname]);
 
   const t = (key: string) => {
     const translation = translations[currentLang][key as keyof typeof translations[typeof currentLang]];
