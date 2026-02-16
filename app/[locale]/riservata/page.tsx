@@ -31,6 +31,7 @@ export async function generateStaticParams() {
 
 export const revalidate = 30;
 
+type CategoryData = { name: string; currentSlug: string; };
 interface PageProps {
   params: Promise<{ locale: string }>;
 }
@@ -42,7 +43,7 @@ export default async function Home({ params }: PageProps) {
 
   // Carica le categorie filtrate per lingua invece di estrarle dagli articoli
   const categoriesData = await getCategoriesDataI18n(locale);
-  const categories = categoriesData.map(cat => ({ name: cat.name, slug: cat.currentSlug }));
+  const categories = categoriesData.map((cat: CategoryData) => ({ name: cat.name, slug: cat.currentSlug }));
 
   // Key dinamica per forzare il remount su cambio lingua/route
   const key = locale + '-' + (typeof window !== 'undefined' ? window.location.pathname : '');

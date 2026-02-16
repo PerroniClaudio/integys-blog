@@ -68,7 +68,8 @@ async function testTokenPermissions() {
 
     // Test update reale su una categoria esistente
     try {
-      const cat = await client.fetch("*[_type == 'categorie'][0]{_id, name, categoryIdMultilingua}");
+      type Cat = { _id: string; name: string; categoryIdMultilingua?: string };
+      const cat: Cat = await client.fetch("*[_type == 'categorie'][0]{_id, name, categoryIdMultilingua}");
       if (cat && cat._id) {
         const oldValue = cat.categoryIdMultilingua;
         const testValue = `test-update-${Math.random().toString(36).slice(2, 6)}`;

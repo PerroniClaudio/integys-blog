@@ -37,7 +37,8 @@ async function assegnaCategoryIdMultilingua() {
       updatedCount++;
     } catch (error) {
       errorCount++;
-      console.error(`   ❌ Errore durante aggiornamento categoria ${category.name} (${category._id}):`, error.message || error);
+      const errMsg = (error instanceof Error) ? error.message : String(error);
+      console.error(`   ❌ Errore durante aggiornamento categoria ${category.name} (${category._id}):`, errMsg);
     }
   }
 
