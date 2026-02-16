@@ -2,8 +2,8 @@
 
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import prisma from "@/app/lib/prisma/client";
-import AdminNavbar from "../components/admin/AdminNavbar";
+import prisma from "@/lib/prisma/client";
+import AdminNavbar from "@/app/components/admin/AdminNavbar";
 
 // export const metadata: Metadata = {
 //   title: {

@@ -1,7 +1,7 @@
 "use client";
 
-import { blogCardListElement } from '@/app/lib/interface';
-import { urlFor } from '@/app/lib/sanity';
+import { blogCardListElement } from '@/lib/interface';
+import { urlFor } from '@/lib/sanity';
 import { Button } from '@/components/ui/button';
 import { ChevronFirst, ChevronLast, ChevronLeft, ChevronRight } from 'lucide-react';
 import Image from 'next/image';

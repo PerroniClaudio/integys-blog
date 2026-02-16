@@ -9,17 +9,26 @@
     "start": "sanity start",
     "build": "sanity build",
     "deploy": "sanity deploy",
-    "deploy-graphql": "sanity graphql deploy"
+    "deploy-graphql": "sanity graphql deploy",
+    "export:prod": "sanity dataset export production production-backup.ndjson",
+    "import:dev": "sanity dataset import production-backup.ndjson development --replace",
+    "migrate:add-language": "sanity exec migration-add-language.ts --non-interactive",
+    "migrate:create-translations": "sanity exec create-auto-translations.ts --non-interactive",
+    "migrate:full": "npm run export:prod && npm run import:dev && npm run migrate:add-language",
+    "migrate:assign-category-ids": "sanity exec assegna-categoryid-multilingua.ts --non-interactive",
+    "verify:safety": "sanity exec verify-migration-safety.ts --non-interactive",
+    "test:token": "sanity exec test-token-permissions.ts --non-interactive",
+    "debug:env": "sanity exec debug-env.ts --non-interactive"
   },
   "keywords": [
     "sanity"
   ],
   "dependencies": {
+    "@sanity/client": "^7.14.1",
+    "@sanity/document-internationalization": "^4.1.1",
+    "@sanity/language-filter": "^4.0.6",
     "@sanity/locale-it-it": "^1.1.0",
     "@sanity/vision": "^3.27.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-is": "^18.2.0",
     "sanity": "^3.27.0",
     "styled-components": "^6.1.8"
   },
@@ -27,9 +36,11 @@
     "@sanity/eslint-config-studio": "^3.0.1",
     "@sanity/types": "^3.63.0",
     "@types/react": "^18.2.48",
+    "@types/uuid": "^10.0.0",
     "eslint": "^8.56.0",
     "prettier": "^3.2.4",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "uuid": "^11.0.3"
   },
   "prettier": {
     "semi": false,

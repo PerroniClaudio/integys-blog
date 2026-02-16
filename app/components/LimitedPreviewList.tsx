@@ -5,7 +5,7 @@ import {
   // getDataWithPagination,
   // getDataWithPaginationCategories,
   getPreviewCards,
-} from "../actions";
+} from "@/app/actions";
 // import { useInView } from "react-intersection-observer";
 import { useState, useEffect, ReactElement } from "react";
 

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from 'react'
-import { fullService } from '../lib/interface';
+import { fullService } from '@/lib/interface';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { useRouter, usePathname } from 'next/navigation';
@@ -18,6 +18,11 @@ function ServiziNav({services, isGlobal} : Props) {
 
   const router = useRouter();
   const pathname = usePathname();
+
+  // Estrai il locale dal pathname
+  const segments = pathname.split('/').filter(Boolean);
+  const localeFromPath = segments[0];
+  const locale = ['it', 'en'].includes(localeFromPath) ? localeFromPath : 'it';
 
   const linkCallback = () => {
     // setIsNavOpen(false);
@@ -89,7 +94,7 @@ function ServiziNav({services, isGlobal} : Props) {
                     <span className={"hover:text-primary uppercase whitespace-nowrap " + (inView == ("service-track-" + service.id) ? "text-primary" : "")}>{service.title}</span>
                   </span>
                   :
-                  <a href={'/servizi/' + service.currentSlug} onClick={()=>{scrollToSection(service.id); linkCallback ? linkCallback() : ()=>{}}} className='cursor-pointer'>
+                  <a href={`/${locale}/servizi/` + service.currentSlug} onClick={()=>{scrollToSection(service.id); linkCallback ? linkCallback() : ()=>{}}} className='cursor-pointer'>
                     <span className={"hover:text-primary uppercase whitespace-nowrap " + (pathname.includes(service.currentSlug) ? "text-primary" : "")}>{service.title}</span>
                   </a>
                 }
@@ -116,7 +121,7 @@ function ServiziNav({services, isGlobal} : Props) {
                 {!isGlobal && 
                   <>
                     <DropdownMenuItem className='cursor-pointer p-1 rounded text-sm font-semibold uppercase whitespace-nowrap hover:text-primary hover:bg-accent' 
-                      onClick={()=>router.push('/servizi')}
+                    onClick={()=>router.push(`/${locale}/servizi`)}
                     >
                       <span>Tutti i servizi</span>
                     </DropdownMenuItem>
@@ -128,7 +133,7 @@ function ServiziNav({services, isGlobal} : Props) {
                     <DropdownMenuItem key={index} className='cursor-pointer p-1 rounded text-sm font-semibold uppercase whitespace-nowrap hover:text-primary hover:bg-accent' 
                       onClick={isGlobal 
                         ? () => {scrollToSection(service.id); } 
-                        : () => {console.log('/servizi/' + service.currentSlug); router.push('/servizi/' + service.currentSlug);}}
+                        : () => {console.log(`/${locale}/servizi/` + service.currentSlug); router.push(`/${locale}/servizi/` + service.currentSlug);}}
                     >
                       <span className={isGlobal 
                         ? (inView == ("service-track-" + service.id) ? "text-primary" : "")

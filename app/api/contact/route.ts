@@ -4,6 +4,7 @@ const mailSenderAccount = {
   user: process.env.MAIL_SENDER_ACCOUNT_USERNAME,
   pass: process.env.MAIL_SENDER_ACCOUNT_PASSWORD,
 };
+const sendMailTo = process.env.SEND_MAIL_TO;
 
 export async function POST(request: Request) {
   const { name, email, businessName, requestType, message } =
@@ -31,7 +32,7 @@ export async function POST(request: Request) {
 
   const mailData = {
     from: mailSenderAccount.user,
-    to: "commerciale@integys.com",
+    to: sendMailTo,
     subject: `Richiesta di contatto da INTEGYS NEWS`,
     text: message,
     html: `<div> Nome: ${name} <br/> Email aziendale: ${email} <br/> Azienda: ${businessName} <br/> Richiesta: ${requestType} <br/> Messaggio: <br/> ${message} </div>`,

@@ -1,8 +1,8 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from "next-auth/providers/credentials";
 import {compare} from 'bcryptjs';
-import prisma from '@/app/lib/prisma/client';
-import { LoginSchemaServer } from '@/app/lib/zod/types';
+import prisma from '@/lib/prisma/client';
+import { LoginSchemaServer } from '@/lib/zod/types';
 
 const handler = NextAuth({
   session: {

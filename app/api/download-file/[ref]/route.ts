@@ -1,5 +1,5 @@
-import prisma from "@/app/lib/prisma/client";
-import { client } from "@/app/lib/sanity";
+import prisma from "@/lib/prisma/client";
+import { client } from "@/lib/sanity";
 import { getServerSession } from "next-auth";
 import nodemailer from "nodemailer";
 

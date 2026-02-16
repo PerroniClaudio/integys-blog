@@ -1,13 +1,14 @@
 "use client";
 
 import { ServiceSection } from '@/app/components/ServiceSection';
-import { fullService } from '../lib/interface';
+import { fullService } from '@/lib/interface';
 
 type Params = {
   services: fullService[];
+  locale?: string;
 };
 
-function ServicesComponent({ services }: Params) {
+function ServicesComponent({ services, locale = 'it' }: Params) {
 
   return (
     <div>
@@ -26,6 +27,7 @@ function ServicesComponent({ services }: Params) {
               <ServiceSection
                 service={service}
                 reverse={index % 2 === 1}
+                locale={locale}
               />
               {index !== services.length - 1 && (
                 // <div className="border-b border-gray-200/50 mt-20" />

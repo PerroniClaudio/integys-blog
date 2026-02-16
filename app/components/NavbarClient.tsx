@@ -2,11 +2,14 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import ModeToggle from "./ModeToggle";
+import LanguageSwitcher from "./LanguageSwitcher";
 import { Session } from "next-auth";
-import { fullService } from "../lib/interface";
+import { fullService } from "@/lib/interface";
 import MobileMenu from "./MobileMenu";
 import LimitedDropdown from "./LimitedDropdown";
+import { useTranslation } from "@/lib/useTranslation";
 
 type Props = {
   shouldChangeColor: boolean;
@@ -16,7 +19,13 @@ type Props = {
 
 function NavbarClient({ shouldChangeColor, session, services = [] }: Props) {
   const [scrolled, setScrolled] = useState(false);
-
+  const { t } = useTranslation();
+  const pathname = usePathname();
+  
+  // Estrai il locale dal pathname
+  const segments = pathname.split('/').filter(Boolean);
+  const localeFromPath = segments[0];
+  const locale = ['it', 'en'].includes(localeFromPath) ? localeFromPath : 'it';
   useEffect(() => {
     const handleScroll = () => {
       const isScrolled = window.scrollY > 500;
@@ -94,19 +103,19 @@ function NavbarClient({ shouldChangeColor, session, services = [] }: Props) {
                   </svg>
                 </div>
             </Link>
-            <Link href="/" className="font-semibold text-lg">
-              Home
+            <Link href={`/${locale}`} className="font-semibold text-lg">
+              {t("navigation.home")}
             </Link> 
             {/* <Link href="/chi-siamo" className="font-semibold text-white">
-              Chi siamo
+              {t("navigation.about_us")}
             </Link>  */}
           </div>
           <div className="flex gap-4 items-center">
             
             {/* Per ora l'area riservata non è attiva */}
             <div className="hidden sm:flex gap-4 items-center font-semibold">
-              <Link href="/servizi" className=" text-lg">
-                Servizi
+              <Link href={`/${locale}/servizi`} className=" text-lg">
+                {t("navigation.services")}
               </Link>
               {/* <LimitedDropdown session={session} /> */}
             </div>
@@ -114,6 +123,7 @@ function NavbarClient({ shouldChangeColor, session, services = [] }: Props) {
                 <MobileMenu session={session} />
             </div>
 
+            <LanguageSwitcher />
             <ModeToggle />
           </div>
         </div>

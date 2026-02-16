@@ -1,6 +1,6 @@
 import { getServerSession } from 'next-auth';
-import axios from '../../lib/axios';
-import prisma from '@/app/lib/prisma/client';
+import axios from '@/lib/axios';
+import prisma from '@/lib/prisma/client';
 
 /**
  * 

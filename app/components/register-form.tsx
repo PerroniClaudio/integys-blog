@@ -4,11 +4,13 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { z } from "zod";
-import { RegistrationSchemaClient, passwordErrorString } from "../lib/zod/types";
+import { RegistrationSchemaClient, passwordErrorString } from "@/lib/zod/types";
+import { useTranslation } from "@/lib/useTranslation";
 
 export default function RegisterForm() {
 
   const router = useRouter();
+  const { t } = useTranslation();
 
   const [isLoading, setIsLoading] = useState(false); 
 
@@ -41,29 +43,29 @@ export default function RegisterForm() {
     });
 
     if(res.ok){
-      toast.success("Registrazione effettuata con successo. Attendi la mail con l'esito della richiesta e le istruzioni per l'attivazione.");
+      toast.success(t("register.success_message"));
       router.push("/riservata");
       router.refresh();
     } else {
-      toast.error("Errore durante la registrazione.");
+      toast.error(t("register.error_message"));
     }
     setIsLoading(false);
   }
 
   return (
     <div className="flex flex-col justify-center items-center p-8 pt-24 gap-4">
-      <h1 className="w-fit font-semibold text-xl">Registrati</h1>
+      <h1 className="w-fit font-semibold text-xl">{t("register.page_title")}</h1>
       <form className="flex flex-col gap-2 w-full md:w-1/3 lg:w-1/4 bg-card rounded-lg p-4" onSubmit={handleSubmit}>
         <div className="flex flex-col gap-2">
-          <label htmlFor="name" className="text-primary font-semibold">Nome</label>
+          <label htmlFor="name" className="text-primary font-semibold">{t("register.name_label")}</label>
           <input name="name" id="name" type="text" className="rounded pl-2" required />
         </div>
         <div className="flex flex-col gap-2">
-          <label htmlFor="surname" className="text-primary font-semibold">Cognome</label>
+          <label htmlFor="surname" className="text-primary font-semibold">{t("register.surname_label")}</label>
           <input name="surname" id="surname" type="text" className="rounded pl-2" required />
         </div>
         <div className="flex flex-col gap-2">
-          <label htmlFor="email" className="text-primary font-semibold">Email aziendale</label>
+          <label htmlFor="email" className="text-primary font-semibold">{t("register.email_label")}</label>
           <input name="email" id="email" type="email" className="rounded pl-2" required />
         </div>
         {/* <div className="flex flex-col gap-2">
@@ -74,9 +76,9 @@ export default function RegisterForm() {
           <label htmlFor="company" className="text-primary font-semibold">Ragione Sociale</label>
           <input name="company" id="company" type="text" className="rounded pl-2" required />
         </div> */}
-        <button className="bg-primary text-white px-4 py-2 rounded w-fit self-center mt-8" type="submit" disabled={isLoading}>Registrati</button>
+        <button className="bg-primary text-white px-4 py-2 rounded w-fit self-center mt-8" type="submit" disabled={isLoading}>{t("register.submit_button")}</button>
         <p className="text-center mt-4">
-          Sei già registrato? <a href="/login-hub" className="text-primary font-semibold">Accedi</a>
+          {t("register.already_registered")} <a href="/login-hub" className="text-primary font-semibold">{t("register.login_link")}</a>
         </p>
       </form>
     </div>

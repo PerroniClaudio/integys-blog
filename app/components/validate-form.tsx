@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { ValidationSchemaClient, passwordErrorString } from "../lib/zod/types";
+import { ValidationSchemaClient, passwordErrorString } from "@/lib/zod/types";
 
 export default function ValidateForm({ email, token, type = "email" }: { email: string, token: string, type: string }) {
 

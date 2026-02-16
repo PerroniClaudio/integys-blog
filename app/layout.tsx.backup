@@ -1,0 +1,46 @@
+import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/react";
+import "./globals.css";
+import { ThemeProvider } from "./components/theme-provider";
+import { Toaster } from "@/components/ui/toaster";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { CookiesContextProvider } from "@/components/cookies/cookiesContextProvider";
+import PageTracker from "@/components/tracker/PageTracker";
+import { Suspense } from "react";
+
+// Questi metadati verranno sovrascritti dal layout locale
+export const metadata: Metadata = {
+  title: "Integys",
+  description: "Integys - Dedicato alle ultime tendenze e approfondimenti nel mondo della tecnologia",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="it" suppressHydrationWarning>
+      <body className="font-sans antialiased">
+        <div className="relative min-h-screen">
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange>
+            <CookiesContextProvider>
+              {children}
+              <Toaster />
+              <ToastContainer className="z-50" />
+              <Analytics />
+              <Suspense fallback={<div>Loading...</div>}>
+                <PageTracker />
+              </Suspense>
+            </CookiesContextProvider>
+          </ThemeProvider>
+        </div>
+      </body>
+    </html>
+  );
+}

@@ -1,5 +1,5 @@
-import { fullService } from "../lib/interface";
-import { getServicesData } from "../actions";
+import { fullService } from "@/lib/interface";
+import { getServicesData } from "@/app/actions";
 import ServiziNav from "./ServiziNav";
 
 type Props = {

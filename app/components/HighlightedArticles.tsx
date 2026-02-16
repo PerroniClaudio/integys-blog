@@ -9,7 +9,7 @@ import 'swiper/css/navigation';
 // import required modules
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import HighlightedArticleCard from './HighlightedArticleCard';
-import { simpleBlogCard } from '../lib/interface';
+import { simpleBlogCard } from '@/lib/interface';
 import '../swiperStyleOverride.css';
 
 type Props = {

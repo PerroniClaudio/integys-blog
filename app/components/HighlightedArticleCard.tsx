@@ -1,10 +1,10 @@
-import { simpleBlogCard } from "../lib/interface";
+import { simpleBlogCard } from "@/lib/interface";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
-import { urlFor } from "@/app/lib/sanity";
-import { MotionDiv } from "./MotionDiv";
+import { urlFor } from "@/lib/sanity";
+import { useTranslation } from "@/lib/useTranslation";
 
 const variants = {
   hidden: { opacity: 0 },
@@ -22,6 +22,7 @@ function HighlightedArticleCard({
   limited?: boolean;
   isPreview?: boolean;
 }) {
+  const { t } = useTranslation();
   return (
     <div className="m-auto w-11/12 lg:w-2/3 2xl:w-1/2 h-full">
       <Card className="h-full p-6">
@@ -52,7 +53,7 @@ function HighlightedArticleCard({
                   ? `/riservata/post/${article.currentSlug}`
                   : `/news/${article.currentSlug}`) 
               }>
-              Scopri di più
+              {t('discoverMore')}
             </Link>
           </Button>
         </CardContent>

@@ -12,6 +12,13 @@ export default {
   type: 'document',
   fields: [
     {
+      name: 'serviceIdMultilingua',
+      title: 'ID Multilingua',
+      type: 'string',
+      description: 'Identificatore comune per tutte le versioni linguistiche di questo servizio',
+      validation: (Rule: Rule) => Rule.required().error('L\'ID multilingua è obbligatorio. Usa lo stesso valore per tutte le versioni linguistiche.'),
+    },
+    {
       name: 'title',
       type: 'string',
       title: 'Titolo',
@@ -68,6 +75,44 @@ export default {
       name: 'order',
       type: 'number',
       title: 'Ordine',
-    }
+    },
+    {
+      name: 'language',
+      type: 'string',
+      title: 'Lingua',
+      initialValue: 'it',
+      options: {
+        list: [
+          {title: 'Italiano', value: 'it'},
+          {title: 'English', value: 'en'}
+        ]
+      },
+      validation: (Rule: Rule) => Rule.required(),
+      description: 'Seleziona la lingua dell\'articolo.'
+    },
+  ],
+  preview: {
+    select: {
+      title: 'title',
+      language: 'language',
+      serviceIdMultilingua: 'serviceIdMultilingua',
+    },
+    prepare(selection: any) {
+      const { title, language, serviceIdMultilingua } = selection;
+      return {
+        title: `${title}`,
+        subtitle: `Lingua: ${language} | ID Multilingua: ${serviceIdMultilingua}`,
+      };
+    },
+  },
+  orderings: [
+    {
+      name: 'multilinguaAsc',
+      title: 'ID Multilingua + Lingua',
+      by: [
+        { field: 'serviceIdMultilingua', direction: 'asc' },
+        { field: 'language', direction: 'asc' },
+      ],
+    },
   ],
 }

@@ -1,10 +1,14 @@
-import { simpleBlogCard } from "../lib/interface";
+"use client";
+
+import { simpleBlogCard } from "@/lib/interface";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
-import { urlFor } from "@/app/lib/sanity";
+import { urlFor } from "@/lib/sanity";
 import { MotionDiv } from "./MotionDiv";
+// import { t } from "i18next";
+import { useTranslation } from "@/lib/useTranslation";
 
 const variants = {
   hidden: { opacity: 0 },
@@ -22,6 +26,8 @@ function ArticleCard({
   limited?: boolean;
   isPreview?: boolean;
 }) {
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language;
   return (
     <MotionDiv
       variants={variants}
@@ -62,14 +68,8 @@ function ArticleCard({
             </p>
           </div>
           <Button asChild className="w-full">
-            {/* Se l'articolo è limited allora siamo in area riservata. A meno che non sia una preview */}
-            <Link href={isPreview 
-              ?  `/preview/${article.currentSlug}`  
-              : ( limited 
-                  ? `/riservata/post/${article.currentSlug}`
-                  : `/news/${article.currentSlug}`) 
-              }>
-              Continua a leggere
+            <Link href={`/${article.language || i18n.language}/news/${article.currentSlug}`}>
+              {t('readMore')}
             </Link>
           </Button>
         </CardContent>

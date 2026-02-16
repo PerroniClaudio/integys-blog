@@ -6,6 +6,13 @@ export default {
   type: 'document',
   fields: [
     {
+      name: 'postIdMultilingua',
+      title: 'ID Multilingua',
+      type: 'string',
+      description: 'Identificatore comune per tutte le versioni linguistiche di questo articolo',
+      validation: (Rule: Rule) => Rule.required().error('L\'ID multilingua è obbligatorio. Usa lo stesso valore per tutte le versioni linguistiche.'),
+    },
+    {
       name: 'title',
       type: 'string',
       title: 'Titolo',
@@ -72,6 +79,7 @@ export default {
       title: 'Categorie',
       name: 'categories',
       type: 'array',
+      description: 'Seleziona solo le categorie in italiano: le traduzioni vengono gestite automaticamente dal sistema.',
       of: [
         {
           type: 'reference',
@@ -112,6 +120,44 @@ export default {
         {type: 'block'}
       ],
       description: 'Se l\'articolo è limitato (solo area riservata) e Mostra Preview è attivo, questo testo sarà visibile nella preview dell\'articolo, nell\'area pubblica.',
+    },
+    {
+      name: 'language',
+      type: 'string',
+      title: 'Lingua',
+      initialValue: 'it',
+      options: {
+        list: [
+          {title: 'Italiano', value: 'it'},
+          {title: 'English', value: 'en'}
+        ]
+      },
+      validation: (Rule: Rule) => Rule.required(),
+      description: 'Seleziona la lingua dell\'articolo.'
+    },
+  ],
+  preview: {
+    select: {
+      title: 'title',
+      language: 'language',
+      postIdMultilingua: 'postIdMultilingua',
+    },
+    prepare(selection: any) {
+      const { title, language, postIdMultilingua } = selection;
+      return {
+        title: `${title}`,
+        subtitle: `Lingua: ${language} | ID Multilingua: ${postIdMultilingua}`,
+      };
+    },
+  },
+  orderings: [
+    {
+      name: 'multilinguaAsc',
+      title: 'ID Multilingua + Lingua',
+      by: [
+        { field: 'postIdMultilingua', direction: 'asc' },
+        { field: 'language', direction: 'asc' },
+      ],
     },
   ],
 }

@@ -2,8 +2,8 @@ export const dynamic = "force-dynamic";
 
 import FilesList from "@/app/components/FilesList";
 import Navbar from "@/app/components/Navbar";
-import { fullBlog, simpleBlogCard } from "@/app/lib/interface";
-import { client, urlFor } from "@/app/lib/sanity";
+import { fullBlog, simpleBlogCard } from "@/lib/interface";
+import { client, urlFor } from "@/lib/sanity";
 import { Button } from "@/components/ui/button";
 import Newsletter from "@/components/ui/newsletter";
 import { PortableText } from "@portabletext/react";

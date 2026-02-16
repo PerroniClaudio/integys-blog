@@ -13,7 +13,7 @@
 //   is_admin        Boolean   @default(false)
 //   is_deleted      Boolean   @default(false)
 
-import { UserLight } from "@/app/lib/types"
+import { UserLight } from "@/lib/types"
 import { Button } from "@/components/ui/button"
 import { useState } from "react";
 import { toast } from "react-toastify";

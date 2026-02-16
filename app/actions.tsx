@@ -1,7 +1,7 @@
 "use server";
-import { client } from "./lib/sanity";
+import { client } from "@/lib/sanity";
 import ArticleCard from "./components/ArticleCard";
-import { simpleBlogCard } from "./lib/interface";
+import { simpleBlogCard } from "@/lib/interface";
 
 // Prende gli articoli in ordine di ordine (se ce ne sono) e data. 
 // Si può decidere se prendere solo quelli limitati o solo quelli non limitati. 

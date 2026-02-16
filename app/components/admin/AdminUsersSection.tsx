@@ -2,7 +2,7 @@
 
 import useSWR from "swr";
 import AdminUsersTable from "./AdminUsersTable"
-import { UserLight } from "@/app/lib/types";
+import { UserLight } from "@/lib/types";
 import { toast } from "react-toastify";
 import { useRef, useState } from "react";
 import Dialog from "@/components/ui/dialog";

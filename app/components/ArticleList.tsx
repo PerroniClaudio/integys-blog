@@ -2,49 +2,50 @@
 
 import ArticleCard from "./ArticleCard";
 import {
-  getDataWithPagination,
-  getDataWithPaginationCategories,
-} from "../actions";
+  getDataWithPaginationI18n,
+  getDataWithPaginationCategoriesI18n,
+} from "@/app/actions-i18n";
 import { useInView } from "react-intersection-observer";
 import { useState, useEffect, ReactElement } from "react";
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "@/lib/useTranslation";
 
 type Props = {
   category?: string;
   limited?: boolean;
+  locale?: string;
 };
 
 export type ArticleCard = ReactElement;
 
-function ArticleList({ category, limited = false }: Props) {
+function ArticleList({ category, limited = false, locale = 'it' }: Props) {
   const { ref, inView } = useInView();
   const [data, setData] = useState<ArticleCard[]>([]);
   const [page, setPage] = useState<number>(2);
+  const { t } = useTranslation();
   
   const [isFetching, setIsFetching] = useState<boolean>(false);
 
   const fetchData = async () => {
     setIsFetching(true);
     if (category) {
-      getDataWithPaginationCategories(category, page, 6, limited).then((data) => {
-        if(data.length > 0) {
-          setData((prev) => [...prev, ...data]);
-          setPage(prev => prev + 1);
-        } else {
-          setPage(0);
-          console.log("no more data");
-        }
-      });
+      const result = await getDataWithPaginationCategoriesI18n(category, page, 6, locale, limited);
+      if(result.length > 0) {
+        setData((prev) => [...prev, ...result]);
+        setPage(prev => prev + 1);
+      } else {
+        setPage(0);
+        console.log("no more data");
+      }
     } else {
-      getDataWithPagination(page, 6, limited).then((data) => {
-        if(data.length > 0) {
-          setData((prev) => [...prev, ...data]);
-          setPage(prev => prev + 1);
-        } else {
-          setPage(0);
-          console.log("no more data");
-        }
-      });
+      const result = await getDataWithPaginationI18n(page, 6, locale, limited);
+      if(result.length > 0) {
+        setData((prev) => [...prev, ...result]);
+        setPage(prev => prev + 1);
+      } else {
+        setPage(0);
+        console.log("no more data");
+      }
     }
     setIsFetching(false);
   }
@@ -55,7 +56,7 @@ function ArticleList({ category, limited = false }: Props) {
         fetchData();
       }
     }
-  }, [inView, data, category, limited]);
+  }, [inView, data, category, limited, locale]);
 
   return (
     <>
@@ -70,7 +71,7 @@ function ArticleList({ category, limited = false }: Props) {
         {page > 3 &&
           <div className="mt-8" >
             <Button onClick={fetchData} className="btn btn-primary font-semibold">
-              Carica altri articoli
+              {locale === 'it' ? 'Carica altri articoli' : 'Load more articles'}
             </Button>
           </div>
         }

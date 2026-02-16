@@ -1,17 +1,20 @@
-
-// Creare il dropdown per il login, la visualizzazione della mail dell'utente loggato e il logout. vedere il dropdown utilizzato per la modifica del tema
-
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Menu } from "lucide-react";
 import { Session } from "next-auth";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 export default function MobileMenu({session}: {session: Session | null}) {
 
-  const router = useRouter()
+  const router = useRouter();
+  const pathname = usePathname();
+  
+  // Estrai il locale dal pathname
+  const segments = pathname.split('/').filter(Boolean);
+  const localeFromPath = segments[0];
+  const locale = ['it', 'en'].includes(localeFromPath) ? localeFromPath : 'it';
 
   const handleLogout = async () => {
     signOut();
@@ -32,7 +35,7 @@ export default function MobileMenu({session}: {session: Session | null}) {
           </Link>
         </DropdownMenuItem> */}
         <DropdownMenuItem>
-          <Link href="/servizi">
+          <Link href={`/${locale}/servizi`}>
             Servizi
           </Link>
         </DropdownMenuItem>

@@ -1,17 +1,20 @@
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import Link from "next/link";
-import type { Service } from '@/app/lib/types';
-import { fullService } from '../lib/interface';
-import { urlFor } from '../lib/sanity';
+import type { Service } from '@/lib/types';
+import { fullService } from '@/lib/interface';
+import { urlFor } from '@/lib/sanity';
 import { PortableText } from '@portabletext/react';
+import { useTranslation } from '@/lib/useTranslation';
 
 interface ServiceSectionProps {
   service: fullService;
   reverse?: boolean;
+  locale?: string;
 }
 
-export function ServiceSection({ service, reverse = false }: ServiceSectionProps) {
+export function ServiceSection({ service, reverse = false, locale = 'it' }: ServiceSectionProps) {
+  const { t } = useTranslation();
   return (
     // <div className={`flex flex-col ${reverse ? 'md:flex-row-reverse' : 'md:flex-row'} items-center gap-12 py-12`}>
     <div className={`grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 items-center gap-8 md:gap-12 py-12`}>
@@ -35,8 +38,8 @@ export function ServiceSection({ service, reverse = false }: ServiceSectionProps
         </div>
         {/* <p className="text-lg md:text-xl lg:text-2xl">{service.smallDescription}</p> */}
         <Button variant="outline" className="group" asChild>
-          <Link href={`/servizi/${service.currentSlug}`}>
-            Leggi tutto <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+          <Link href={`/${locale}/servizi/${service.currentSlug}`}>
+            {t('services.readAll')} <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
           </Link>
         </Button>
       </div>

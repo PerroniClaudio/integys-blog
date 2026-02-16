@@ -2,12 +2,13 @@
 
 import ArticleCard from "./ArticleCard";
 import {
-  getDataWithPagination,
-  getDataWithPaginationCategories,
-} from "../actions";
+  getDataWithPaginationI18n,
+  getDataWithPaginationCategoriesI18n,
+} from "@/app/actions-i18n";
 import { useInView } from "react-intersection-observer";
 import { useState, useEffect, ReactElement } from "react";
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "@/lib/useTranslation";
 
 type Props = {
   category?: string;
@@ -18,6 +19,8 @@ type Props = {
 export type ArticleCard = ReactElement;
 
 function AdditiveArticleList({ category, limited = false, firstArticles }: Props) {
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language;
   const { ref, inView } = useInView();
   const [data, setData] = useState<ArticleCard[]>(firstArticles ?? []);
   const [page, setPage] = useState<number>(2);
@@ -27,7 +30,7 @@ function AdditiveArticleList({ category, limited = false, firstArticles }: Props
   const fetchData = async () => {
     setIsFetching(true);
     if (category) {
-      getDataWithPaginationCategories(category, page, 6, limited).then((data) => {
+      getDataWithPaginationCategoriesI18n(category, page, 6, locale, limited).then((data) => {
         if(data.length > 0) {
           setData((prev) => [...prev, ...data]);
           setPage(prev => prev + 1);
@@ -37,7 +40,7 @@ function AdditiveArticleList({ category, limited = false, firstArticles }: Props
         }
       });
     } else {
-      getDataWithPagination(page, 6, limited).then((data) => {
+      getDataWithPaginationI18n(page, 6, locale, limited).then((data) => {
         if(data.length > 0) {
           setData((prev) => [...prev, ...data]);
           setPage(prev => prev + 1);
@@ -65,7 +68,7 @@ function AdditiveArticleList({ category, limited = false, firstArticles }: Props
         fetchData();
       }
     }
-  }, [inView, data, category, limited]);
+  }, [inView, data, category, limited, locale]);
 
   return (
     // Poi si decide sa ordinarli direttamente da qui o dal genitore (grid ecc.)
@@ -85,7 +88,7 @@ function AdditiveArticleList({ category, limited = false, firstArticles }: Props
         {page > 3 &&
           <div className="mt-8" >
             <Button onClick={fetchData} className="btn btn-primary font-semibold">
-              Carica altri articoli
+              {t('loadMore')}
             </Button>
           </div>
         }

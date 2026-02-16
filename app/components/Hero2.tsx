@@ -1,7 +1,17 @@
-import { Button } from "@/components/ui/button";
+"use client";
+
+import { useTranslation } from "@/lib/useTranslation";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 function Hero2() {
+  const { t } = useTranslation();
+  const pathname = usePathname();
+  
+  // Estrai il locale dal pathname
+  const segments = pathname.split('/').filter(Boolean);
+  const localeFromPath = segments[0];
+  const locale = ['it', 'en'].includes(localeFromPath) ? localeFromPath : 'it';
   return (
     <div
       className="relative"
@@ -38,14 +48,14 @@ function Hero2() {
               <Link
                 // className="inline-flex h-9 items-center justify-center rounded-md bg-gray-900 px-10 py-6 text-lg font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-primary dark:text-secondary-foreground dark:hover:bg-primary/90 dark:focus-visible:ring-gray-300"
                 className="inline-flex items-center justify-center rounded-md bg-gray-900 px-8 py-2 text-lg font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-primary dark:text-secondary-foreground dark:hover:bg-primary/90 dark:focus-visible:ring-gray-300"
-                href="/contattaci">
-                Contattaci
+                href={`/${locale}/contattaci`}>
+                {t("cta.contactUs")}
               </Link>
               <Link
                 // className="inline-flex h-9 items-center justify-center rounded-md bg-gray-900 px-10 py-6 text-lg font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-primary dark:text-secondary-foreground dark:hover:bg-primary/90 dark:focus-visible:ring-gray-300"
                 className="inline-flex items-center justify-center rounded-md bg-gray-900 px-8 py-2 text-lg font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-primary dark:text-secondary-foreground dark:hover:bg-primary/90 dark:focus-visible:ring-gray-300"
-                href="/contattaci">
-                Contattaci
+                href={`/${locale}/contattaci`}>
+                {t("cta.contactUs")}
               </Link>
             </div>
           </div>
@@ -70,7 +80,7 @@ function Hero2() {
             <div className="space-x-4">
               <Link
                 className="inline-flex items-center justify-center rounded-md bg-gray-900 px-8 py-2 text-lg font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-primary dark:text-secondary-foreground dark:hover:bg-primary/90 dark:focus-visible:ring-gray-300"
-                href="/servizi">
+                href={`/${locale}/servizi`}>
                 Vai alla pagina
               </Link>
             </div>
@@ -96,7 +106,7 @@ function Hero2() {
             <div className="space-x-4">
               <Link
                 className="inline-flex items-center justify-center rounded-md bg-gray-900 px-8 py-2 text-lg font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-primary dark:text-secondary-foreground dark:hover:bg-primary/90 dark:focus-visible:ring-gray-300"
-                href="/riservata">
+                href={`/${locale}/riservata`}>
                 Area riservata
               </Link>
             </div>

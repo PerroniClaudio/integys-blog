@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
 import { hash } from "bcryptjs";
-import prisma from "@/app/lib/prisma/client";
-import { RegistrationSchemaServer } from "@/app/lib/zod/types";
+import prisma from "@/lib/prisma/client";
+import { RegistrationSchemaServer } from "@/lib/zod/types";
 import { randomBytes } from "crypto";
 import nodemailer from "nodemailer";
-import axios from "@/app/lib/axios";
+import axios from "@/lib/axios";
 import { getServerSession } from "next-auth";
 
 const mailSenderAccount = {

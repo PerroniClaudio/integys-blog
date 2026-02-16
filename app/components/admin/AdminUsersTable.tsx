@@ -1,4 +1,4 @@
-import { UserLight } from "@/app/lib/types";
+import { UserLight } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { ColumnDef, ColumnFiltersState, createColumnHelper, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, SortingState, useReactTable } from "@tanstack/react-table";
 import { ArrowDown, ArrowDownUp, ArrowRight, ArrowUp, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, RotateCcw, ThumbsDown, ThumbsUp, X } from "lucide-react";

@@ -1,6 +1,6 @@
 "use client";
 
-import { UserLight } from "@/app/lib/types";
+import { UserLight } from "@/lib/types";
 import { useEffect } from "react";
 import useSWR from "swr";
 import EditUserForm from "./EditUserForm";

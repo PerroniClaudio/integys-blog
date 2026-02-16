@@ -1,5 +1,8 @@
+"use client";
+
 import CookiesBanner from "@/components/cookies/CookiesBanner";
 import Link from "next/link";
+import { useTranslation } from "@/lib/useTranslation";
 
 type FooterProps = {
   isAbsolute?: boolean;
@@ -7,6 +10,7 @@ type FooterProps = {
 
 function Footer({ isAbsolute = true }: FooterProps) {
   const currentYear = new Date().getFullYear();
+  const { t } = useTranslation();
 
   return (
     <footer
@@ -44,11 +48,9 @@ function Footer({ isAbsolute = true }: FooterProps) {
           </Link>
         </div>
         <nav className="flex flex-col items-center gap-2">
-          <p>INTEGYS™ è una divisione di iFortech srl</p>
-          <p>
-            CAP. SOC. € 40.000,00 I.V. - P.IVA E CF: 07927140967 - REA: MI-1991600
-          </p>
-          <p>SEDE LEGALE: VIA PORDENONE 35 COLOGNO MONZESE - 20093 (MI)</p>
+          <p>{t("footer.companyInfo")}</p>
+          <p>{t("footer.companyDetails")}</p>
+          <p>{t("footer.legalAddress")}</p>
           <p>Copyright © {currentYear}. All Rights Reserved.</p>
         </nav>
         <div className="flex flex-col items-right ">
@@ -63,7 +65,7 @@ function Footer({ isAbsolute = true }: FooterProps) {
             Cookie Policy
           </Link>
           <Link className="text-right" href="https://integys.com/note-legali/">
-            Note Legali
+            {t("footer.legalNotes")}
           </Link>
           <CookiesBanner />
         </div>

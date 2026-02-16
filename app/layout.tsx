@@ -1,32 +1,18 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
-import { ThemeProvider } from "./components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
-import Footer from "./components/Footer";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { CookiesContextProvider } from "@/components/cookies/cookiesContextProvider";
 import PageTracker from "@/components/tracker/PageTracker";
+import LanguageSync from "./components/LanguageSync";
 import { Suspense } from "react";
+import { CookiesContextProvider } from "@/components/cookies/cookiesContextProvider";
+
 export const metadata: Metadata = {
-  title: {
-    default: "Integys",
-    template: "%s - Integys",
-  },
-  description:
-    "Integys - Dedicato alle ultime tendenze e approfondimenti nel mondo della tecnologia",
-  openGraph: {
-    images: [
-      {
-        url: "opengraph-integys.png",
-        alt: "Integys",
-      },
-    ],
-  },
-  other: {
-    "google-site-verification": "TtG6b53ZlYddcxjiJSGy9uNaJ8SiK-ojw5DyVkgYsfs",
-  },
+  title: "Integys",
+  description: "Integys - Dedicato alle ultime tendenze e approfondimenti nel mondo della tecnologia",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://www.integys.it"),
 };
 
 export default function RootLayout({
@@ -35,29 +21,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="it" suppressHydrationWarning>
       <body className="font-sans antialiased">
-        {/* <div className="relative min-h-screen pb-44"> Per gestire il footer */}
         <div className="relative min-h-screen">
-          {" "}
-          {/* senza il footer. Lo si aggiunge nei singoli layout/pagine */}
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            enableSystem
-            disableTransitionOnChange>
-            <CookiesContextProvider>
-              {children}
-              <Toaster />
-              <ToastContainer className="z-50" />
-              {/* <Footer /> */}
-              {/* Cookies */}
-              <Analytics />
-              <Suspense fallback={<div>Loading...</div>}>
-                <PageTracker />
-              </Suspense>
-            </CookiesContextProvider>
-          </ThemeProvider>
+          <CookiesContextProvider>
+            <Suspense fallback={null}>
+              <LanguageSync />
+            </Suspense>
+            {children}
+            <Toaster />
+            {/* <ToastContainer className="z-50" /> */}
+            <Analytics />
+            <Suspense fallback={<div>Loading...</div>}>
+              <PageTracker />
+            </Suspense>
+          </CookiesContextProvider>
         </div>
       </body>
     </html>

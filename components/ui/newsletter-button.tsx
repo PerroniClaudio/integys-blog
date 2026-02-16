@@ -7,6 +7,7 @@ import { twMerge } from "tailwind-merge";
 import Dialog from "./dialog";
 import { CookiesContext } from "../cookies/cookiesContextProvider";
 import CookiesBanner from "../cookies/CookiesBanner";
+import { useTranslation } from "@/lib/useTranslation";
 
 type Props = {
   className?: string;
@@ -15,8 +16,9 @@ type Props = {
 function NewsletterButton({className}: Props) {
 
   const[isOpen, setIsOpen] = useState<boolean>(false);
-
+  
   const {cookiesSettings} = useContext(CookiesContext);
+  const { t } = useTranslation();
 
   return (
     <>
@@ -25,7 +27,7 @@ function NewsletterButton({className}: Props) {
         className={twMerge("text-secondary-foreground text-lg py-4 px-4 min-w-fit text-center bg-primary w-fit", className || "")}
         onClick={() => setIsOpen(true)}
       >
-        Iscriviti alla newsletter
+        {t("cta.subscribeNewsletter")}
       </Button>
       {cookiesSettings && cookiesSettings.all && isOpen
         ? <NewsletterDialog isOpen={isOpen} setIsOpen={setIsOpen} />
@@ -38,7 +40,7 @@ function NewsletterButton({className}: Props) {
               Per iscriverti alla newsletter invia una mail all&apos;indirizzo <a href="mailto:commerciale@integys.com"><b>commerciale@integys.com</b></a> con oggetto &quot;Iscrizione newsletter Integys&quot;. <br />
             </p>
             <p className="mb-4">
-              In alternativa, accettare tutti i cookies e cliccare nuovamente sul bottone &quot;<span className="font-semibold">Iscriviti alla newsletter</span>&quot;<br />
+              In alternativa, accettare tutti i cookies e cliccare nuovamente sul bottone &quot;<span className="font-semibold">{t("cta.subscribeNewsletter")}</span>&quot;<br />
               É possibile modificare le preferenze cookie utilizzando il bottone sottostante. 
             </p>
             <CookiesBanner />
