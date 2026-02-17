@@ -8,6 +8,7 @@ import PageTracker from "@/components/tracker/PageTracker";
 import LanguageSync from "./components/LanguageSync";
 import { Suspense } from "react";
 import { CookiesContextProvider } from "@/components/cookies/cookiesContextProvider";
+import { ThemeProvider } from "@/app/components/theme-provider";
 
 export const metadata: Metadata = {
   title: "Integys",
@@ -23,20 +24,22 @@ export default function RootLayout({
   return (
     <html lang="it" suppressHydrationWarning>
       <body className="font-sans antialiased">
-        <div className="relative min-h-screen">
-          <CookiesContextProvider>
-            <Suspense fallback={null}>
-              <LanguageSync />
-            </Suspense>
-            {children}
-            <Toaster />
-            {/* <ToastContainer className="z-50" /> */}
-            <Analytics />
-            <Suspense fallback={<div>Loading...</div>}>
-              <PageTracker />
-            </Suspense>
-          </CookiesContextProvider>
-        </div>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <div className="relative min-h-screen">
+            <CookiesContextProvider>
+              <Suspense fallback={null}>
+                <LanguageSync />
+              </Suspense>
+              {children}
+              <Toaster />
+              {/* <ToastContainer className="z-50" /> */}
+              <Analytics />
+              <Suspense fallback={<div>Loading...</div>}>
+                <PageTracker />
+              </Suspense>
+            </CookiesContextProvider>
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   );
