@@ -1,7 +1,7 @@
 // API route Next.js per restituire la lista degli articoli dal dataset Sanity
 // Usa un token di sola lettura lato server, mai esposto al client
 
-import type { NextApiRequest, NextApiResponse } from 'next';
+
 import { createClient } from '@sanity/client';
 
 const client = createClient({
@@ -12,12 +12,22 @@ const client = createClient({
   useCdn: false,
 });
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { locale, page = 1, pageSize = 6, includeHighlighted = 'true', highlighted = false } = req.query;
-  if (locale !== 'it' && locale !== 'en') {
-    return res.status(400).json({ success: false, error: 'Parametro locale mancante o non valido' });
-  }
+export async function GET(request: Request) {
   try {
+    const { searchParams } = new URL(request.url);
+    const locale = searchParams.get('locale');
+    const page = Number(searchParams.get('page') || 1);
+    const pageSize = Number(searchParams.get('pageSize') || 6);
+    const includeHighlighted = searchParams.get('includeHighlighted') ?? 'true';
+    const highlighted = searchParams.get('highlighted') ?? 'false';
+
+    if (locale !== 'it' && locale !== 'en') {
+      return new Response(JSON.stringify({ success: false, error: 'Parametro locale mancante o non valido' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
     let filter = `[_type == 'blog' && limited == false && date < now() && language == $locale`;
     if (highlighted === 'true') {
       filter += ' && highlighted == true';
@@ -36,12 +46,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         categories[]->{name, "slug": slug.current, language}
       }[$start...$end]
     `;
-    const start = (Number(page) - 1) * Number(pageSize);
-    const end = start + Number(pageSize);
+    const start = (page - 1) * pageSize;
+    const end = start + pageSize;
     const data = await client.fetch(query, { locale, start, end });
-    res.status(200).json({ success: true, data });
+    return new Response(JSON.stringify({ success: true, data }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    });
   } catch (error) {
     const errMsg = error instanceof Error ? error.message : String(error);
-    res.status(500).json({ success: false, error: errMsg });
+    return new Response(JSON.stringify({ success: false, error: errMsg }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 }
