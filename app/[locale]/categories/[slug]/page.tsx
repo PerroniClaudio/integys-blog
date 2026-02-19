@@ -56,27 +56,11 @@ export const revalidate = 30;
 async function Categorie({ params }: PageProps) {
   const { locale, slug } = await Promise.resolve(params);
   const posts = await getDataWithPaginationCategoriesI18n(slug, 1, 6, locale);
-  const categoriesData = await getCategoriesDataI18n(locale);
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 
-  // Recupera tutti gli articoli nella lingua corrente
-  const articlesQuery = `*[_type == 'blog' && limited == false && date < now() && language == $locale] { categories[]-> { slug } }`;
-  const articles = await client.fetch(articlesQuery, { locale });
-  // Ottieni la lista degli slug delle categorie effettivamente usate
-  const usedCategorySlugs = Array.from(new Set(
-    articles.flatMap((a: any) => (a.categories || []).map((c: any) => c.slug?.current || c.slug))
-  ));
-
-  // Fai fallback: per ogni slug usato, prendi la categoria nella lingua corrente se esiste, altrimenti quella italiana
-  const categories: { name: string, slug: string }[] = usedCategorySlugs.map(slug => {
-    // cerca prima la categoria nella lingua corrente
-    const catCurrent = categoriesData.find((c: any) => c.currentSlug === slug && c.language === locale);
-    if (catCurrent) return { name: catCurrent.name, slug: catCurrent.currentSlug };
-    // fallback: cerca la categoria in italiano
-    const catIt = categoriesData.find((c: any) => c.currentSlug === slug && c.language === 'it');
-    if (catIt) return { name: catIt.name, slug: catIt.currentSlug };
-    // fallback estremo: solo slug
-    return { name: slug, slug };
-  });
+  // Recupera categorie tramite API route (ipotizzando /api/categories-list)
+  const categoriesRes = await fetch(`${siteUrl}/api/categories-list?language=${locale}`);
+  const categoriesData = categoriesRes.ok ? await categoriesRes.json() : [];
 
   return (
     <>
@@ -96,7 +80,7 @@ async function Categorie({ params }: PageProps) {
                       ? 'Scorri gli articoli in basso o seleziona una categoria'
                       : 'Browse the articles below or select a category'}
                   </h2>
-                  <CategorySelector key={`${locale}-${slug}`} categories={categories} selected={slug} />
+                  <CategorySelector key={`${locale}-${slug}`} categories={categoriesData} selected={slug} />
                 </div>
               </div>
               <hr className="border border-secondary" />

@@ -113,11 +113,27 @@ export async function getDataWithPaginationCategoriesI18n(
   locale: string = 'it',
   limited: boolean = false
 ) {
+  // Recupera la categoria nella lingua corrente tramite slug
+  const catQuery = `*[_type == 'categorie' && slug.current == $slug && language == $locale][0]{categoryIdMultilingua}`;
+  const catData = await client.fetch(catQuery, { slug, locale });
+  if (!catData || !catData.categoryIdMultilingua) {
+    // Nessuna categoria trovata nella lingua corrente
+    return [];
+  }
+  const categoryIdMultilingua = catData.categoryIdMultilingua;
+
+  // Trova tutte le categorie (di qualsiasi lingua) con lo stesso categoryIdMultilingua
+  const categoriesQuery = `*[_type == 'categorie' && categoryIdMultilingua == $categoryIdMultilingua]{_id}`;
+  const categories = await client.fetch(categoriesQuery, { categoryIdMultilingua });
+  if (!categories.length) return [];
+  const categoryIds = categories.map((c: any) => c._id);
+
+  // Query per gli articoli che hanno almeno una di queste categorie
   const query = `
     *[_type == 'blog' && limited == $limited && date < now() 
-      && references(*[_type == 'categorie' && slug.current == $slug]._id)
-      && language == $locale] 
-    | order(date desc) {
+      && language == $locale
+      && count(categories[@._ref in $categoryIds]) > 0
+    ] | order(date desc) {
       "id": _id,
       title,
       smallDescription,
@@ -129,8 +145,7 @@ export async function getDataWithPaginationCategoriesI18n(
   `;
 
   try {
-    const data = await client.fetch(query, { slug, locale, limited });
-    
+    const data = await client.fetch(query, { limited, locale, categoryIds });
     return data.map((post: simpleBlogCard, index: number) => (
       <ArticleCard key={post.id} article={post} index={index} limited={limited} />
     ));
@@ -166,34 +181,26 @@ export async function getServicesDataI18n(locale: string = 'it') {
 }
 
 export async function getCategoriesDataI18n(locale: string = 'it') {
-  let query;
-  if (locale === 'it') {
-    query = `
-      *[_type == 'categorie' && language == "it"] 
-      | order(name asc) {
-        "id": _id,
-        name,
-        "currentSlug": slug.current,
-        description,
-        language
-      }
-    `;
-  } else {
-    query = `
-      *[_type == 'categorie' && (language == "${locale}" || language == "it")] 
-      | order(name asc) {
-        "id": _id,
-        name,
-        "currentSlug": slug.current,
-        description,
-        language
-      }
-    `;
-  }
-
+  // Mostra tutte le categorie nella lingua corrente che hanno un id multilingua associato ad almeno un articolo nella lingua corrente (anche se l'associazione è tramite una categoria di altra lingua)
+  const query = `
+    *[_type == 'categorie' && language == "${locale}" &&
+      categoryIdMultilingua in (
+        select(
+          *[_type == 'blog' && language == "${locale}" && defined(categories[0])].categories[]->categoryIdMultilingua
+        )
+      )
+    ] | order(name asc) {
+      "id": _id,
+      name,
+      "currentSlug": slug.current,
+      description,
+      language
+    }
+  `;
   try {
     const data = await client.fetch(query);
-    return data;
+    // Filtra solo quelle con name valorizzato (evita fallback su slug)
+    return data.filter((cat: any) => cat.name && cat.name.trim() !== '');
   } catch (error) {
     console.error('Error fetching categories:', error);
     return [];
