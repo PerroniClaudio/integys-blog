@@ -21,13 +21,22 @@ export async function GET(request: Request) {
         headers: { 'Content-Type': 'application/json' },
       });
     }
-    const query = `*[_type == 'categorie' && language == $language] | order(order asc) {
-      "id": _id,
-      name,
-      description,
-      "slug": slug.current,
-      language
-    }`;
+    // Filtro: solo categorie la cui categoryIdMultilingua è presente tra quelle associate ad almeno un articolo nella lingua richiesta
+    const query = `
+      *[_type == 'categorie' && language == $language &&
+        categoryIdMultilingua in (
+          select(
+            *[_type == 'blog' && language == $language && defined(categories[0])].categories[]->categoryIdMultilingua
+          )
+        )
+      ] | order(order asc) {
+        "id": _id,
+        name,
+        description,
+        "slug": slug.current,
+        language
+      }
+    `;
     const data = await client.fetch(query, { language });
     return new Response(JSON.stringify(data), {
       status: 200,
