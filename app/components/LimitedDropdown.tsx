@@ -6,11 +6,13 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSepara
 import { Session } from "next-auth";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 export default function LimitedDropdown({session}: {session: Session | null}) {
-
-  const router = useRouter()
+  const pathname = usePathname() || "";
+  const segments = pathname.split("/").filter(Boolean);
+  const localeFromPath = segments[0];
+  const locale = ["it", "en"].includes(localeFromPath) ? localeFromPath : "it";
 
   const handleLogout = async () => {
     signOut();
@@ -29,7 +31,7 @@ export default function LimitedDropdown({session}: {session: Session | null}) {
           ? (
             <>
               <DropdownMenuItem >{/* className="cursor-pointer" onClick={()=>{router.push("/riservata"); router.refresh();}} */}
-                <Link href={`/${typeof window !== 'undefined' ? window.location.pathname.split('/')[1] : 'it'}/riservata`}>
+                <Link href={`/${locale}/riservata`}>
                   Vai all&apos;area riservata
                 </Link>
               </DropdownMenuItem>
@@ -47,12 +49,12 @@ export default function LimitedDropdown({session}: {session: Session | null}) {
           : (
             <>
               <DropdownMenuItem>
-                <Link href={`/${typeof window !== 'undefined' ? window.location.pathname.split('/')[1] : 'it'}/login-hub`}>
+                <Link href={`/${locale}/login-hub`}>
                   Accedi
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <Link href={`/${typeof window !== 'undefined' ? window.location.pathname.split('/')[1] : 'it'}/register`}>
+                <Link href={`/${locale}/register`}>
                   Registrati
                 </Link>
               </DropdownMenuItem>

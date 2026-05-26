@@ -54,12 +54,12 @@ export default async function LocaleHome({ params }: PageProps) {
   return (
     <div> 
       <Navbar shouldChangeColor={true} />
-      <Hero key={locale} />
+      <Hero />
       
       <main className="max-w-screen-2xl mx-auto px-4 mb-16">
         <div className="pt-4 pb-8">
           <div className="grid grid-cols-1 lg:grid-cols-8 gap-5">
-            <HomeContent key={locale} categories={categoriesData} />
+            <HomeContent categories={categoriesData} />
           </div>
         </div>
       </main>
@@ -67,7 +67,6 @@ export default async function LocaleHome({ params }: PageProps) {
       {/* Contenuto dinamico che si aggiorna in base alla lingua */}
       {/* Forza il remount anche se la route cambia senza ricaricare la pagina */}
       <DynamicBlogContent 
-        key={locale}
         locale={locale}
         fallbackData={posts.slice(0, 6)} 
         fallbackHighlighted={highlightedPosts} 

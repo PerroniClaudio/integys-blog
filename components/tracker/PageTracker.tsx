@@ -140,6 +140,7 @@ export default function PageTracker() {
     // Cleanup quando il componente viene smontato
     return () => {
       document.removeEventListener("click", handleClick);
+      document.removeEventListener("scroll", handleScroll);
     };
   }, [pathname]); // Dipendenza pathname per avere sempre il path corrente
 

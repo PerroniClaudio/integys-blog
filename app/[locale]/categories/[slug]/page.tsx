@@ -65,7 +65,7 @@ async function Categorie({ params }: PageProps) {
   return (
     <>
       <Navbar shouldChangeColor={true} />
-      <Hero key={locale} />
+      <Hero />
       <main className="max-w-7xl mx-auto px-4 mb-16">
         <div className="pt-4 pb-8">
           <div className="grid grid-cols-1 lg:grid-cols-8 gap-5">

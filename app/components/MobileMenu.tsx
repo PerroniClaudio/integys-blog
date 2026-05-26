@@ -1,23 +1,41 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Menu } from "lucide-react";
+import { useEffect, useState } from "react";
 import { Session } from "next-auth";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 export default function MobileMenu({session}: {session: Session | null}) {
-
-  const router = useRouter();
   const pathname = usePathname() || '';
+  const [mounted, setMounted] = useState(false);
   
-  // Estrai il locale dal pathname
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const segments = pathname.split('/').filter(Boolean);
   const localeFromPath = segments[0];
   const locale = ['it', 'en'].includes(localeFromPath) ? localeFromPath : 'it';
 
   const handleLogout = async () => {
     signOut();
+  }
+
+  if (!mounted) {
+    return (
+      <Button variant="outline" className="px-2" type="button" disabled>
+        <Menu />
+      </Button>
+    );
   }
 
   return (

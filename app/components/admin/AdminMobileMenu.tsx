@@ -1,20 +1,38 @@
+"use client";
+
 
 // Creare il dropdown per il login, la visualizzazione della mail dell'utente loggato e il logout. vedere il dropdown utilizzato per la modifica del tema
 
 import { Button } from "@/components/ui/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Menu } from "lucide-react";
+import { useEffect, useState } from "react";
 import { Session } from "next-auth";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 export default function AdminMobileMenu({session}: {session: Session | null}) {
+  const [mounted, setMounted] = useState(false);
 
-  const router = useRouter()
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleLogout = async () => {
     signOut();
+  }
+
+  if (!mounted) {
+    return (
+      <Button variant="outline" className="px-2" type="button" disabled>
+        <Menu />
+      </Button>
+    );
   }
 
   return (
