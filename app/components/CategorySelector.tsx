@@ -33,8 +33,8 @@ function CategorySelector({ categories, selected, limited = false }: Params) {
       onChange={(e)=>e.target.value == "tutte" ? router.push(limited ? `/${locale}/riservata` : `/${locale}`) : router.push(limited ? `/${locale}/riservata/categorie/${e.target.value}` : `/${locale}/categories/${e.target.value}`)}
     >
       <option value="tutte">{t('all')}</option>
-      {categories.map((category, idx) => (
-        <option value={category.slug} key={idx}>{category.name}</option>
+      {categories.map((category) => (
+        <option value={category.slug} key={category.slug}>{category.name}</option>
       ))}
     </select>
   )

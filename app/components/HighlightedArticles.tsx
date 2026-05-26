@@ -40,7 +40,7 @@ function HighlightedArticles({data, locale}: Props) {
       >
         {data.map((post, index) => 
           <SwiperSlide key={post.id} className='h-auto mb-8'>
-            <HighlightedArticleCard key={post.id} article={post} index={index} locale={locale} />
+            <HighlightedArticleCard article={post} index={index} locale={locale} />
           </SwiperSlide>
         )}
       </Swiper>

@@ -24,7 +24,7 @@ import { useTranslation } from "@/lib/useTranslation";
 
 // hCaptcha
 import HCaptcha from "@hcaptcha/react-hcaptcha";
-import { CookiesContext } from "@/components/cookies/cookiesContextProvider";
+import { PreferencesContext } from "@/components/cookies/preferencesProvider";
 
 const formSchema = z.object({
   name: z
@@ -56,7 +56,7 @@ function Contattaci() {
   const [isVerified, setIsverified] = useState<boolean>(false)
   
   //cookies
-  const {cookiesSettings} = useContext(CookiesContext);
+  const {userPreferences} = useContext(PreferencesContext);
 
   async function handleCaptchaSubmission(token: string) {
     // Server function to verify captcha
@@ -101,7 +101,7 @@ function Contattaci() {
       {/* <Navbar shouldChangeColor={false} /> */}
       {/* <main className="max-w-7xl mx-auto px-4 py-32"> */}
         {/* {cookieConsentAll  */}
-        {cookiesSettings && cookiesSettings.all 
+        {userPreferences && userPreferences.all 
           ? <Card>
               <CardContent className="p-4 lg:p-16">
                 <Form {...form}>

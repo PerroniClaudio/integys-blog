@@ -5,8 +5,8 @@ import { Button } from "./button";
 import NewsletterDialog from "./newsletter-dialog";
 import { twMerge } from "tailwind-merge";
 import Dialog from "./dialog";
-import { CookiesContext } from "../cookies/cookiesContextProvider";
-import CookiesBanner from "../cookies/CookiesBanner";
+import { PreferencesContext } from "../cookies/preferencesProvider";
+import UserNotice from "../cookies/UserNotice";
 import { useTranslation } from "@/lib/useTranslation";
 
 type Props = {
@@ -17,7 +17,7 @@ function NewsletterButton({className}: Props) {
 
   const[isOpen, setIsOpen] = useState<boolean>(false);
   
-  const {cookiesSettings} = useContext(CookiesContext);
+  const {userPreferences} = useContext(PreferencesContext);
   const { t } = useTranslation();
 
   return (
@@ -29,7 +29,7 @@ function NewsletterButton({className}: Props) {
       >
         {t("cta.subscribeNewsletter")}
       </Button>
-      {cookiesSettings && cookiesSettings.all && isOpen
+      {userPreferences && userPreferences.all && isOpen
         ? <NewsletterDialog isOpen={isOpen} setIsOpen={setIsOpen} />
         : <Dialog
             title="Avviso"
@@ -43,7 +43,7 @@ function NewsletterButton({className}: Props) {
               In alternativa, accettare tutti i cookies e cliccare nuovamente sul bottone &quot;<span className="font-semibold">{t("cta.subscribeNewsletter")}</span>&quot;<br />
               É possibile modificare le preferenze cookie utilizzando il bottone sottostante. 
             </p>
-            <CookiesBanner />
+            <UserNotice />
           </Dialog>
       }
     </>

@@ -7,7 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import PageTracker from "@/components/tracker/PageTracker";
 import LanguageSync from "./components/LanguageSync";
 import { Suspense } from "react";
-import { CookiesContextProvider } from "@/components/cookies/cookiesContextProvider";
+import { PreferencesProvider } from "@/components/cookies/preferencesProvider";
 import { ThemeProvider } from "@/app/components/theme-provider";
 
 export const metadata: Metadata = {
@@ -26,7 +26,7 @@ export default function RootLayout({
       <body className="font-sans antialiased">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <div className="relative min-h-screen">
-            <CookiesContextProvider>
+            <PreferencesProvider>
               <Suspense fallback={null}>
                 <LanguageSync />
               </Suspense>
@@ -37,7 +37,7 @@ export default function RootLayout({
               <Suspense fallback={<div>Loading...</div>}>
                 <PageTracker />
               </Suspense>
-            </CookiesContextProvider>
+            </PreferencesProvider>
           </div>
         </ThemeProvider>
       </body>

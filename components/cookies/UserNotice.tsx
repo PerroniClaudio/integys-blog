@@ -1,15 +1,14 @@
 "use client";
 
 import { useContext, useEffect, useState } from "react";
-// import { FaCookieBite, FaWindowClose } from "react-icons/fa";
 import { useRouter, usePathname } from "next/navigation";
 import { Cookie, X } from "lucide-react";
-import { CookiesContext } from "../cookies/cookiesContextProvider";
+import { PreferencesContext } from "../cookies/preferencesProvider";
 import { useTranslation } from "@/lib/useTranslation";
 import { I18nText } from "@/components/ui/I18nText";
 import LanguageSwitcher from "@/app/components/LanguageSwitcher";
 
-type CookieConsent = {
+type UserPreferences = {
   all: boolean;
   isChoiceDone: boolean;
   values: {
@@ -20,12 +19,12 @@ type CookieConsent = {
   };
 };
 
-function CookiesBanner() {
+function UserNotice() {
   const router = useRouter();
   const pathname = usePathname() || '';
   const { t, i18n } = useTranslation();
   
-  const {cookiesSettings, setCookies} = useContext(CookiesContext);
+  const {userPreferences, setPreferences} = useContext(PreferencesContext);
 
   const [isVisible, setIsVisible] = useState(false);
 
@@ -40,14 +39,14 @@ function CookiesBanner() {
   });
   
   useEffect(() => {
-    if (cookiesSettings) {
-      // console.log("Banner: ", {cookiesSettings});
-      setValues(cookiesSettings.values);
-      setIsVisible(cookiesSettings.isChoiceDone ? false : true);
+    if (userPreferences) {
+      // console.log("Banner: ", {userPreferences});
+      setValues(userPreferences.values);
+      setIsVisible(userPreferences.isChoiceDone ? false : true);
     } else {
       setIsVisible(true);
     }
-  }, [cookiesSettings]);
+  }, [userPreferences]);
 
   useEffect(() => {
     const body = document.querySelector("body");
@@ -59,7 +58,8 @@ function CookiesBanner() {
   }, [isVisible]);
 
   const openBanner = () => {
-    const localItem = localStorage.getItem("CookieConsent");
+    // Check both old and new keys for backward compatibility
+    const localItem = localStorage.getItem("UserPrefs") || localStorage.getItem("CookieConsent");
     if(localItem){
       const data = JSON.parse(localItem);
       setValues(data.values);
@@ -70,7 +70,7 @@ function CookiesBanner() {
   async function handleSubmit(e: React.MouseEvent, choice: string) {
     e.preventDefault();
     // Qui si setta il cookie per le preferenze dell'utente. dato che non si può controllare il comportamento di YouTube, se non vengono accettati tutti, i video embedded dovranno essere disabilitati in ogni caso
-    setCookies({
+    setPreferences({
         all:
           choice === "all"
             ? true
@@ -125,11 +125,11 @@ function CookiesBanner() {
         onClick={openBanner}
       >{t('cookiesBanner.preferencesButton')}</button>
 
-      {/* Banner cookies */}
+      {/* User preferences notice */}
       <div className={`fixed top-0 left-0 w-[100vw] h-[100vh] bg-black opacity-30 z-[99] ${!isVisible && "hidden"}`}> 
       </div>
       <div
-        id="cookies-popup"
+        id="user-notice"
         className={`
           fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] select-none bg-background px-1 sm:px-6 
           rounded-md border-[1px] border-foreground outline outline-2 outline-background
@@ -273,7 +273,7 @@ function CookiesBanner() {
               onClick={(e) => {
                 handleSubmit(e, "all");
               }}
-              id="cookies-close"
+              id="notice-accept"
               className="px-4 py-2 bg-primary text-white font-medium rounded-md shadow-lg hover:scale-105 lg:px-2"
             >
               {t('cookiesBanner.acceptAll')}
@@ -282,7 +282,7 @@ function CookiesBanner() {
               onClick={(e) => {
                 handleSubmit(e, "selected");
               }}
-              id="cookies-close"
+              id="notice-selected"
               className="px-4 py-2 bg-primary text-white font-medium rounded-md shadow-lg hover:scale-105 lg:px-2"
             >
               {t('cookiesBanner.acceptSelected')}
@@ -291,7 +291,7 @@ function CookiesBanner() {
               onClick={(e) => {
                 handleSubmit(e, "none");
               }}
-              id="cookies-close"
+              id="notice-close"
               className="px-4 py-2 bg-primary text-white font-medium rounded-md shadow-lg hover:scale-105 lg:px-2"
             >
               {t('cookiesBanner.closeWithoutAccepting')}
@@ -307,7 +307,7 @@ function CookiesBanner() {
             onClick={(e) => {
               handleSubmit(e, "none");
             }}
-            id="cookies-close"
+            id="notice-close"
             // className="absolute top-0 right-0 p-1 w-fit text-foreground font-medium rounded-md text-xl"
             className="p-1 w-fit text-foreground font-medium rounded-md text-xl mt-[-0.25rem]"
           >
@@ -319,4 +319,4 @@ function CookiesBanner() {
   );
 }
 
-export default CookiesBanner;
+export default UserNotice;

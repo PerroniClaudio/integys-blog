@@ -48,7 +48,7 @@ export default function DynamicArticleList({ category, limited = false }: Props)
       } else {
         query = `
           *[_type == 'blog' 
-            && limited == ${limited} 
+            && limited == ${limited}
             && language == "${currentLanguage}"
             && date < now()] 
           | order(order asc, date desc) {

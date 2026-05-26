@@ -75,7 +75,7 @@ export function useHighlightedBlogData(limited: boolean = false, locale: string)
           page: '1',
           pageSize: '10',
           limited: String(limited),
-          includeHighlighted: 'true',
+          highlighted: 'true', // Solo articoli evidenziati
           locale
         });
         if (locale === 'it' || locale === 'en') {

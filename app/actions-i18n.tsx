@@ -111,7 +111,8 @@ export async function getDataWithPaginationCategoriesI18n(
   page: number,
   pageSize: number,
   locale: string = 'it',
-  limited: boolean = false
+  limited: boolean = false,
+  includeHighlighted: boolean = true
 ) {
   // Recupera la categoria nella lingua corrente tramite slug
   const catQuery = `*[_type == 'categorie' && slug.current == $slug && language == $locale][0]{categoryIdMultilingua}`;
@@ -131,9 +132,10 @@ export async function getDataWithPaginationCategoriesI18n(
   // Query per gli articoli che hanno almeno una di queste categorie
   const query = `
     *[_type == 'blog' && limited == $limited && date < now() 
+      ${includeHighlighted ? '' : (' && highlighted != true')}
       && language == $locale
       && count(categories[@._ref in $categoryIds]) > 0
-    ] | order(date desc) {
+    ] | order(order asc, date desc) {
       "id": _id,
       title,
       smallDescription,

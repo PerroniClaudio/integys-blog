@@ -7,7 +7,7 @@ export const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'development',
   apiVersion: '2024-01-01', // usa la data corrente in formato YYYY-MM-DD
-  useCdn: process.env.NODE_ENV === 'development', // usa CDN in produzione per performance migliori
+  useCdn: process.env.NODE_ENV === 'production', // usa CDN in produzione per performance migliori e per evitare errori CORS
   token: process.env.SANITY_API_TOKEN, // necessario per operazioni di scrittura
 });
 

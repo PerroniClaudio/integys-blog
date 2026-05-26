@@ -29,7 +29,7 @@ function ArticleList({ category, limited = false, locale = 'it' }: Props) {
   const fetchData = async () => {
     setIsFetching(true);
     if (category) {
-      const result = await getDataWithPaginationCategoriesI18n(category, page, 6, locale, limited);
+      const result = await getDataWithPaginationCategoriesI18n(category, page, 6, locale, limited, true);
       if(result.length > 0) {
         setData((prev) => [...prev, ...result]);
         setPage(prev => prev + 1);
@@ -38,7 +38,7 @@ function ArticleList({ category, limited = false, locale = 'it' }: Props) {
         console.log("no more data");
       }
     } else {
-      const result = await getDataWithPaginationI18n(page, 6, locale, limited);
+      const result = await getDataWithPaginationI18n(page, 6, locale, limited, true);
       if(result.length > 0) {
         setData((prev) => [...prev, ...result]);
         setPage(prev => prev + 1);

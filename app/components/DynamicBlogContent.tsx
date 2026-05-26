@@ -13,12 +13,12 @@ interface DynamicContentProps {
 }
 
 export default function DynamicBlogContent({ locale, fallbackData, fallbackHighlighted }: DynamicContentProps) {
-  // Fetch dei dati degli articoli per la lingua passata dal server
+  // Fetch dei dati degli articoli per la lingua passata dal server (inclusi gli evidenziati)
   const { data: posts, loading: postsLoading } = useBlogData({
     page: 1,
     pageSize: 6,
     limited: false,
-    includeHighlighted: true,
+    includeHighlighted: true, // Includi gli articoli evidenziati nella lista normale
     locale
   });
 

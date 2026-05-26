@@ -65,7 +65,7 @@ async function Categorie({ params }: PageProps) {
   return (
     <>
       <Navbar shouldChangeColor={true} />
-      <Hero key={locale} />
+      <Hero key={`hero-${locale}`} />
       <main className="max-w-7xl mx-auto px-4 mb-16">
         <div className="pt-4 pb-8">
           <div className="grid grid-cols-1 lg:grid-cols-8 gap-5">
@@ -80,7 +80,7 @@ async function Categorie({ params }: PageProps) {
                       ? 'Scorri gli articoli in basso o seleziona una categoria'
                       : 'Browse the articles below or select a category'}
                   </h2>
-                  <CategorySelector key={`${locale}-${slug}`} categories={categoriesData} selected={slug} />
+                  <CategorySelector key={`selector-${locale}-${slug}`} categories={categoriesData} selected={slug} />
                 </div>
               </div>
               <hr className="border border-secondary" />
@@ -90,7 +90,7 @@ async function Categorie({ params }: PageProps) {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                 {posts}
               </div>
-              <ArticleList key={`${locale}-${slug}`} category={slug} locale={locale} />
+              <ArticleList key={`list-${locale}-${slug}`} category={slug} locale={locale} />
             </div>
 
           </div>

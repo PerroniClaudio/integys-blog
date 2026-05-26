@@ -19,12 +19,12 @@ export default async function LocaleHome({ params }: PageProps) {
   const { locale } = await Promise.resolve(params);
   
 
-  // Recupera la lista articoli tramite API route
+  // Recupera la lista articoli tramite API route (includendo gli evidenziati)
   const blogParams = new URLSearchParams({
     page: '1',
     pageSize: '6',
     limited: 'false',
-    includeHighlighted: 'true',
+    includeHighlighted: 'true', // Includi gli articoli evidenziati nella lista normale
     locale: locale
   });
   // In SSR, fetch accetta solo path relativo
@@ -35,12 +35,12 @@ export default async function LocaleHome({ params }: PageProps) {
   const posts = Array.isArray(postsResult.data) ? postsResult.data : [];
 
 
-  // Recupera articoli evidenziati tramite API route
+  // Recupera articoli evidenziati tramite API route (solo highlighted)
   const highlightedParams = new URLSearchParams({
     page: '1',
     pageSize: '10',
     limited: 'false',
-    includeHighlighted: 'true',
+    highlighted: 'true', // Solo articoli evidenziati
     locale: locale
   });
   const highlightedRes = await fetch(`${siteUrl}/api/blog-list?${highlightedParams.toString()}`);
@@ -54,12 +54,12 @@ export default async function LocaleHome({ params }: PageProps) {
   return (
     <div> 
       <Navbar shouldChangeColor={true} />
-      <Hero key={locale} />
+      <Hero key={`hero-${locale}`} />
       
       <main className="max-w-screen-2xl mx-auto px-4 mb-16">
         <div className="pt-4 pb-8">
           <div className="grid grid-cols-1 lg:grid-cols-8 gap-5">
-            <HomeContent key={locale} categories={categoriesData} />
+            <HomeContent key={`home-${locale}`} categories={categoriesData} />
           </div>
         </div>
       </main>
@@ -67,7 +67,7 @@ export default async function LocaleHome({ params }: PageProps) {
       {/* Contenuto dinamico che si aggiorna in base alla lingua */}
       {/* Forza il remount anche se la route cambia senza ricaricare la pagina */}
       <DynamicBlogContent 
-        key={locale}
+        key={`blog-${locale}`}
         locale={locale}
         fallbackData={posts.slice(0, 6)} 
         fallbackHighlighted={highlightedPosts} 
