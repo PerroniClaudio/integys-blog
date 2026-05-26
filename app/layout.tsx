@@ -6,7 +6,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PageTracker from "@/components/tracker/PageTracker";
 import LanguageSync from "./components/LanguageSync";
-import CookiesBanner from "@/components/cookies/CookiesBanner";
+import { Suspense } from "react";
 import { CookiesContextProvider } from "@/components/cookies/cookiesContextProvider";
 import { ThemeProvider } from "@/app/components/theme-provider";
 
@@ -27,13 +27,16 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <div className="relative min-h-screen">
             <CookiesContextProvider>
-              <LanguageSync />
-              <CookiesBanner />
+              <Suspense fallback={null}>
+                <LanguageSync />
+              </Suspense>
               {children}
               <Toaster />
               {/* <ToastContainer className="z-50" /> */}
               <Analytics />
-              <PageTracker />
+              <Suspense fallback={<div>Loading...</div>}>
+                <PageTracker />
+              </Suspense>
             </CookiesContextProvider>
           </div>
         </ThemeProvider>

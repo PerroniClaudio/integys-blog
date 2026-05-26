@@ -1,8 +1,7 @@
 "use client";
 
-import CookiesPreferencesButton from "@/components/cookies/CookiesPreferencesButton";
+import CookiesBanner from "@/components/cookies/CookiesBanner";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useTranslation } from "@/lib/useTranslation";
 
 type FooterProps = {
@@ -12,10 +11,6 @@ type FooterProps = {
 function Footer({ isAbsolute = true }: FooterProps) {
   const currentYear = new Date().getFullYear();
   const { t } = useTranslation();
-  const pathname = usePathname() || "";
-  const segments = pathname.split("/").filter(Boolean);
-  const localeFromPath = segments[0];
-  const locale = ["it", "en"].includes(localeFromPath) ? localeFromPath : "it";
 
   return (
     <footer
@@ -26,7 +21,7 @@ function Footer({ isAbsolute = true }: FooterProps) {
       <div className="container flex items-center justify-between gap-4 px-4 text-sm md:gap-6 min-h-32">
         <div className="flex flex-col gap-2">
           <Link
-            href={`/${locale}`}
+            href={`/${typeof window !== 'undefined' ? window.location.pathname.split('/')[1] : 'it'}`}
             className={`font-bold text-3xl text-primary dark:hidden`}>
             <div className="flex items-center gap-1 ">
               <div className="p-1">
@@ -37,7 +32,7 @@ function Footer({ isAbsolute = true }: FooterProps) {
             </div>
           </Link>
           <Link
-            href={`/${locale}`}
+            href={`/${typeof window !== 'undefined' ? window.location.pathname.split('/')[1] : 'it'}`}
             className={`font-bold text-3xl text-primary hidden dark:block`}>
             <div className="flex items-center gap-1 ">
               <div className="p-1">
@@ -72,7 +67,7 @@ function Footer({ isAbsolute = true }: FooterProps) {
           <Link className="text-right" href="https://integys.com/note-legali/">
             {t("footer.legalNotes")}
           </Link>
-          <CookiesPreferencesButton />
+          <CookiesBanner />
         </div>
       </div>
     </footer>

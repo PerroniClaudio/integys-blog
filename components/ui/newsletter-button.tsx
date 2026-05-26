@@ -1,12 +1,12 @@
 "use client";
 
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Button } from "./button";
 import NewsletterDialog from "./newsletter-dialog";
 import { twMerge } from "tailwind-merge";
 import Dialog from "./dialog";
 import { CookiesContext } from "../cookies/cookiesContextProvider";
-import CookiesPreferencesButton from "../cookies/CookiesPreferencesButton";
+import CookiesBanner from "../cookies/CookiesBanner";
 import { useTranslation } from "@/lib/useTranslation";
 
 type Props = {
@@ -43,7 +43,7 @@ function NewsletterButton({className}: Props) {
               In alternativa, accettare tutti i cookies e cliccare nuovamente sul bottone &quot;<span className="font-semibold">{t("cta.subscribeNewsletter")}</span>&quot;<br />
               É possibile modificare le preferenze cookie utilizzando il bottone sottostante. 
             </p>
-            <CookiesPreferencesButton />
+            <CookiesBanner />
           </Dialog>
       }
     </>

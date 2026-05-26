@@ -22,8 +22,8 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         <div className="absolute inset-0 bg-primary/50 brightness-50 dark:bg-secondary/70 dark:brightness-100 z-10" />
         <div className="container px-4 relative z-10 flex flex-col gap-6">
           <div className="text-center max-w-3xl mx-auto">
-            <ServicesPageTitle />
-            <ServicesPageSubtitle />
+            <ServicesPageTitle key={locale} />
+            <ServicesPageSubtitle key={locale} />
 
             <div className="space-x-4">
               <ContactUsLink
@@ -35,7 +35,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         </div>
       </section>
 
-      <ServicesComponent services={data} locale={locale} />
+      <ServicesComponent key={locale} services={data} locale={locale} />
       <ContactUs />
     </div>
   );

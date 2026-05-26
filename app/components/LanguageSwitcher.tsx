@@ -32,6 +32,7 @@ export default function LanguageSwitcher() {
   const [articleVersions, setArticleVersions] = React.useState<ArticleVersion[]>([]);
   const [isArticlePage, setIsArticlePage] = React.useState(false);
   
+  // Assicurati che il componente si renda solo sul client
   React.useEffect(() => {
     setMounted(true);
   }, []);
@@ -62,15 +63,10 @@ export default function LanguageSwitcher() {
     }
   }, [pathname, mounted]);
 
+  // Non renderizzare durante SSR
   if (!mounted || !isReady) {
     return (
-      <Button
-        variant="outline"
-        size="icon"
-        className="relative min-w-[40px]"
-        type="button"
-        disabled
-      >
+      <Button variant="outline" size="icon" className="relative min-w-[40px]">
         <span className="text-sm font-semibold">IT</span>
         <span className="sr-only">Loading language switcher...</span>
       </Button>
