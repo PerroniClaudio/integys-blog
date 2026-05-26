@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { Button } from '@/components/ui/button';
-import { client } from '@/lib/sanity';
 import { simpleBlogCard } from '@/lib/interface';
 import ArticleCard from './ArticleCard';
 import { useTranslation } from '@/lib/useTranslation';
@@ -25,48 +24,35 @@ export default function DynamicArticleList({ category, limited = false }: Props)
     try {
       const currentLanguage = i18n.language || 'it';
       
-      let query = '';
-      
+      // Usa l'API route invece di chiamare direttamente Sanity per evitare errori CORS in produzione
       if (category) {
-        query = `
-          *[_type == 'blog' 
-            && limited == ${limited} 
-            && language == "${currentLanguage}"
-            && date < now()
-            && references(*[_type == 'categorie' && slug.current == "${category}"]._id)] 
-          | order(order asc, date desc) {
-            "id": _id,
-            title,
-            smallDescription,
-            titleImage,
-            "currentSlug": slug.current,
-            language,
-            postIdMultilingua,
-            categories[]->{name, "slug" : slug.current}
-          }[${(page - 1) * 6}...${page * 6}]
-        `;
-      } else {
-        query = `
-          *[_type == 'blog' 
-            && limited == ${limited}
-            && language == "${currentLanguage}"
-            && date < now()] 
-          | order(order asc, date desc) {
-            "id": _id,
-            title,
-            smallDescription,
-            titleImage,
-            "currentSlug": slug.current,
-            language,
-            categories[]->{name, "slug" : slug.current}
-          }[${(page - 1) * 6}...${page * 6}]
-        `;
+        // Per ora le categorie usano ancora le server actions
+        // TODO: creare un'API route per le categorie
+        console.warn('Category filtering not yet supported in DynamicArticleList');
+        setPage(0);
+        setIsFetching(false);
+        return;
       }
-
-      const result = await client.fetch(query);
       
-      if (result.length > 0) {
-        setData((prev) => [...prev, ...result]);
+      const params = new URLSearchParams({
+        page: String(page),
+        pageSize: '6',
+        limited: String(limited),
+        includeHighlighted: 'true',
+        locale: currentLanguage
+      });
+      
+      const res = await fetch(`/api/blog-list?${params.toString()}`);
+      
+      if (!res.ok) {
+        throw new Error('Failed to fetch blog list');
+      }
+      
+      const result = await res.json();
+      const articles = Array.isArray(result.data) ? result.data : [];
+      
+      if (articles.length > 0) {
+        setData((prev) => [...prev, ...articles]);
         setPage(prev => prev + 1);
       } else {
         setPage(0);
