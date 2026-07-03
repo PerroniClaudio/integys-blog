@@ -60,8 +60,8 @@ function Hero2() {
             </div>
           </div>
           
-          <div className="flex flex-col gap-4 justify-between text-left md:text-left">
-          {/* <div className="flex flex-col gap-4 justify-between text-left md:text-right"> */}
+          {/* <div className="flex flex-col gap-4 justify-between text-left md:text-left">
+          {/ * <div className="flex flex-col gap-4 justify-between text-left md:text-right"> * /}
             <div
               // className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tighter text-primary-foreground"
               className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold tracking-tighter text-primary-foreground"
@@ -84,7 +84,7 @@ function Hero2() {
                 Vai alla pagina
               </Link>
             </div>
-          </div>
+          </div> */}
           
           <div className="flex flex-col space-y-4 md:text-right">
           {/* <div className="md:col-span-2 flex flex-col gap-4 md:items-center"> */}
