@@ -11,7 +11,7 @@ import Image from "next/image";
 
 async function getData(slug: string) {
   const query = `
-        *[_type == 'servizi' && slug.current == '${slug}'] {
+        *[_type == 'servizi' && !(_id in path("drafts.**")) && slug.current == '${slug}'] {
             title,
             short,
             smallDescription,
@@ -28,7 +28,7 @@ async function getData(slug: string) {
 
 export async function generateStaticParams() {
   const query = `
-    *[_type == 'servizi'] {
+    *[_type == 'servizi' && !(_id in path("drafts.**"))] {
       title,
       short,
       smallDescription,

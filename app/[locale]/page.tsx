@@ -56,10 +56,10 @@ export default async function LocaleHome({ params }: PageProps) {
       <Navbar shouldChangeColor={true} />
       <Hero key={`hero-${locale}`} />
       
-      <main className="max-w-screen-2xl mx-auto px-4 mb-16">
-        <div className="pt-4 pb-8">
+      <main className="max-w-screen-2xl mx-auto px-4">
+        <div className="">
           <div className="grid grid-cols-1 lg:grid-cols-8 gap-5">
-            <HomeContent key={`home-${locale}`} categories={categoriesData} />
+            <HomeContent key={`home-${locale}`} categories={categoriesData} locale={locale} />
           </div>
         </div>
       </main>

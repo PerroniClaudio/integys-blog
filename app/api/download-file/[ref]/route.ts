@@ -35,7 +35,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ ref: str
     });
 
     const query = `
-        *[_type == 'blog' && references("${ref}")]{
+        *[_type == 'blog' && !(_id in path("drafts.**")) && references("${ref}")]{
           limited
         }
       `;
@@ -68,7 +68,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ ref: str
     // (perchè il titolo del file fa parte del modello del blog e non dell'asset)
     // Quindi si dovrà aggiornare questa parte nel caso si decidesse di creare una sezione file separata dagli articoli
     const fileQuery = `
-      *[_type == 'blog' && references("${ref}")]{
+      *[_type == 'blog' && !(_id in path("drafts.**")) && references("${ref}")]{
         "file": files[asset->_id == "${ref}"]{
           _key,
           "extension": asset->extension,

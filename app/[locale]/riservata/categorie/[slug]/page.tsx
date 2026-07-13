@@ -15,7 +15,7 @@ import Link from "next/link";
 
 async function getData(slug: string) {
   const query = `
-      *[_type == 'blog' && limited == true && references(*[_type == 'category' && slug.current == '${slug}']._id) && date < now()] | order(date desc) {
+      *[_type == 'blog' && !(_id in path("drafts.**")) && limited == true && references(*[_type == 'category' && slug.current == '${slug}']._id) && date < now()] | order(date desc) {
         title,
         smallDescription,
         titleImage,
@@ -38,7 +38,7 @@ async function getCategories() {
   //       }
   //   `;
   const query = `
-    *[_type == "categorie" && count(*[_type == "blog" && limited == true && date < now() && references(^._id)]) > 0] {
+    *[_type == "categorie" && !(_id in path("drafts.**")) && count(*[_type == "blog" && !(_id in path("drafts.**")) && limited == true && date < now() && references(^._id)]) > 0] {
     name,
     "slug": slug.current
     }
@@ -51,7 +51,7 @@ async function getCategories() {
 
 export async function generateStaticParams() {
   const query = `
-  *[_type == "categorie" && count(*[_type == "blog" && limited == true && date < now() && references(^._id)]) > 0] {
+  *[_type == "categorie" && !(_id in path("drafts.**")) && count(*[_type == "blog" && !(_id in path("drafts.**")) && limited == true && date < now() && references(^._id)]) > 0] {
   name,
   "slug" : slug.current
   }
@@ -75,7 +75,7 @@ async function Categorie({ params }: { params: Promise<{ slug: string, locale: s
   const categoriesData = await getCategoriesDataI18n(locale);
 
   // Recupera tutti gli articoli nella lingua corrente (limited true)
-  const articlesQuery = `*[_type == 'blog' && limited == true && date < now() && language == $locale] { categories[]-> { slug } }`;
+  const articlesQuery = `*[_type == 'blog' && !(_id in path("drafts.**")) && limited == true && date < now() && language == $locale] { categories[]-> { slug } }`;
   const articles = await import("@/lib/sanity").then(m => m.client.fetch(articlesQuery, { locale }));
   const usedCategorySlugs = Array.from(new Set(
     articles.flatMap((a: any) => (a.categories || []).map((c: any) => c.slug?.current || c.slug))

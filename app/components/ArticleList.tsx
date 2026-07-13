@@ -4,59 +4,57 @@ import ArticleCard from "./ArticleCard";
 import {
   getDataWithPaginationI18n,
   getDataWithPaginationCategoriesI18n,
+  getDataWithPaginationCategoryFiltersI18n,
 } from "@/app/actions-i18n";
 import { useInView } from "react-intersection-observer";
-import { useState, useEffect, ReactElement } from "react";
+import { useState, useEffect, useRef, ReactElement } from "react";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "@/lib/useTranslation";
 
 type Props = {
   category?: string;
+  fixedCategoryIdMultilingua?: string;
   limited?: boolean;
   locale?: string;
 };
 
 export type ArticleCard = ReactElement;
 
-function ArticleList({ category, limited = false, locale = 'it' }: Props) {
+function ArticleList({ category, fixedCategoryIdMultilingua, limited = false, locale = 'it' }: Props) {
   const { ref, inView } = useInView();
   const [data, setData] = useState<ArticleCard[]>([]);
   const [page, setPage] = useState<number>(2);
   const { t } = useTranslation();
   
-  const [isFetching, setIsFetching] = useState<boolean>(false);
+  const isFetching = useRef(false);
 
   const fetchData = async () => {
-    setIsFetching(true);
-    if (category) {
-      const result = await getDataWithPaginationCategoriesI18n(category, page, 6, locale, limited, true);
-      if(result.length > 0) {
+    if (isFetching.current || page === 0) return;
+
+    isFetching.current = true;
+    try {
+      const result = fixedCategoryIdMultilingua
+        ? await getDataWithPaginationCategoryFiltersI18n(fixedCategoryIdMultilingua, category, page, 6, locale, limited, true)
+        : category
+          ? await getDataWithPaginationCategoriesI18n(category, page, 6, locale, limited, true)
+          : await getDataWithPaginationI18n(page, 6, locale, limited, true);
+
+      if (result.length > 0) {
         setData((prev) => [...prev, ...result]);
-        setPage(prev => prev + 1);
+        setPage((currentPage) => currentPage + 1);
       } else {
         setPage(0);
-        console.log("no more data");
       }
-    } else {
-      const result = await getDataWithPaginationI18n(page, 6, locale, limited, true);
-      if(result.length > 0) {
-        setData((prev) => [...prev, ...result]);
-        setPage(prev => prev + 1);
-      } else {
-        setPage(0);
-        console.log("no more data");
-      }
+    } finally {
+      isFetching.current = false;
     }
-    setIsFetching(false);
   }
 
   useEffect(() => {
-    if (inView) {
-      if(page > 0) {
-        fetchData();
-      }
+    if (inView && page > 0 && page <= 3) {
+      fetchData();
     }
-  }, [inView, data, category, limited, locale]);
+  }, [inView, page, category, fixedCategoryIdMultilingua, limited, locale]);
 
   return (
     <>

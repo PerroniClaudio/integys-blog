@@ -16,7 +16,7 @@ import BookSessionText from "@/app/components/BookSessionText";
 async function getData(slug: string) {
   // && date < now() DA CAMBIARE PRIMA DELLA PUBBLICAZIONE. va inserito
   const query = `
-        *[_type == 'blog' && limited == true && slug.current == '${slug}' && date < now()] {
+        *[_type == 'blog' && !(_id in path("drafts.**")) && limited == true && slug.current == '${slug}' && date < now()] {
             title,
             smallDescription,
             titleImage,
@@ -35,7 +35,7 @@ async function getData(slug: string) {
 
 export async function generateStaticParams() {
   const query = `
-    *[_type == 'blog' && limited == true && date < now()] | order(date desc) {
+    *[_type == 'blog' && !(_id in path("drafts.**")) && limited == true && date < now()] | order(date desc) {
       title,
       smallDescription,
       titleImage,

@@ -45,7 +45,7 @@ export async function getLocalizedContent<T>(
 
 // Query di esempio per blog localizzato
 export const localizedBlogQuery = groq`
-*[_type == "blog" && defined(slug.current)] | order(date desc, _createdAt desc) {
+*[_type == "blog" && !(_id in path("drafts.**")) && defined(slug.current)] | order(date desc, _createdAt desc) {
   _id,
   title,
   slug,
@@ -65,7 +65,7 @@ export const localizedBlogQuery = groq`
 
 // Query di esempio per categorie localizzate
 export const localizedCategoriesQuery = groq`
-*[_type == "categorie"] | order(name asc) {
+*[_type == "categorie" && !(_id in path("drafts.**"))] | order(name asc) {
   _id,
   name,
   slug,
@@ -75,7 +75,7 @@ export const localizedCategoriesQuery = groq`
 
 // Query di esempio per servizi localizzati
 export const localizedServicesQuery = groq`
-*[_type == "servizi"] | order(order asc, _createdAt desc) {
+*[_type == "servizi" && !(_id in path("drafts.**"))] | order(order asc, _createdAt desc) {
   _id,
   title,
   slug,
@@ -93,7 +93,7 @@ export async function getTranslatedDocument<T>(
   targetLocale: string = 'en'
 ): Promise<T | null> {
   const query = groq`
-    *[_type in ["blog", "categorie", "servizi"] && __i18n_refs[].ref._ref match "${documentId}" && language == "${targetLocale}"][0]
+    *[_type in ["blog", "categorie", "servizi"] && !(_id in path("drafts.**")) && __i18n_refs[].ref._ref match "${documentId}" && language == "${targetLocale}"][0]
   `;
   
   try {

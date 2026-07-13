@@ -11,7 +11,7 @@ import BrowseArticlesText from "@/app/components/BrowseArticlesText";
 
 export async function generateStaticParams() {
   const query = `
-    *[_type == 'blog' && limited == true && date < now()] | order(date desc) {
+    *[_type == 'blog' && !(_id in path("drafts.**")) && limited == true && date < now()] | order(date desc) {
       title,
       smallDescription,
       titleImage,

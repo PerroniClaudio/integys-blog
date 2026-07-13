@@ -17,7 +17,7 @@ interface PageProps {
 
 async function getData(slug: string, locale: string) {
   const query = `
-    *[_type == 'blog' && limited == false && date < now() && slug.current == $slug && language == $locale] {
+    *[_type == 'blog' && !(_id in path("drafts.**")) && limited == false && date < now() && slug.current == $slug && language == $locale] {
       _id,
       title,
       smallDescription,
@@ -39,7 +39,7 @@ async function getData(slug: string, locale: string) {
 
 export async function generateStaticParams() {
   const query = `
-    *[_type == 'blog' && limited == false && date < now()] | order(date desc) {
+    *[_type == 'blog' && !(_id in path("drafts.**")) && limited == false && date < now()] | order(date desc) {
       "currentSlug": slug.current,
       language
     }

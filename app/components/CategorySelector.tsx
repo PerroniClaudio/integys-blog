@@ -1,19 +1,18 @@
 "use client";
 
-
 import { useTranslation } from '@/lib/useTranslation';
-import { useRouter, usePathname } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
 
 type Params =  {
   categories: { name: string, slug: string }[], 
   selected: string, 
-  limited?: boolean
+  limited?: boolean,
+  filtersPath?: string
 }
 
-function CategorySelector({ categories, selected, limited = false }: Params) {
+function CategorySelector({ categories, selected, limited = false, filtersPath }: Params) {
   const { t } = useTranslation();
-  const router = useRouter();
   const rawPathname = usePathname();
   const pathname = rawPathname || '';
   // Estrai il locale dal pathname
@@ -24,13 +23,27 @@ function CategorySelector({ categories, selected, limited = false }: Params) {
   // Verifica se lo slug selezionato esiste nelle categorie disponibili
   const categoryExists = categories.some((cat: any) => cat.slug === selected);
   const currentValue = categoryExists ? selected : "tutte";
+  const basePath = filtersPath ? `/${locale}/${filtersPath}` : limited ? `/${locale}/riservata` : `/${locale}`;
+
+  const handleChange = (value: string) => {
+    const nextPath =
+      value === "tutte"
+        ? basePath
+        : filtersPath
+          ? `${basePath}/categorie/${value}`
+          : limited
+          ? `${basePath}/categorie/${value}`
+          : `/${locale}/categories/${value}`;
+
+    window.location.href = nextPath;
+  };
 
   return (
     <select 
       className='min-w-fit border border-gray-200 bg-gray-100 rounded-md px-2 py-2 w-1/2 md:w-1/4'
       style={{ borderColor: 'hsl(var(--border))', backgroundColor: 'hsl(var(--input))' }}
       value={currentValue}
-      onChange={(e)=>e.target.value == "tutte" ? router.push(limited ? `/${locale}/riservata` : `/${locale}`) : router.push(limited ? `/${locale}/riservata/categorie/${e.target.value}` : `/${locale}/categories/${e.target.value}`)}
+      onChange={(e) => handleChange(e.target.value)}
     >
       <option value="tutte">{t('all')}</option>
       {categories.map((category) => (

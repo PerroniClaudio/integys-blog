@@ -13,7 +13,7 @@ export async function getDataWithPaginationI18n(
   includeHighlighted: boolean = true
 ) {
   const query = `
-    *[_type == 'blog' && limited == ${limited} && date < now()
+    *[_type == 'blog' && !(_id in path("drafts.**")) && limited == ${limited} && date < now()
       ${includeHighlighted ? '' : (' && highlighted != true')}
       ${locale !== 'it' ? ` && language == "${locale}"` : ''}] 
     | order(order asc, date desc) {
@@ -33,7 +33,7 @@ export async function getDataWithPaginationI18n(
     // Se non ci sono dati per la lingua richiesta e non è italiano, prova con italiano
     if (data.length === 0 && locale !== 'it') {
       const fallbackQuery = `
-        *[_type == 'blog' && limited == ${limited} && date < now()
+        *[_type == 'blog' && !(_id in path("drafts.**")) && limited == ${limited} && date < now()
           ${includeHighlighted ? '' : (' && highlighted != true')}] 
         | order(order asc, date desc) {
           "id": _id,
@@ -66,7 +66,7 @@ export async function getHighlightedPostsDataI18n(
   limited: boolean = false
 ) {
   const query = `
-    *[_type == 'blog' && limited == ${limited} && highlighted == true && date < now()
+    *[_type == 'blog' && !(_id in path("drafts.**")) && limited == ${limited} && highlighted == true && date < now()
       ${locale !== 'it' ? ` && language == "${locale}"` : ''}] 
     | order(order asc, date desc) {
       "id": _id,
@@ -85,7 +85,7 @@ export async function getHighlightedPostsDataI18n(
     // Fallback per italiano se necessario
     if (data.length === 0 && locale !== 'it') {
       const fallbackQuery = `
-        *[_type == 'blog' && limited == ${limited} && highlighted == true && date < now()]
+        *[_type == 'blog' && !(_id in path("drafts.**")) && limited == ${limited} && highlighted == true && date < now()]
         | order(order asc, date desc) {
           "id": _id,
           title,
@@ -115,7 +115,7 @@ export async function getDataWithPaginationCategoriesI18n(
   includeHighlighted: boolean = true
 ) {
   // Recupera la categoria nella lingua corrente tramite slug
-  const catQuery = `*[_type == 'categorie' && slug.current == $slug && language == $locale][0]{categoryIdMultilingua}`;
+  const catQuery = `*[_type == 'categorie' && !(_id in path("drafts.**")) && slug.current == $slug && language == $locale][0]{categoryIdMultilingua}`;
   const catData = await client.fetch(catQuery, { slug, locale });
   if (!catData || !catData.categoryIdMultilingua) {
     // Nessuna categoria trovata nella lingua corrente
@@ -124,14 +124,14 @@ export async function getDataWithPaginationCategoriesI18n(
   const categoryIdMultilingua = catData.categoryIdMultilingua;
 
   // Trova tutte le categorie (di qualsiasi lingua) con lo stesso categoryIdMultilingua
-  const categoriesQuery = `*[_type == 'categorie' && categoryIdMultilingua == $categoryIdMultilingua]{_id}`;
+  const categoriesQuery = `*[_type == 'categorie' && !(_id in path("drafts.**")) && categoryIdMultilingua == $categoryIdMultilingua]{_id}`;
   const categories = await client.fetch(categoriesQuery, { categoryIdMultilingua });
   if (!categories.length) return [];
   const categoryIds = categories.map((c: any) => c._id);
 
   // Query per gli articoli che hanno almeno una di queste categorie
   const query = `
-    *[_type == 'blog' && limited == $limited && date < now() 
+    *[_type == 'blog' && !(_id in path("drafts.**")) && limited == $limited && date < now()
       ${includeHighlighted ? '' : (' && highlighted != true')}
       && language == $locale
       && count(categories[@._ref in $categoryIds]) > 0
@@ -159,7 +159,7 @@ export async function getDataWithPaginationCategoriesI18n(
 
 export async function getServicesDataI18n(locale: string = 'it') {
   const query = `
-    *[_type == 'servizi' && language == "${locale}"] 
+    *[_type == 'servizi' && !(_id in path("drafts.**")) && language == "${locale}"]
     | order(order asc) {
       "id": _id,
       title,
@@ -185,10 +185,10 @@ export async function getServicesDataI18n(locale: string = 'it') {
 export async function getCategoriesDataI18n(locale: string = 'it') {
   // Mostra tutte le categorie nella lingua corrente che hanno un id multilingua associato ad almeno un articolo nella lingua corrente (anche se l'associazione è tramite una categoria di altra lingua)
   const query = `
-    *[_type == 'categorie' && language == "${locale}" &&
+    *[_type == 'categorie' && !(_id in path("drafts.**")) && language == "${locale}" &&
       categoryIdMultilingua in (
         select(
-          *[_type == 'blog' && language == "${locale}" && defined(categories[0])].categories[]->categoryIdMultilingua
+          *[_type == 'blog' && !(_id in path("drafts.**")) && language == "${locale}" && defined(categories[0])].categories[]->categoryIdMultilingua
         )
       )
     ] | order(name asc) {
@@ -211,7 +211,7 @@ export async function getCategoriesDataI18n(locale: string = 'it') {
 
 export async function getDataI18n(locale: string = 'it', limited: boolean = false) {
   const query = `
-    *[_type == 'blog' && limited == ${limited} && date < now()
+    *[_type == 'blog' && !(_id in path("drafts.**")) && limited == ${limited} && date < now()
       ${locale !== 'it' ? ` && language == "${locale}"` : ''}] 
     | order(date desc) {
       title,
@@ -230,7 +230,7 @@ export async function getDataI18n(locale: string = 'it', limited: boolean = fals
     // Fallback per italiano se necessario
     if (data.length === 0 && locale !== 'it') {
       const fallbackQuery = `
-        *[_type == 'blog' && limited == ${limited} && date < now()] 
+        *[_type == 'blog' && !(_id in path("drafts.**")) && limited == ${limited} && date < now()]
         | order(date desc) {
           title,
           smallDescription,
@@ -254,7 +254,7 @@ export async function getDataI18n(locale: string = 'it', limited: boolean = fals
 // Funzione per ottenere un singolo articolo con supporto multilingua
 export async function getBlogPostI18n(slug: string, locale: string = 'it') {
   const query = `
-    *[_type == 'blog' && slug.current == '${slug}'${locale !== 'it' ? ` && language == "${locale}"` : ''}][0] {
+    *[_type == 'blog' && !(_id in path("drafts.**")) && slug.current == '${slug}'${locale !== 'it' ? ` && language == "${locale}"` : ''}][0] {
       "id": _id,
       title,
       smallDescription,
@@ -280,7 +280,7 @@ export async function getBlogPostI18n(slug: string, locale: string = 'it') {
     // Fallback per italiano se necessario
     if (!data && locale !== 'it') {
       const fallbackQuery = `
-        *[_type == 'blog' && slug.current == '${slug}'][0] {
+        *[_type == 'blog' && !(_id in path("drafts.**")) && slug.current == '${slug}'][0] {
           "id": _id,
           title,
           smallDescription,
@@ -306,5 +306,70 @@ export async function getBlogPostI18n(slug: string, locale: string = 'it') {
   } catch (error) {
     console.error('Error fetching blog post:', error);
     return null;
+  }
+}
+
+export async function getDataWithPaginationCategoryFiltersI18n(
+  fixedCategoryIdMultilingua: string,
+  selectedSlug: string | undefined,
+  page: number,
+  pageSize: number,
+  locale: string = 'it',
+  limited: boolean = false,
+  includeHighlighted: boolean = true
+) {
+  const selectedCategoryQuery = selectedSlug
+    ? `*[_type == 'categorie' && !(_id in path("drafts.**")) && slug.current == $selectedSlug && language == $locale][0]{categoryIdMultilingua}`
+    : null;
+  const selectedCategory = selectedCategoryQuery
+    ? await client.fetch(selectedCategoryQuery, { selectedSlug, locale })
+    : null;
+
+  if (selectedSlug && !selectedCategory?.categoryIdMultilingua) return [];
+
+  const categoryIds = await client.fetch(
+    `*[_type == 'categorie' && !(_id in path("drafts.**")) && categoryIdMultilingua in $categoryIds]{_id, categoryIdMultilingua}`,
+    {
+      categoryIds: [
+        fixedCategoryIdMultilingua,
+        ...(selectedCategory ? [selectedCategory.categoryIdMultilingua] : []),
+      ],
+    }
+  );
+
+  const fixedIds = categoryIds
+    .filter((category: any) => category.categoryIdMultilingua === fixedCategoryIdMultilingua)
+    .map((category: any) => category._id);
+  const selectedIds = selectedCategory
+    ? categoryIds
+      .filter((category: any) => category.categoryIdMultilingua === selectedCategory.categoryIdMultilingua)
+      .map((category: any) => category._id)
+    : [];
+
+  // The two category reference checks are intentionally separate: this is an AND filter.
+  const query = `
+    *[_type == 'blog' && !(_id in path("drafts.**")) && limited == $limited && date < now() && language == $locale
+      ${includeHighlighted ? '' : '&& highlighted != true'}
+      && count(categories[@._ref in $fixedIds]) > 0
+      ${selectedSlug ? '&& count(categories[@._ref in $selectedIds]) > 0' : ''}
+    ] | order(order asc, date desc) {
+      "id": _id,
+      title,
+      smallDescription,
+      titleImage,
+      "currentSlug": slug.current,
+      language,
+      categories[]->{name, "slug" : slug.current, language}
+    }[${(page - 1) * pageSize}...${page * pageSize}]
+  `;
+
+  try {
+    const data = await client.fetch(query, { limited, locale, fixedIds, selectedIds });
+    return data.map((post: simpleBlogCard, index: number) => (
+      <ArticleCard key={post.id} article={post} index={index} limited={limited} />
+    ));
+  } catch (error) {
+    console.error('Error fetching filtered category data:', error);
+    return [];
   }
 }

@@ -28,7 +28,7 @@ export async function GET(request: Request) {
       });
     }
 
-    let filter = `[_type == 'blog' && limited == false && date < now() && language == $locale`;
+    let filter = `[_type == 'blog' && !(_id in path("drafts.**")) && limited == false && date < now() && language == $locale`;
     if (highlighted === 'true') {
       filter += ' && highlighted == true';
     } else if (includeHighlighted === 'false') {

@@ -13,7 +13,7 @@ export async function GET(request: Request) {
   try {
     // Prima ottieni l'articolo corrente per prendere il postIdMultilingua
     const currentArticleQuery = `
-      *[_type == 'blog' && slug.current == $slug && language == $locale][0] {
+      *[_type == 'blog' && !(_id in path("drafts.**")) && slug.current == $slug && language == $locale][0] {
         postIdMultilingua
       }
     `;
@@ -26,7 +26,7 @@ export async function GET(request: Request) {
 
     // Poi ottieni tutte le versioni con lo stesso postIdMultilingua
     const versionsQuery = `
-      *[_type == 'blog' && postIdMultilingua == $postIdMultilingua] {
+      *[_type == 'blog' && !(_id in path("drafts.**")) && postIdMultilingua == $postIdMultilingua] {
         language,
         "slug": slug.current
       }

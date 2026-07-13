@@ -18,7 +18,7 @@ interface PageProps {
 
 async function getData(slug: string, locale: string) {
   const query = `
-    *[_type == 'blog' && limited == false && references(*[_type == 'categorie' && slug.current == $slug]._id) && date < now() && language == $locale] | order(date desc) {
+    *[_type == 'blog' && !(_id in path("drafts.**")) && limited == false && references(*[_type == 'categorie' && slug.current == $slug]._id) && date < now() && language == $locale] | order(date desc) {
       _id,
       title,
       smallDescription,
@@ -36,7 +36,7 @@ async function getData(slug: string, locale: string) {
 
 export async function generateStaticParams() {
   const query = `
-    *[_type == 'categorie' && count(*[_type == 'blog' && limited == false && date < now() && references(^._id)]) > 0] {
+    *[_type == 'categorie' && !(_id in path("drafts.**")) && count(*[_type == 'blog' && !(_id in path("drafts.**")) && limited == false && date < now() && references(^._id)]) > 0] {
       "slug": slug.current,
       language
     }
@@ -65,7 +65,7 @@ async function Categorie({ params }: PageProps) {
   return (
     <>
       <Navbar shouldChangeColor={true} />
-      <Hero key={`hero-${locale}`} />
+      <Hero />
       <main className="max-w-7xl mx-auto px-4 mb-16">
         <div className="pt-4 pb-8">
           <div className="grid grid-cols-1 lg:grid-cols-8 gap-5">
@@ -80,7 +80,7 @@ async function Categorie({ params }: PageProps) {
                       ? 'Scorri gli articoli in basso o seleziona una categoria'
                       : 'Browse the articles below or select a category'}
                   </h2>
-                  <CategorySelector key={`selector-${locale}-${slug}`} categories={categoriesData} selected={slug} />
+                  <CategorySelector categories={categoriesData} selected={slug} />
                 </div>
               </div>
               <hr className="border border-secondary" />

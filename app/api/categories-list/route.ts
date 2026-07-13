@@ -23,17 +23,18 @@ export async function GET(request: Request) {
     }
     // Filtro: solo categorie la cui categoryIdMultilingua è presente tra quelle associate ad almeno un articolo nella lingua richiesta
     const query = `
-      *[_type == 'categorie' && language == $language &&
+      *[_type == 'categorie' && !(_id in path("drafts.**")) && language == $language &&
         categoryIdMultilingua in (
           select(
-            *[_type == 'blog' && language == $language && defined(categories[0])].categories[]->categoryIdMultilingua
+            *[_type == 'blog' && !(_id in path("drafts.**")) && language == $language && defined(categories[0])].categories[]->categoryIdMultilingua
           )
         )
       ] | order(order asc) {
         "id": _id,
         name,
         description,
-        "slug": slug.current,
+          "slug": slug.current,
+          categoryIdMultilingua,
         language
       }
     `;

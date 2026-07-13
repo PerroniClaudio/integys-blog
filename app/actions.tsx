@@ -9,7 +9,7 @@ import { simpleBlogCard } from "@/lib/interface";
 export async function getDataWithPagination(page: number, pageSize: number, limited:boolean = false, includeHighlighted:boolean = true) {
   // ${highlighted ? '' : '&& highlighted == false'}]
   const query = `
-      *[_type == 'blog' && limited == ${limited} && date < now() 
+      *[_type == 'blog' && !(_id in path("drafts.**")) && limited == ${limited} && date < now()
         ${includeHighlighted ? '' : (' && highlighted != true')}] | order(order asc, date desc) {
         "id": _id,
         title,
@@ -31,7 +31,7 @@ export async function getDataWithPagination(page: number, pageSize: number, limi
 export async function getHighlightedPostsData(limited:boolean = false) {
   // && date < now() DA CAMBIARE PRIMA DELLA PUBBLICAZIONE. (va inserito)
   const query = `
-      *[_type == 'blog' && limited == ${limited} && highlighted == true && date < now()] | order(order asc, date desc) {
+      *[_type == 'blog' && !(_id in path("drafts.**")) && limited == ${limited} && highlighted == true && date < now()] | order(order asc, date desc) {
         "id": _id,
         title,
         smallDescription,
@@ -53,7 +53,7 @@ export async function getDataWithPaginationCategories(
   limited:boolean = false
 ) {
   const query = `
-      *[_type == 'blog' && limited == ${limited} && date < now() && references(*[_type == 'category' && slug.current == '${slug}']._id)] | order(date desc) {
+      *[_type == 'blog' && !(_id in path("drafts.**")) && limited == ${limited} && date < now() && references(*[_type == 'category' && slug.current == '${slug}']._id)] | order(date desc) {
         "id": _id,
         title,
         smallDescription,
@@ -72,7 +72,7 @@ export async function getDataWithPaginationCategories(
 
 export async function getData(limited:boolean = false) {
   const query = `
-    *[_type == 'blog' && limited == ${limited} && date < now()] | order(date desc) {
+    *[_type == 'blog' && !(_id in path("drafts.**")) && limited == ${limited} && date < now()] | order(date desc) {
       title,
       smallDescription,
       titleImage,
@@ -89,7 +89,7 @@ export async function getData(limited:boolean = false) {
 
 export async function getServicesData() {
   const query = `
-      *[_type == 'servizi'] | order(order asc) {
+      *[_type == 'servizi' && !(_id in path("drafts.**"))] | order(order asc) {
         "id": _id,
         title,
         "currentSlug": slug.current,
@@ -109,7 +109,7 @@ export async function getServicesData() {
 export async function getPreviewCards() {
   // RICORDARSI DI SOSTITUIRE LA QUERY PER LA PRODUZIONE (uso l'altra perchè non ci sono articoli limitati già pubblicati)
   const query = `
-      *[_type == 'blog' && limited == true && show_preview == true && date < now()] | order(date desc) {
+      *[_type == 'blog' && !(_id in path("drafts.**")) && limited == true && show_preview == true && date < now()] | order(date desc) {
         "id": _id,
         title,
         smallDescription,

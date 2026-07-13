@@ -22,7 +22,7 @@ async function getData(slug: string, locale: string) {
   // che sono abilitati alla preview pubblica (show_preview == true)
   // Mostra solo il preview_text, non l'articolo completo
   const query = `
-        *[_type == 'blog' && limited == true && show_preview == true && date < now() && slug.current == $slug && language == $locale] {
+        *[_type == 'blog' && !(_id in path("drafts.**")) && limited == true && show_preview == true && date < now() && slug.current == $slug && language == $locale] {
             _id,
             title,
             smallDescription,
@@ -46,7 +46,7 @@ async function getData(slug: string, locale: string) {
 // Se non è flaggato show_preview o non è limited non deve esistere la pagina di preview
 export async function generateStaticParams() {
   const query = `
-    *[_type == 'blog' && limited == true && show_preview == true && date < now()] | order(date desc) {
+    *[_type == 'blog' && !(_id in path("drafts.**")) && limited == true && show_preview == true && date < now()] | order(date desc) {
       "slug": slug.current,
       language
     }
