@@ -18,15 +18,15 @@ export default function HomeContent({ categories, locale }: HomeContentProps) {
 
   return (
     <section className="col-span-8">
-      <div className="flex flex-col items-center justify-center gap-3 py-4 sm:flex-row">
+      <div className="flex flex-col items-center justify-center gap-3 py-4 sm:flex-row xl:gap-12">
         <Link
-          className="inline-flex w-full justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground sm:w-64"
+          className="inline-flex w-full justify-center rounded-md bg-primary px-4 py-2 font-medium text-primary-foreground sm:w-[18rem]"
           href={`/${locale}/argomenti/pmi`}
         >
           Per le Aziende
         </Link>
         <Link
-          className="inline-flex w-full justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground sm:w-64"
+          className="inline-flex w-full justify-center rounded-md bg-primary px-4 py-2 font-medium text-primary-foreground sm:w-[18rem]"
           href={`/${locale}/argomenti/pubblica-amministrazione`}
         >
           Per la Pubblica Amministrazione
