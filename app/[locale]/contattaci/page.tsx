@@ -216,7 +216,7 @@ function Contattaci() {
                     />
                     <Button type="submit" 
                       disabled={!isVerified}
-                      className="bg-primary hover:bg-neutral-700 disabled:bg-neutral-400 py-4 px-16 text-secondary-foreground rounded font-bold text-lg"
+                      className="rounded bg-primary px-16 py-4 text-lg font-bold text-secondary-foreground shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary/80 hover:shadow-xl disabled:bg-neutral-400"
                     >
                       {t("contact_us.submit_button")}
                     </Button>

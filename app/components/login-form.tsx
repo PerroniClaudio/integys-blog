@@ -71,7 +71,7 @@ export default function LoginForm() {
           <label htmlFor="password" className="text-primary font-semibold">Password</label>
           <input name="password" type="password" className="rounded pl-2" required />
         </div>
-        <button className="bg-primary text-white px-4 py-2 rounded w-fit self-center mt-4" type="submit">Accedi</button>
+        <button className="mt-4 w-fit self-center rounded bg-primary px-4 py-2 text-white shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary/80 hover:shadow-xl" type="submit">Accedi</button>
 
         <button
           type="button"
@@ -96,7 +96,7 @@ export default function LoginForm() {
                 </label>
                 <input name="email" id="reset-email" type="email" className="rounded pl-2" required />
                 <div className="flex justify-center gap-2 mt-4">
-                  <button type="submit" className="bg-primary text-white px-4 py-2 rounded" >
+                  <button type="submit" className="rounded bg-primary px-4 py-2 text-white shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary/80 hover:shadow-xl" >
                     Conferma
                   </button>
                 </div>

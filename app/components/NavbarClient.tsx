@@ -20,6 +20,10 @@ function NavbarClient({ shouldChangeColor: _shouldChangeColor, session }: Props)
   const segments = pathname.split('/').filter(Boolean);
   const localeFromPath = segments[0];
   const locale = ['it', 'en'].includes(localeFromPath) ? localeFromPath : 'it';
+  const audienceBasePath = locale === 'en' ? 'arguments' : 'argomenti';
+  const enterprisesSlug = locale === 'en' ? 'enterprises' : 'aziende';
+  const publicAdministrationSlug = locale === 'en' ? 'public-administration' : 'pubblica-amministrazione';
+  const navLinkClassName = "text-lg font-semibold transition-colors hover:text-primary";
 
   return (
     <>
@@ -44,9 +48,23 @@ function NavbarClient({ shouldChangeColor: _shouldChangeColor, session }: Props)
                   </svg>
                 </div>
             </Link>
-            <Link href={`/${locale}`} className="font-semibold text-lg">
+            <Link href={`/${locale}`} className={navLinkClassName}>
               {t("navigation.home")}
-            </Link> 
+            </Link>
+            <div className="hidden items-center gap-4 md:flex">
+              <Link
+                href={`/${locale}/${audienceBasePath}/${enterprisesSlug}`}
+                className={navLinkClassName}
+              >
+                {t("navigation.enterprises")}
+              </Link>
+              <Link
+                href={`/${locale}/${audienceBasePath}/${publicAdministrationSlug}`}
+                className={navLinkClassName}
+              >
+                {t("navigation.publicAdministration")}
+              </Link>
+            </div>
             {/* <Link href="/chi-siamo" className="font-semibold text-white">
               {t("navigation.about_us")}
             </Link>  */}
@@ -60,7 +78,7 @@ function NavbarClient({ shouldChangeColor: _shouldChangeColor, session }: Props)
               </Link>
               {/ * <LimitedDropdown session={session} /> * /}
             </div> */}
-            <div className="sm:hidden">
+            <div className="md:hidden">
                 <MobileMenu session={session} />
             </div>
 

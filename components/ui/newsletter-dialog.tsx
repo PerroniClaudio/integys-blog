@@ -156,7 +156,7 @@ function NewsletterDialog({isOpen, setIsOpen}: Props) {
           <button
             type="submit"
             // className="bg-neutral-900 hover:bg-neutral-700 w-full p-4 text-primary-400 rounded font-bold">
-            className="bg-primary hover:bg-neutral-700 disabled:bg-neutral-400 w-full p-4 text-secondary-foreground rounded font-bold text-lg"
+            className="w-full rounded bg-primary p-4 text-lg font-bold text-secondary-foreground shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary/80 hover:shadow-xl disabled:bg-neutral-400"
             disabled={!isVerified}    
           >
             {t("newsletter.subscribe")}

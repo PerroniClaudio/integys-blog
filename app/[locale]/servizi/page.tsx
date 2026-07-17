@@ -27,7 +27,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
 
             <div className="space-x-4">
               <ContactUsLink
-                className="inline-flex h-9 items-center justify-center rounded-md bg-gray-900 px-10 py-6 text-lg font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-primary dark:text-secondary-foreground dark:hover:bg-primary/90 dark:focus-visible:ring-gray-300"
+                className="inline-flex h-9 items-center justify-center rounded-md bg-primary px-10 py-6 text-lg font-medium text-primary-foreground shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary/80 hover:shadow-xl focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50"
                 href={`/${locale}/contattaci`} />
             </div>
           </div>

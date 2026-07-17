@@ -30,6 +30,8 @@
   "navigation.categories": "Categories",
   "navigation.services": "Services",
   "navigation.contacts": "Contacts",
+  "navigation.enterprises": "Enterprises",
+  "navigation.publicAdministration": "Public Administration",
   "navigation.login": "Login",
   "navigation.register": "Sign Up",
   "navigation.logout": "Logout",

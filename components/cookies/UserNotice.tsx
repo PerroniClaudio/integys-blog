@@ -121,7 +121,7 @@ function UserNotice() {
   return (
     <div>
       <button
-        className="bg-primary text-white px-1 rounded-md shadow-lg"
+        className="rounded-md bg-primary px-1 text-white shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary/80 hover:shadow-xl"
         onClick={openBanner}
       >{t('cookiesBanner.preferencesButton')}</button>
 
@@ -274,7 +274,7 @@ function UserNotice() {
                 handleSubmit(e, "all");
               }}
               id="notice-accept"
-              className="px-4 py-2 bg-primary text-white font-medium rounded-md shadow-lg hover:scale-105 lg:px-2"
+              className="rounded-md bg-primary px-4 py-2 font-medium text-white shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary/80 hover:shadow-xl lg:px-2"
             >
               {t('cookiesBanner.acceptAll')}
             </button>
@@ -283,7 +283,7 @@ function UserNotice() {
                 handleSubmit(e, "selected");
               }}
               id="notice-selected"
-              className="px-4 py-2 bg-primary text-white font-medium rounded-md shadow-lg hover:scale-105 lg:px-2"
+              className="rounded-md bg-primary px-4 py-2 font-medium text-white shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary/80 hover:shadow-xl lg:px-2"
             >
               {t('cookiesBanner.acceptSelected')}
             </button>
@@ -292,7 +292,7 @@ function UserNotice() {
                 handleSubmit(e, "none");
               }}
               id="notice-close"
-              className="px-4 py-2 bg-primary text-white font-medium rounded-md shadow-lg hover:scale-105 lg:px-2"
+              className="rounded-md bg-primary px-4 py-2 font-medium text-white shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary/80 hover:shadow-xl lg:px-2"
             >
               {t('cookiesBanner.closeWithoutAccepting')}
             </button>

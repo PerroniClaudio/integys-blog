@@ -23,8 +23,8 @@ function NewsletterButton({className}: Props) {
   return (
     <>
       <Button
-        variant={"secondary"}
-        className={twMerge("text-secondary-foreground text-lg py-4 px-4 min-w-fit text-center bg-primary w-fit", className || "")}
+        variant={"default"}
+        className={twMerge("min-w-fit w-fit px-4 py-4 text-center text-lg", className || "")}
         onClick={() => setIsOpen(true)}
       >
         {t("cta.subscribeNewsletter")}

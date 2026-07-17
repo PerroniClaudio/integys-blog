@@ -76,7 +76,7 @@ export default function RegisterForm() {
           <label htmlFor="company" className="text-primary font-semibold">Ragione Sociale</label>
           <input name="company" id="company" type="text" className="rounded pl-2" required />
         </div> */}
-        <button className="bg-primary text-white px-4 py-2 rounded w-fit self-center mt-8" type="submit" disabled={isLoading}>{t("register.submit_button")}</button>
+        <button className="mt-8 w-fit self-center rounded bg-primary px-4 py-2 text-white shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary/80 hover:shadow-xl" type="submit" disabled={isLoading}>{t("register.submit_button")}</button>
         <p className="text-center mt-4">
           {t("register.already_registered")} <a href="/login-hub" className="text-primary font-semibold">{t("register.login_link")}</a>
         </p>
