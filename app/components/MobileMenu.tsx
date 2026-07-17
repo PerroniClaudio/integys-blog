@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Menu } from "lucide-react";
+import { useTranslation } from "@/lib/useTranslation";
 import { Session } from "next-auth";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
@@ -12,6 +13,7 @@ export default function MobileMenu({session}: {session: Session | null}) {
 
   const router = useRouter();
   const pathname = usePathname() || '';
+  const { t } = useTranslation();
   
   // Estrai il locale dal pathname
   const segments = pathname.split('/').filter(Boolean);
@@ -36,9 +38,19 @@ export default function MobileMenu({session}: {session: Session | null}) {
             Chi siamo
           </Link>
         </DropdownMenuItem> */}
-        <DropdownMenuItem>
+        {/* <DropdownMenuItem>
           <Link href={`/${locale}/servizi`}>
             Servizi
+          </Link>
+        </DropdownMenuItem> */}
+        <DropdownMenuItem>
+          <Link href={`/${locale}/argomenti/pmi`}>
+            {t('home.forEnterprises')}
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <Link href={`/${locale}/argomenti/pubblica-amministrazione`}>
+            {t('home.forPublicAdministration')}
           </Link>
         </DropdownMenuItem>
           {/* <hr />

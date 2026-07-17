@@ -56,7 +56,7 @@ export default function DynamicBlogContent({ locale, fallbackData, fallbackHighl
       {!!highlightedPosts && Array.isArray(highlightedPosts) && highlightedPosts.length > 0 && 
         <HighlightedArticles data={highlightedPosts} locale={locale} />
       }
-      <main className="max-w-screen-2xl mx-auto px-4 mb-16">
+      {/* <main className="max-w-screen-2xl mx-auto px-4 mb-16">
         <div className="pt-4 pb-8">
           <div className="grid grid-cols-1 lg:grid-cols-8 gap-5">
             <div className="col-span-8 flex flex-col gap-5">
@@ -69,7 +69,7 @@ export default function DynamicBlogContent({ locale, fallbackData, fallbackHighl
             </div>
           </div>
         </div>
-      </main>
+      </main> */}
     </>
   );
 }

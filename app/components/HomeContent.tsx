@@ -23,17 +23,17 @@ export default function HomeContent({ categories, locale }: HomeContentProps) {
           className="inline-flex w-full justify-center rounded-md bg-primary px-4 py-2 font-medium text-primary-foreground sm:w-[18rem]"
           href={`/${locale}/argomenti/pmi`}
         >
-          Per le Aziende
+          {t('home.forEnterprises')}
         </Link>
         <Link
           className="inline-flex w-full justify-center rounded-md bg-primary px-4 py-2 font-medium text-primary-foreground sm:w-[18rem]"
           href={`/${locale}/argomenti/pubblica-amministrazione`}
         >
-          Per la Pubblica Amministrazione
+          {t('home.forPublicAdministration')}
         </Link>
       </div>
       <hr className="border border-secondary" />
-      <div className="flex flex-col items-center justify-between gap-4 my-2 xl:flex-row">
+      {/* <div className="flex flex-col items-center justify-between gap-4 my-2 xl:flex-row">
         <div className="flex gap-4">
           <NewsletterButton />
         </div>
@@ -44,7 +44,7 @@ export default function HomeContent({ categories, locale }: HomeContentProps) {
           <CategorySelector categories={categories} selected={""} />
         </div>
       </div>
-      <hr className="border border-secondary" />
+      <hr className="border border-secondary" /> */}
     </section>
   );
 }
