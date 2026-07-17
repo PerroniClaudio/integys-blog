@@ -24,6 +24,9 @@ function NavbarClient({ shouldChangeColor: _shouldChangeColor, session }: Props)
   const enterprisesSlug = locale === 'en' ? 'enterprises' : 'aziende';
   const publicAdministrationSlug = locale === 'en' ? 'public-administration' : 'pubblica-amministrazione';
   const navLinkClassName = "text-lg font-semibold transition-colors hover:text-primary";
+  const externalHomepageHref = locale === 'en'
+    ? 'https://www.integys.com/en/homepage-en'
+    : 'https://integys.com/';
 
   return (
     <>
@@ -31,7 +34,7 @@ function NavbarClient({ shouldChangeColor: _shouldChangeColor, session }: Props)
         <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-8 py-3 text-primary-foreground">
           <div className="flex gap-4 items-center pr-2">
             <Link
-              href="https://integys.com/"
+              href={externalHomepageHref}
               className="font-bold text-2xl text-primary-foreground sm:text-3xl">
               <div className="flex items-center gap-2 ">
                 <img src="/integys-white-big-text.png" alt="Integys" className="h-12 w-auto sm:h-10" />
