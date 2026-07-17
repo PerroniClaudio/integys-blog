@@ -22,35 +22,31 @@ function Footer({ isAbsolute = true }: FooterProps) {
   return (
     <footer
       className={
-        "w-full py-6 border-t border-primary " +
+        "w-full py-6 border-t border-white " +
         (isAbsolute ? " absolute bottom-0 " : "")
       }>
       <div className="container flex items-center justify-between gap-4 px-4 text-sm md:gap-6 min-h-32">
         <div className="flex flex-col gap-2">
           <Link
             href={`/${locale}`}
-            className={`font-bold text-3xl text-primary dark:hidden`}>
+            className={`font-bold text-3xl text-white dark:hidden`}>
             <div className="flex items-center gap-1 ">
-              <div className="p-1">
-                <img src="/integys.png" alt="Integys" className="h-8 w-auto" />
-              </div>
-
-              <span>INTEGYS</span>
+              <img
+                src="/integys-white-big-text.png"
+                alt="Integys"
+                className="h-12 w-auto"
+              />
             </div>
           </Link>
           <Link
             href={`/${locale}`}
-            className={`font-bold text-3xl text-primary hidden dark:block`}>
+            className={`font-bold text-3xl text-white hidden dark:block`}>
             <div className="flex items-center gap-1 ">
-              <div className="p-1">
-                <img
-                  src="/integys-white-sphere.png"
-                  alt="Integys"
-                  className="h-8 w-auto"
-                />
-              </div>
-
-              <span>INTEGYS</span>
+              <img
+                src="/integys-white-big-text.png"
+                alt="Integys"
+                className="h-12 w-auto"
+              />
             </div>
           </Link>
         </div>

@@ -9,7 +9,7 @@ function Newsletter({}: Props) {
   const { t } = useTranslation();
 
   return (
-    <section className="py-8 border-t border-primary">
+    <section className="py-8 border-t border-white">
       <div className="container mx-auto flex flex-col gap-4 justify-between items-center">
         <h2 className="font-bold text-3xl text-center">
             {t("cta.exclusiveContent")}

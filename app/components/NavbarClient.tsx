@@ -75,13 +75,12 @@ function NavbarClient({ shouldChangeColor, session, services = [] }: Props) {
                 
                 {scrolled 
                   ? (<>
-                      <img src="/integys.png" alt="Integys" className="h-8 sm:h-10 w-auto dark:hidden" />
-                      <img src="/integys-white-sphere.png" alt="Integys" className="h-8 sm:h-10 w-auto hidden dark:block" />
+                      <img src="/integys.png" alt="Integys" className="h-12 sm:h-10 w-auto dark:hidden" />
+                      <img src="/integys-white-big-text.png" alt="Integys" className="h-12 sm:h-10 w-auto hidden dark:block" />
                     </>)
-                  : <img src="/integys-white-sphere.png" alt="Integys" className="h-8 sm:h-10 w-auto" />
+                  : <img src="/integys-white-big-text.png" alt="Integys" className="h-12 sm:h-10 w-auto" />
                 }
 
-                <span>INTEGYS</span>
               </div>
             </Link>
             <Link
