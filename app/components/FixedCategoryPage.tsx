@@ -1,8 +1,8 @@
 import { getDataWithPaginationCategoryFiltersI18n } from '@/app/actions-i18n';
+import AudienceHero from '@/app/components/AudienceHero';
 import ArticleList from '@/app/components/ArticleList';
 import CategorySelector from '@/app/components/CategorySelector';
 import Footer from '@/app/components/Footer';
-import Hero from '@/app/components/Hero';
 import Navbar from '@/app/components/Navbar';
 import Newsletter from '@/components/ui/newsletter';
 import NewsletterButton from '@/components/ui/newsletter-button';
@@ -10,6 +10,7 @@ import NewsletterButton from '@/components/ui/newsletter-button';
 export const fixedAudiences = {
   aziende: {
     categoryId: 'aziende',
+    heroImage: '/skyline-milan.jpg',
     label: {
       it: 'Aziende',
       en: 'Enterprises',
@@ -17,6 +18,7 @@ export const fixedAudiences = {
   },
   enterprises: {
     categoryId: 'aziende',
+    heroImage: '/skyline-milan.jpg',
     label: {
       it: 'Aziende',
       en: 'Enterprises',
@@ -24,6 +26,7 @@ export const fixedAudiences = {
   },
   'pubblica-amministrazione': {
     categoryId: 'pubblica-amministrazione',
+    heroImage: '/hero-public-administration-v1.png',
     label: {
       it: 'Pubblica Amministrazione',
       en: 'Public Administration',
@@ -31,6 +34,7 @@ export const fixedAudiences = {
   },
   'public-administration': {
     categoryId: 'pubblica-amministrazione',
+    heroImage: '/hero-public-administration-v1.png',
     label: {
       it: 'Pubblica Amministrazione',
       en: 'Public Administration',
@@ -49,7 +53,7 @@ export default async function FixedCategoryPage({
   locale: string;
   selectedCategory?: string;
 }) {
-  const { categoryId, label } = fixedAudiences[audience];
+  const { categoryId, heroImage, label } = fixedAudiences[audience];
   const posts = await getDataWithPaginationCategoryFiltersI18n(categoryId, selectedCategory, 1, 6, locale);
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
   const categoriesRes = await fetch(`${siteUrl}/api/categories-list?language=${locale}`);
@@ -73,11 +77,30 @@ export default async function FixedCategoryPage({
   const audienceSlug = audienceSlugMap[audience] || audience;
   const filtersPath = `${audienceBasePath}/${audienceSlug}`;
   const audienceLabel = locale === 'en' ? label.en : label.it;
+  const isEnterprisesAudience = categoryId === 'aziende';
+  const heroSectionLabel = locale === 'it' ? `Sezione ${audienceLabel}` : `${audienceLabel} section`;
+  const heroTitle = locale === 'it' ? `Integys per ${audienceLabel}` : `Integys for ${audienceLabel}`;
+  const heroDescription =
+    locale === 'it'
+      ? isEnterprisesAudience
+        ? 'Articoli e approfondimenti dedicati alle aziende, con focus su tecnologia, sicurezza informatica e compliance.'
+        : 'Articoli e approfondimenti dedicati alla pubblica amministrazione, con focus su tecnologia, sicurezza informatica e compliance.'
+      : isEnterprisesAudience
+        ? 'Articles and insights for enterprises, focused on technology, cybersecurity, and compliance.'
+        : 'Articles and insights for public administration, focused on technology, cybersecurity, and compliance.';
+  const contactLabel = locale === 'it' ? 'Contattaci' : 'Contact us';
 
   return (
     <>
       <Navbar shouldChangeColor={true} />
-      <Hero />
+      <AudienceHero
+        contactLabel={contactLabel}
+        description={heroDescription}
+        imagePath={heroImage}
+        locale={locale}
+        sectionLabel={heroSectionLabel}
+        title={heroTitle}
+      />
       <main className="max-w-7xl mx-auto px-4 mb-16">
         <div className="pt-4 pb-8">
           <div className="grid grid-cols-1 lg:grid-cols-8 gap-5">
