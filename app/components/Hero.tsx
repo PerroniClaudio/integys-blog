@@ -57,7 +57,7 @@ function Hero() {
       className="relative"
       style={{
         // backgroundImage: "url('/ente.jpg')",
-        backgroundImage: "url('/mani.jpg')",
+        backgroundImage: "url('/mani.webp')",
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",

@@ -150,8 +150,8 @@ async function BlogArticle({ params }: PageProps) {
               </p>
 
               <ContactUsButton
-                variant={"secondary"}
-                className="text-secondary-foreground text-lg py-8 px-20 min-w-16 text-center bg-primary" />
+                variant={"default"}
+                className="min-w-16 px-20 py-8 text-center text-lg" />
             </div>
           </div>
         </div>

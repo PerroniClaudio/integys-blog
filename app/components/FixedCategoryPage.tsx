@@ -10,7 +10,7 @@ import NewsletterButton from '@/components/ui/newsletter-button';
 export const fixedAudiences = {
   aziende: {
     categoryId: 'aziende',
-    heroImage: '/skyline-milan.jpg',
+    heroImage: '/skyline-generata.webp',
     label: {
       it: 'Aziende',
       en: 'Enterprises',
@@ -18,7 +18,7 @@ export const fixedAudiences = {
   },
   enterprises: {
     categoryId: 'aziende',
-    heroImage: '/skyline-milan.jpg',
+    heroImage: '/skyline-generata.webp',
     label: {
       it: 'Aziende',
       en: 'Enterprises',
@@ -26,7 +26,7 @@ export const fixedAudiences = {
   },
   'pubblica-amministrazione': {
     categoryId: 'pubblica-amministrazione',
-    heroImage: '/hero-public-administration-v1.png',
+    heroImage: '/hero-public-administration-v1.webp',
     label: {
       it: 'Pubblica Amministrazione',
       en: 'Public Administration',
@@ -34,7 +34,7 @@ export const fixedAudiences = {
   },
   'public-administration': {
     categoryId: 'pubblica-amministrazione',
-    heroImage: '/hero-public-administration-v1.png',
+    heroImage: '/hero-public-administration-v1.webp',
     label: {
       it: 'Pubblica Amministrazione',
       en: 'Public Administration',
