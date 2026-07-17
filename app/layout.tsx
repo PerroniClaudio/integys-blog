@@ -22,9 +22,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="it" suppressHydrationWarning>
+    <html lang="it" className="dark" suppressHydrationWarning>
       <body className="font-sans antialiased">
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <ThemeProvider attribute="class" forcedTheme="dark">
           <div className="relative min-h-screen">
             <PreferencesProvider>
               <Suspense fallback={null}>

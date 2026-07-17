@@ -66,7 +66,11 @@ export default function LanguageSwitcher() {
   // Non renderizzare durante SSR
   if (!mounted || !isReady) {
     return (
-      <Button variant="outline" size="icon" className="relative min-w-[40px]">
+      <Button
+        variant="outline"
+        size="icon"
+        className="relative min-w-[40px] border-white/70 bg-transparent text-white hover:bg-white/10 hover:text-white"
+      >
         <span className="text-sm font-semibold">IT</span>
         <span className="sr-only">Loading language switcher...</span>
       </Button>
@@ -92,7 +96,11 @@ export default function LanguageSwitcher() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon" className="relative min-w-[40px]">
+        <Button
+          variant="outline"
+          size="icon"
+          className="relative min-w-[40px] border-white/70 bg-transparent text-white hover:bg-white/10 hover:text-white"
+        >
           <span className="text-sm font-semibold">
             {currentLanguage.code}
           </span>

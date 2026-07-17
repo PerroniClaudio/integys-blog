@@ -77,7 +77,7 @@ function Hero() {
                 Integys Information Center
               </h1>
               <p
-                className="mx-auto max-w-[700px] text-gray-100 md:text-xl dark:text-gray-300 font-bold"
+                className="mx-auto max-w-[700px] md:text-xl font-bold"
                 style={{
                   textShadow: "0 0 6px rgba(0,0,0,0.5)",
                 }}>

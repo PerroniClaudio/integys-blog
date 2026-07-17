@@ -1,8 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
-import ModeToggle from "../ModeToggle";
 import { Session } from "next-auth";
 import AdminMobileMenu from "./AdminMobileMenu";
 
@@ -15,7 +13,7 @@ function AdminNavbarClient({ session = null }: Props) {
 
   return (
     <>
-      <nav className={`fixed top-0 left-0 w-full border-b-2 z-30 bg-primary border-primary-foreground dark:bg-secondary dark:border-primary-foreground`}>
+      <nav className="fixed top-0 left-0 z-30 w-full border-b-2 border-primary-foreground bg-secondary">
         <div className="mx-auto w-full max-w-7xl flex items-center justify-between px-8 py-3">
           <div className="flex gap-4 items-center pr-2">
             <Link
@@ -43,8 +41,6 @@ function AdminNavbarClient({ session = null }: Props) {
             <div className="sm:hidden">
                 <AdminMobileMenu session={session} />
             </div>
-
-            <ModeToggle />
           </div>
         </div>
       </nav>
