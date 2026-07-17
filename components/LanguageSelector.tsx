@@ -7,6 +7,24 @@ import { Button } from '@/components/ui/button';
 import { Globe } from 'lucide-react';
 import { useEffect } from 'react';
 
+const localizedSegmentMaps = {
+  en: {
+    argomenti: 'arguments',
+    categorie: 'categories',
+    aziende: 'enterprises',
+    pmi: 'enterprises',
+    'piccole-e-medie-imprese': 'enterprises',
+    'pubblica-amministrazione': 'public-administration',
+  },
+  it: {
+    arguments: 'argomenti',
+    categories: 'categorie',
+    enterprises: 'aziende',
+    'small-and-medium-sized-enterprises': 'aziende',
+    'public-administration': 'pubblica-amministrazione',
+  },
+} as const;
+
 const LanguageSelector = () => {
   const { t, i18n } = useTranslation();
   const router = useRouter();
@@ -24,6 +42,14 @@ const LanguageSelector = () => {
   
   const locale = i18n.language;
 
+  const translatePathSegments = (segments: string[], newLocale: string) =>
+    segments.map(
+      (segment) =>
+        localizedSegmentMaps[newLocale as keyof typeof localizedSegmentMaps]?.[
+          segment as keyof (typeof localizedSegmentMaps)[keyof typeof localizedSegmentMaps]
+        ] || segment
+    );
+
   const handleLanguageChange = (newLocale: string) => {
     const segments = pathname.split('/').filter(Boolean);
     
@@ -33,8 +59,9 @@ const LanguageSelector = () => {
     } else {
       segments.unshift(newLocale);
     }
-    
-    const newPath = '/' + segments.join('/');
+
+    const translatedSegments = [segments[0], ...translatePathSegments(segments.slice(1), newLocale)];
+    const newPath = '/' + translatedSegments.join('/');
     
     // Usa window.location per forzare un reload completo e evitare stati misti
     window.location.href = newPath;

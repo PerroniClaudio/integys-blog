@@ -15,19 +15,22 @@ interface HomeContentProps {
 
 export default function HomeContent({ categories, locale }: HomeContentProps) {
   const { t } = useTranslation();
+  const audienceBasePath = locale === 'en' ? 'arguments' : 'argomenti';
+  const enterprisesSlug = locale === 'en' ? 'enterprises' : 'aziende';
+  const publicAdministrationSlug = locale === 'en' ? 'public-administration' : 'pubblica-amministrazione';
 
   return (
     <section className="col-span-8">
       <div className="flex flex-col items-center justify-center gap-3 py-4 sm:flex-row xl:gap-12">
         <Link
           className="inline-flex w-full justify-center rounded-md bg-primary px-4 py-2 font-medium text-primary-foreground sm:w-[18rem]"
-          href={`/${locale}/argomenti/pmi`}
+          href={`/${locale}/${audienceBasePath}/${enterprisesSlug}`}
         >
           {t('home.forEnterprises')}
         </Link>
         <Link
           className="inline-flex w-full justify-center rounded-md bg-primary px-4 py-2 font-medium text-primary-foreground sm:w-[18rem]"
-          href={`/${locale}/argomenti/pubblica-amministrazione`}
+          href={`/${locale}/${audienceBasePath}/${publicAdministrationSlug}`}
         >
           {t('home.forPublicAdministration')}
         </Link>

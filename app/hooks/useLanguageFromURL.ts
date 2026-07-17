@@ -4,6 +4,24 @@ import { useTranslation } from '@/lib/useTranslation';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
+const localizedSegmentMaps = {
+  en: {
+    argomenti: 'arguments',
+    categorie: 'categories',
+    aziende: 'enterprises',
+    pmi: 'enterprises',
+    'piccole-e-medie-imprese': 'enterprises',
+    'pubblica-amministrazione': 'public-administration',
+  },
+  it: {
+    arguments: 'argomenti',
+    categories: 'categorie',
+    enterprises: 'aziende',
+    'small-and-medium-sized-enterprises': 'aziende',
+    'public-administration': 'pubblica-amministrazione',
+  },
+} as const;
+
 export function useLanguageFromURL() {
   const pathname = usePathname() || '';
   const router = useRouter();
@@ -27,6 +45,14 @@ export function useLanguageFromURL() {
     setIsReady(true);
   }, [pathname, i18n]);
 
+  const translatePathSegments = (segments: string[], newLang: string) =>
+    segments.map(
+      (segment) =>
+        localizedSegmentMaps[newLang as keyof typeof localizedSegmentMaps]?.[
+          segment as keyof (typeof localizedSegmentMaps)[keyof typeof localizedSegmentMaps]
+        ] || segment
+    );
+
   const updateURLLanguage = (newLang: string) => {
     const segments = pathname.split('/').filter(Boolean);
     
@@ -37,8 +63,9 @@ export function useLanguageFromURL() {
       // Altrimenti aggiungilo all'inizio
       segments.unshift(newLang);
     }
-    
-    const newPath = '/' + segments.join('/');
+
+    const translatedSegments = [segments[0], ...translatePathSegments(segments.slice(1), newLang)];
+    const newPath = '/' + translatedSegments.join('/');
     
     // Usa window.location per forzare un reload completo e evitare stati misti
     window.location.href = newPath;

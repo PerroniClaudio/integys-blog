@@ -19,6 +19,9 @@ export default function MobileMenu({session}: {session: Session | null}) {
   const segments = pathname.split('/').filter(Boolean);
   const localeFromPath = segments[0];
   const locale = ['it', 'en'].includes(localeFromPath) ? localeFromPath : 'it';
+  const audienceBasePath = locale === 'en' ? 'arguments' : 'argomenti';
+  const enterprisesSlug = locale === 'en' ? 'enterprises' : 'aziende';
+  const publicAdministrationSlug = locale === 'en' ? 'public-administration' : 'pubblica-amministrazione';
 
   const handleLogout = async () => {
     signOut();
@@ -44,12 +47,12 @@ export default function MobileMenu({session}: {session: Session | null}) {
           </Link>
         </DropdownMenuItem> */}
         <DropdownMenuItem>
-          <Link href={`/${locale}/argomenti/pmi`}>
+          <Link href={`/${locale}/${audienceBasePath}/${enterprisesSlug}`}>
             {t('home.forEnterprises')}
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <Link href={`/${locale}/argomenti/pubblica-amministrazione`}>
+          <Link href={`/${locale}/${audienceBasePath}/${publicAdministrationSlug}`}>
             {t('home.forPublicAdministration')}
           </Link>
         </DropdownMenuItem>

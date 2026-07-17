@@ -8,13 +8,33 @@ import Newsletter from '@/components/ui/newsletter';
 import NewsletterButton from '@/components/ui/newsletter-button';
 
 export const fixedAudiences = {
-  pmi: {
-    categoryId: 'piccole-e-medie-imprese',
-    label: 'PMI',
+  aziende: {
+    categoryId: 'aziende',
+    label: {
+      it: 'Aziende',
+      en: 'Enterprises',
+    },
+  },
+  enterprises: {
+    categoryId: 'aziende',
+    label: {
+      it: 'Aziende',
+      en: 'Enterprises',
+    },
   },
   'pubblica-amministrazione': {
     categoryId: 'pubblica-amministrazione',
-    label: 'Pubblica Amministrazione',
+    label: {
+      it: 'Pubblica Amministrazione',
+      en: 'Public Administration',
+    },
+  },
+  'public-administration': {
+    categoryId: 'pubblica-amministrazione',
+    label: {
+      it: 'Pubblica Amministrazione',
+      en: 'Public Administration',
+    },
   },
 } as const;
 
@@ -35,7 +55,24 @@ export default async function FixedCategoryPage({
   const categoriesRes = await fetch(`${siteUrl}/api/categories-list?language=${locale}`);
   const categories = categoriesRes.ok ? await categoriesRes.json() : [];
   const selectableCategories = categories.filter((category: { categoryIdMultilingua?: string }) => category.categoryIdMultilingua !== categoryId);
-  const filtersPath = `argomenti/${audience}`;
+  const audienceBasePath = locale === 'en' ? 'arguments' : 'argomenti';
+  const audienceSlugMap: Record<string, string> =
+    locale === 'en'
+      ? {
+          aziende: 'enterprises',
+          enterprises: 'enterprises',
+          'pubblica-amministrazione': 'public-administration',
+          'public-administration': 'public-administration',
+        }
+      : {
+          aziende: 'aziende',
+          enterprises: 'aziende',
+          'pubblica-amministrazione': 'pubblica-amministrazione',
+          'public-administration': 'pubblica-amministrazione',
+        };
+  const audienceSlug = audienceSlugMap[audience] || audience;
+  const filtersPath = `${audienceBasePath}/${audienceSlug}`;
+  const audienceLabel = locale === 'en' ? label.en : label.it;
 
   return (
     <>
@@ -50,7 +87,7 @@ export default async function FixedCategoryPage({
                 <NewsletterButton />
                 <div className="flex items-center justify-end gap-4">
                   <h2 className="text-lg font-bold md:whitespace-nowrap">
-                    {locale === 'it' ? `Articoli per ${label}` : `${label} articles`}
+                    {locale === 'it' ? `Articoli per ${audienceLabel}` : `${audienceLabel} articles`}
                   </h2>
                   <CategorySelector categories={selectableCategories} selected={selectedCategory || ''} filtersPath={filtersPath} />
                 </div>

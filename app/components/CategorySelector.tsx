@@ -24,15 +24,16 @@ function CategorySelector({ categories, selected, limited = false, filtersPath }
   const categoryExists = categories.some((cat: any) => cat.slug === selected);
   const currentValue = categoryExists ? selected : "tutte";
   const basePath = filtersPath ? `/${locale}/${filtersPath}` : limited ? `/${locale}/riservata` : `/${locale}`;
+  const categorySegment = locale === 'en' ? 'categories' : 'categorie';
 
   const handleChange = (value: string) => {
     const nextPath =
       value === "tutte"
         ? basePath
         : filtersPath
-          ? `${basePath}/categorie/${value}`
+          ? `${basePath}/${categorySegment}/${value}`
           : limited
-          ? `${basePath}/categorie/${value}`
+          ? `${basePath}/${categorySegment}/${value}`
           : `/${locale}/categories/${value}`;
 
     window.location.href = nextPath;
